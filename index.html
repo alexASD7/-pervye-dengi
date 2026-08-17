@@ -180,6 +180,17 @@
   .cta-btn:hover{ background:var(--gold-600); transform:translateY(-1px); box-shadow:0 14px 28px -10px rgba(242,183,5,0.6); }
   .cta-btn:focus-visible{ outline:3px solid #F4EFE2; outline-offset:3px; }
   .cta-note{ font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:#AFC7C0; }
+  .cta-row{ display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+  .cta-btn-secondary{
+    display:inline-flex; align-items:center; justify-content:center; gap:9px;
+    background:transparent; color:#F4EFE2;
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1rem;
+    padding:14px 24px; border-radius:12px; text-decoration:none; width:fit-content;
+    border:1.5px solid rgba(244,239,226,0.55);
+    transition:transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  }
+  .cta-btn-secondary:hover{ background:rgba(244,239,226,0.10); border-color:#F4EFE2; transform:translateY(-1px); }
+  .cta-btn-secondary:focus-visible{ outline:3px solid var(--gold-500); outline-offset:3px; }
 
   /* ---------- SECTIONS ---------- */
   section{ padding:46px 0; border-bottom:1px solid var(--line); }
@@ -304,10 +315,15 @@
         <span class="chip"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 14.5 8 7l3 3 6-7"/><path d="M13 3h4v4"/></svg>Практика, не теория</span>
       </div>
 
-      <a class="cta-btn" href="https://t.me/alexryzzo?text=Здравствуйте!%20Хочу%20забронировать%20место%20на%20%C2%ABПервые%20деньги%C2%BB%20по%20цене%20запуска%20(1490%20%E2%82%BD)">
-        Забронировать место по цене запуска
-      </a>
-      <span class="cta-note">Откроется чат в Telegram — сообщение уже подготовлено</span>
+      <div class="cta-row">
+        <a class="cta-btn" href="https://t.me/alexryzzo?text=Здравствуйте!%20Хочу%20забронировать%20место%20на%20%C2%ABПервые%20деньги%C2%BB%20по%20цене%20запуска%20(1490%20%E2%82%BD)">
+          Забронировать место по цене запуска
+        </a>
+        <a class="cta-btn-secondary" href="/probny-urok/">
+          Сначала бесплатный урок
+        </a>
+      </div>
+      <span class="cta-note">Бронь — чат в Telegram. Пробный урок — сразу на странице, без оплаты</span>
     </div>
   </div>
 
