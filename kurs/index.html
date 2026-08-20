@@ -849,8 +849,14 @@
   });
 
   /* ---------- Автовход ---------- */
-  var saved = read(KEY_AUTH);
-  if(saved && CODES.indexOf(saved) !== -1) unlock();
+  var urlCode = (new URLSearchParams(location.search).get("code") || "").trim().toUpperCase();
+  if(urlCode && CODES.indexOf(urlCode) !== -1){
+    store(KEY_AUTH, urlCode);
+    unlock();
+  } else {
+    var saved = read(KEY_AUTH);
+    if(saved && CODES.indexOf(saved) !== -1) unlock();
+  }
 })();
 </script>
 
