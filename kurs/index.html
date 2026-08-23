@@ -370,7 +370,10 @@
   <header>
     <div class="wrap head-row">
       <div class="brand">Первые <span>деньги</span></div>
-      <button class="head-btn" id="exitBtn">Выйти</button>
+      <div style="display:flex;align-items:center;gap:14px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;opacity:0.75" title="Сохрани этот код — он понадобится для повторного входа">Код входа: <b id="codeDisplay"></b></span>
+        <button class="head-btn" id="exitBtn">Выйти</button>
+      </div>
     </div>
   </header>
 
@@ -737,6 +740,8 @@
   function unlock(){
     gate.hidden = true;
     app.hidden = false;
+    var codeEl = document.getElementById("codeDisplay");
+    if(codeEl) codeEl.textContent = read(KEY_AUTH) || "";
     renderDash();
   }
   function tryCode(){
@@ -862,3 +867,4 @@
 
 </body>
 </html>
+
