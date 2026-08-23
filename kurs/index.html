@@ -410,7 +410,10 @@
     </div>
   </main>
 
-  <footer class="wrap">Первые деньги · программа для подростков 13–16 лет</footer>
+  <footer class="wrap">
+    Первые деньги · программа для подростков 13–16 лет
+    <div id="refundLink" style="margin-top:8px;font-size:0.78rem"></div>
+  </footer>
 </div>
 
 <script>
@@ -421,6 +424,7 @@
   var KEY_AUTH = "pd_auth";
   var KEY_DONE = "pd_done";
   var KEY_FIELD = "pd_f_";
+  var KEY_PID = "pd_pid";
 
   function store(k, v){ try{ localStorage.setItem(k, v); }catch(e){} }
   function read(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
@@ -742,6 +746,11 @@
     app.hidden = false;
     var codeEl = document.getElementById("codeDisplay");
     if(codeEl) codeEl.textContent = read(KEY_AUTH) || "";
+    var refundEl = document.getElementById("refundLink");
+    var pid = read(KEY_PID);
+    if(refundEl && pid){
+      refundEl.innerHTML = '<a href="https://pervye-dengi.com/pay/refund?payment_id=' + encodeURIComponent(pid) + '" style="color:inherit">Оформить возврат</a>';
+    }
     renderDash();
   }
   function tryCode(){
@@ -854,7 +863,10 @@
   });
 
   /* ---------- Автовход ---------- */
-  var urlCode = (new URLSearchParams(location.search).get("code") || "").trim().toUpperCase();
+  var urlParams = new URLSearchParams(location.search);
+  var urlCode = (urlParams.get("code") || "").trim().toUpperCase();
+  var urlPid = urlParams.get("pid");
+  if(urlPid) store(KEY_PID, urlPid);
   if(urlCode && CODES.indexOf(urlCode) !== -1){
     store(KEY_AUTH, urlCode);
     unlock();
@@ -867,4 +879,5 @@
 
 </body>
 </html>
+
 
