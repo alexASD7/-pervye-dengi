@@ -420,7 +420,6 @@
 (function(){
   "use strict";
 
-  var CODES = ["PD-2026", "PERVYE-1"];
   var KEY_AUTH = "pd_auth";
   var KEY_DONE = "pd_done";
   var KEY_FIELD = "pd_f_";
@@ -753,15 +752,25 @@
     }
     renderDash();
   }
+  function verifyCode(code, onValid, onInvalid){
+    fetch("/pay/verify?code=" + encodeURIComponent(code))
+      .then(function(r){ return r.json(); })
+      .then(function(data){ if(data.valid) onValid(); else onInvalid(); })
+      .catch(onInvalid);
+  }
   function tryCode(){
     var v = (document.getElementById("code").value || "").trim().toUpperCase();
-    if(CODES.indexOf(v) !== -1){
+    var btn = document.getElementById("enterBtn");
+    btn.disabled = true;
+    document.getElementById("gateErr").textContent = "";
+    verifyCode(v, function(){
+      btn.disabled = false;
       store(KEY_AUTH, v);
-      document.getElementById("gateErr").textContent = "";
       unlock();
-    } else {
+    }, function(){
+      btn.disabled = false;
       document.getElementById("gateErr").textContent = "Такой код не подходит. Проверь раскладку и дефис.";
-    }
+    });
   }
   document.getElementById("enterBtn").addEventListener("click", tryCode);
   document.getElementById("code").addEventListener("keydown", function(e){
@@ -867,12 +876,19 @@
   var urlCode = (urlParams.get("code") || "").trim().toUpperCase();
   var urlPid = urlParams.get("pid");
   if(urlPid) store(KEY_PID, urlPid);
-  if(urlCode && CODES.indexOf(urlCode) !== -1){
-    store(KEY_AUTH, urlCode);
-    unlock();
-  } else {
+
+  function trySaved(){
     var saved = read(KEY_AUTH);
-    if(saved && CODES.indexOf(saved) !== -1) unlock();
+    if(saved) verifyCode(saved, unlock, function(){});
+  }
+
+  if(urlCode){
+    verifyCode(urlCode, function(){
+      store(KEY_AUTH, urlCode);
+      unlock();
+    }, trySaved);
+  } else {
+    trySaved();
   }
 })();
 </script>
