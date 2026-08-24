@@ -817,6 +817,11 @@
     if(!les) return;
     current = n;
 
+    var pid = read(KEY_PID);
+    if(pid){
+      try{ fetch("/pay/track?pid=" + encodeURIComponent(pid), { method: "POST", keepalive: true }); }catch(e){}
+    }
+
     document.getElementById("lessonContent").innerHTML =
       '<h1>Урок ' + les.n + '. ' + les.title + '</h1>' +
       '<div class="lesson-meta">' + les.meta + ' · в конце у тебя будет: ' + les.result + '</div>' +
@@ -895,5 +900,6 @@
 
 </body>
 </html>
+
 
 
