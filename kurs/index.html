@@ -347,7 +347,30 @@
   .done-btn.is-done{ background:var(--line); color:var(--ink-soft); }
 
   footer{ padding:30px 0 44px; text-align:center; color:var(--ink-soft); font-size:0.82rem; }
-  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; animation:none !important; } }
+
+  /* ---------- ТОСТ ---------- */
+  .pd-toast{
+    position:fixed; left:50%; bottom:26px; z-index:9999;
+    transform:translateX(-50%) translateY(16px);
+    background:var(--teal-700); color:#F4EFE2;
+    font-family:'JetBrains Mono',monospace; font-size:0.82rem; font-weight:700;
+    padding:12px 20px; border-radius:99px;
+    box-shadow:0 12px 28px -10px rgba(0,0,0,0.4);
+    opacity:0; pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease;
+  }
+  .pd-toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* ---------- ПЛАВНЫЕ ПЕРЕХОДЫ ЭКРАНОВ ---------- */
+  main{ animation:pdFadeIn .4s ease; }
+  @keyframes pdFadeIn{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
+  #certResult{ animation:pdUnlock .5s cubic-bezier(.34,1.56,.64,1); }
+  @keyframes pdUnlock{ from{ opacity:0; transform:scale(.92) translateY(10px); } to{ opacity:1; transform:scale(1) translateY(0); } }
+
+  /* ---------- ПОЯВЛЕНИЕ ПРИ ПРОКРУТКЕ ---------- */
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
 
   /* ---------- ТРЕКЕР ЦИКЛА ---------- */
   .cycle-track{ display:flex; margin:16px 0 4px; }
@@ -508,6 +531,38 @@
 
   function store(k, v){ try{ localStorage.setItem(k, v); }catch(e){} }
   function read(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+
+  /* ---------- Тост ---------- */
+  var pdToastEl = null, pdToastTimer = null;
+  function pdToast(msg){
+    if(!pdToastEl){
+      pdToastEl = document.createElement("div");
+      pdToastEl.className = "pd-toast";
+      document.body.appendChild(pdToastEl);
+    }
+    pdToastEl.textContent = msg;
+    pdToastEl.classList.add("show");
+    clearTimeout(pdToastTimer);
+    pdToastTimer = setTimeout(function(){ pdToastEl.classList.remove("show"); }, 1400);
+  }
+
+  /* ---------- Появление при прокрутке ---------- */
+  function pdInitReveal(root){
+    var els = (root || document).querySelectorAll(".reveal:not(.in)");
+    if(!("IntersectionObserver" in window)){
+      Array.prototype.forEach.call(els, function(el){ el.classList.add("in"); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: "0px 0px -30px 0px" });
+    Array.prototype.forEach.call(els, function(el){ io.observe(el); });
+  }
 
   /* ---------- Уроки ---------- */
   var LESSONS = [
@@ -888,7 +943,7 @@
     LESSONS.forEach(function(les){
       var isDone = done.indexOf(les.n) !== -1;
       var card = document.createElement("button");
-      card.className = "lesson-card" + (isDone ? " done" : "");
+      card.className = "lesson-card reveal" + (isDone ? " done" : "");
       card.innerHTML =
         '<span class="l-num">' + (isDone ? "✓" : les.n) + '</span>' +
         '<span class="l-body">' +
@@ -915,7 +970,7 @@
     if(isCertQualified()){
       certBlock.hidden = false;
       certBlock.innerHTML =
-        '<div class="cert-cta"><h2 class="display">Ты прошёл весь путь</h2>' +
+        '<div class="cert-cta reveal"><h2 class="display">Ты прошёл весь путь</h2>' +
         '<p>Нашёл клиента, посчитал цену, предложил, сделал и получил деньги — это то, что реально умеет не каждый взрослый. Получи сертификат со своим именем.</p>' +
         '<button class="btn" id="certBtn">Получить сертификат</button></div>';
       document.getElementById("certBtn").addEventListener("click", openCertificate);
@@ -926,6 +981,7 @@
 
     dash.hidden = false;
     reader.hidden = true;
+    pdInitReveal(dash);
   }
 
   /* ---------- Сертификат ---------- */
@@ -1141,6 +1197,10 @@
     bindFields();
     bindCalc();
 
+    var revealTargets = document.querySelectorAll("#lessonContent .callout, #lessonContent .decision, #lessonContent .task, #lessonContent .parents");
+    Array.prototype.forEach.call(revealTargets, function(el){ el.classList.add("reveal"); });
+    pdInitReveal(document.getElementById("reader"));
+
     var done = getDone();
     var btn = document.getElementById("doneBtn");
     var isDone = done.indexOf(n) !== -1;
@@ -1159,7 +1219,12 @@
     var fields = reader.querySelectorAll("input[type='text'], textarea");
     Array.prototype.forEach.call(fields, function(el){
       if(!el.id) return;
-      el.addEventListener("input", function(){ store(KEY_FIELD + el.id, el.value); });
+      var saveTimer;
+      el.addEventListener("input", function(){
+        store(KEY_FIELD + el.id, el.value);
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(function(){ pdToast("Сохранено ✓"); }, 500);
+      });
     });
   }
   function restoreFields(){
