@@ -335,6 +335,10 @@
   .topnav-links a{ font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:var(--ink-600); text-decoration:none; white-space:nowrap; }
   .topnav-links a:hover{ color:var(--teal-700); }
   .topnav-links a.active{ color:var(--teal-700); font-weight:700; }
+
+  .reveal{ opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+  @media (prefers-reduced-motion: reduce){ .reveal{ opacity:1 !important; transform:none !important; transition:none !important; } }
 </style>
 </head>
 <body>
@@ -386,7 +390,7 @@
 
   <div class="wrap">
 
-    <section>
+    <section class="reveal">
       <h2>Знакомая картина?</h2>
       <div class="pain-card">
         <p>Ребёнок дома, уроки более-менее сделаны, а дальше — телефон и игры до вечера. Кружки не заходят, ограничения по времени не работают.</p>
@@ -394,7 +398,7 @@
       </div>
     </section>
 
-    <section>
+    <section class="reveal">
       <h2>Что внутри</h2>
       <ul class="list">
         <li>
@@ -416,13 +420,13 @@
       </ul>
     </section>
 
-    <section>
+    <section class="reveal">
       <h2>Почему это не «рано»</h2>
       <p>Программа не даёт ребёнку деньги и не оставляет с ними один на один. Она даёт структуру мышления: как считать, как отвечать за результат, как не потратить всё за один день. Это снимает главный родительский страх — не «пусть зарабатывает как хочет», а «пусть научится, прежде чем зарабатывать».</p>
       <p class="kaizen">Маленький, честный шаг к тому, чтобы быть сегодня лучше, чем вчера — а не обещание разом «перевоспитать» подростка за одну программу.</p>
     </section>
 
-    <section id="price">
+    <section id="price" class="reveal">
       <h2>Цена</h2>
       <div class="price-card">
         <div class="price-row">
@@ -436,7 +440,7 @@
       </div>
     </section>
 
-    <section>
+    <section class="reveal">
       <h2>Вопросы, которые обычно задают</h2>
 
       <details>
@@ -509,6 +513,25 @@
       });
     }, { threshold: 0.6 });
     io.observe(target);
+  })();
+</script>
+
+<script>
+  (function(){
+    var els = document.querySelectorAll(".reveal");
+    if(!("IntersectionObserver" in window) || (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)){
+      Array.prototype.forEach.call(els, function(el){ el.classList.add("in"); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: "0px 0px -30px 0px" });
+    Array.prototype.forEach.call(els, function(el){ io.observe(el); });
   })();
 </script>
 
