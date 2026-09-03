@@ -149,6 +149,7 @@
     border:none; border-radius:11px;
     padding:14px 22px;
     cursor:pointer;
+    text-decoration:none;
     transition:background .15s ease, transform .15s ease;
   }
   .btn:hover{ background:var(--gold-600); transform:translateY(-1px); }
@@ -224,7 +225,7 @@
   }
   .lesson-card.done .l-num{ background:var(--ok); }
   .l-body{ flex:1; min-width:0; }
-  .l-title{ font-family:'Unbounded',sans-serif; font-weight:800; font-size:1.02rem; line-height:1.3; margin-bottom:5px; }
+  .l-title{ display:block; font-family:'Unbounded',sans-serif; font-weight:800; font-size:1.02rem; line-height:1.3; margin-bottom:5px; }
   .l-meta{ font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--ink-soft); }
   .l-status{
     flex:none;
@@ -347,6 +348,69 @@
 
   footer{ padding:30px 0 44px; text-align:center; color:var(--ink-soft); font-size:0.82rem; }
   @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+
+  /* ---------- ТРЕКЕР ЦИКЛА ---------- */
+  .cycle-track{ display:flex; margin:16px 0 4px; }
+  .cycle-node{ flex:1; text-align:center; position:relative; }
+  .cycle-node:not(:last-child)::before{
+    content:''; position:absolute; top:17px; left:50%; width:100%; height:2px;
+    background:var(--line); z-index:0;
+  }
+  .cycle-node.done:not(:last-child)::before{ background:var(--teal-600); }
+  .cycle-dot{
+    position:relative; z-index:1; margin:0 auto;
+    width:34px; height:34px; border-radius:50%;
+    background:var(--paper); border:2px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.85rem;
+    color:var(--ink-soft);
+  }
+  .cycle-node.done .cycle-dot{ background:var(--teal-600); border-color:var(--teal-600); color:#fff; }
+  .cycle-verb{
+    display:block; margin-top:7px;
+    font-family:'JetBrains Mono',monospace; font-size:0.66rem;
+    text-transform:uppercase; letter-spacing:0.03em; color:var(--ink-soft);
+  }
+  .cycle-node.done .cycle-verb{ color:var(--teal-600); font-weight:700; }
+
+  /* ---------- СЕРТИФИКАТ ---------- */
+  .cert-block{ margin:8px 0 40px; }
+  .cert-cta{
+    background:linear-gradient(165deg, var(--teal-700), var(--teal-950));
+    color:#F4EFE2; border-radius:18px; padding:26px 24px; text-align:center;
+  }
+  .cert-cta h2{ color:#FBF6EC; font-size:1.4rem; margin-bottom:10px; }
+  .cert-cta p{ color:#CFE3DD; margin:0 0 16px; }
+
+  /* ---------- РАЗВИЛКИ ---------- */
+  .decision{
+    background:var(--card); border:1.5px solid var(--line); border-radius:14px;
+    padding:18px 20px; margin:20px 0;
+  }
+  .decision-q{ margin-bottom:12px !important; }
+  .opt-btn{
+    display:block; width:100%; text-align:left;
+    background:var(--paper); border:1.5px solid var(--line); border-radius:10px;
+    padding:11px 14px; margin-bottom:10px;
+    font-family:'PT Sans',sans-serif; font-size:0.92rem; color:var(--ink);
+    cursor:pointer; transition:border-color .15s ease;
+  }
+  .opt-btn:hover:not(:disabled){ border-color:var(--teal-600); }
+  .opt-btn:disabled{ cursor:default; opacity:0.6; }
+  .decision-answer{
+    background:var(--paper); border-left:3px solid var(--gold-500);
+    border-radius:0 10px 10px 0; padding:12px 16px; margin:0 0 12px;
+  }
+  .decision-answer p{ margin:0; font-size:0.92rem; color:var(--ink-soft); }
+  .decision-answer:last-child{ margin-bottom:0; }
+
+  /* ---------- КАЛЬКУЛЯТОР ---------- */
+  .calc-cell{
+    font-family:'JetBrains Mono',monospace; font-size:0.85rem;
+    color:var(--teal-600); font-weight:700; white-space:nowrap;
+  }
+  .calc-note{ font-size:0.82rem; color:var(--ink-soft); margin-top:-6px; }
+  .card-btn{ margin:6px 0 8px; }
 </style>
 
 <!-- ==================== ЭКРАН ВХОДА ==================== -->
@@ -385,27 +449,44 @@
           <span>Твой прогресс</span>
           <span class="progress-count"><span id="doneCount">0</span> / 5</span>
         </div>
-        <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+        <div class="cycle-track" id="cycleTrack"></div>
       </div>
 
       <div class="dash-intro">
-        <h1>Пять уроков до первых денег</h1>
-        <p>Каждый урок заканчивается действием в реальном мире, а не записью в тетради. Задания заполняются прямо здесь и сохраняются автоматически.</p>
+        <h1>Пять шагов до первых денег</h1>
+        <p>Каждый шаг заканчивается действием в реальном мире, а не записью в тетради. Задания заполняются прямо здесь и сохраняются автоматически.</p>
       </div>
 
       <div class="lesson-list" id="lessonList"></div>
+
+      <div class="cert-block" id="certBlock" hidden></div>
     </div>
   </main>
 
   <!-- Просмотр урока -->
   <main id="reader" hidden>
     <div class="wrap lesson-view">
-      <button class="back-btn" id="backBtn">← Все уроки</button>
+      <button class="back-btn" id="backBtn">← Все шаги</button>
       <div id="lessonContent"></div>
 
       <div class="lesson-foot">
         <button class="btn done-btn" id="doneBtn">Отметить пройденным</button>
-        <button class="btn btn-ghost" id="nextBtn">Следующий урок →</button>
+        <button class="btn btn-ghost" id="nextBtn">Следующий шаг →</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Сертификат -->
+  <main id="certView" hidden>
+    <div class="wrap lesson-view">
+      <button class="back-btn" id="certBackBtn">← Назад к шагам</button>
+      <h1>Сертификат</h1>
+      <p>Ты прошёл весь путь: нашёл клиента, посчитал цену, предложил, сделал и получил деньги. Впиши своё имя так, как хочешь видеть его на сертификате.</p>
+      <input type="text" id="certName" placeholder="Имя Фамилия" maxlength="40" style="max-width:420px;">
+      <button class="btn" id="certDrawBtn" style="margin-top:14px;">Показать сертификат</button>
+      <div id="certResult" hidden>
+        <canvas id="certCanvas" width="1200" height="800" style="width:100%;height:auto;border-radius:16px;margin:22px 0;display:block;"></canvas>
+        <a class="btn btn-wide" id="certDownload" download="pervye-dengi-sertifikat.png">Скачать сертификат</a>
       </div>
     </div>
   </main>
@@ -431,7 +512,7 @@
   /* ---------- Уроки ---------- */
   var LESSONS = [
     {
-      n:1, title:"За что люди платят", meta:"20 минут + практика",
+      n:1, verb:"Заметь", title:"За что люди платят", meta:"20 минут + практика",
       result:"Список из трёх услуг, за которые тебе реально заплатят",
       html:
       '<h2>Главное, что нужно понять сразу</h2>'+
@@ -473,16 +554,16 @@
       '<textarea id="f1b" placeholder="Дядя Витя из третьего подъезда — третий месяц не может продать холодильник на Авито&#10;Хозяйка кофейни на углу — «надо бы видео снять, да когда»..."></textarea></div>'+
       '<div class="task-field"><label class="field-label" for="f1c">3. Три услуги — что из первой колонки нужно кому-то из второй</label>'+
       '<textarea id="f1c" placeholder="Монтировать видео — кофейня на углу, папин друг Сергей ведёт блог&#10;..."></textarea></div>'+
-      '<div class="callout"><span class="callout-label">Проверь себя</span><p>Урок сделан, если напротив каждой услуги стоит минимум одно имя или название места. Не «монтировать видео», а «монтировать видео — кофейня на углу». Если напротив пусто — услуга не считается.</p></div>',
+      '<div class="callout"><span class="callout-label">Проверь себя</span><p>Шаг сделан, если напротив каждой услуги стоит минимум одно имя или название места. Не «монтировать видео», а «монтировать видео — кофейня на углу». Если напротив пусто — услуга не считается.</p></div>',
 
       parents:
-      '<p>В этом уроке ребёнок ищет не «идею бизнеса», а ближайшую реальную работу, которую может выполнить своими руками на этой неделе.</p>'+
+      '<p>На этом шаге ребёнок ищет не «идею бизнеса», а ближайшую реальную работу, которую может выполнить своими руками на этой неделе.</p>'+
       '<p><strong>Что вы увидите:</strong> список из трёх услуг с конкретными именами людей.</p>'+
       '<p><strong>Чем помочь:</strong> подсказать имена соседей, которым что-то нужно. Не подсказывайте саму идею — важно, чтобы он нашёл её сам, иначе выдохнется на первом отказе.</p>'+
       '<p><strong>О чём поговорить отдельно:</strong> блок про дропперство — не формальность. Вербовка подростков через мессенджеры и игровые чаты реальна и распространена. Убедитесь, что этот кусок он прочитал.</p>'
     },
     {
-      n:2, title:"Сколько это стоит", meta:"20 минут",
+      n:2, verb:"Посчитай", title:"Сколько это стоит", meta:"20 минут",
       result:"Цена на каждую услугу — посчитанная, а не выдуманная",
       html:
       '<h2>Почему нельзя просто назвать цифру</h2>'+
@@ -511,6 +592,12 @@
       '<p>Ты не «сдался», ты предложил другой объём за другие деньги. Так делают взрослые, и это сразу видно.</p>'+
       '<p>Второй вариант вместо скидки: <strong>попросить не деньги, а помощь.</strong> «Цена пятьсот, но если расскажете двум соседям, что я нормально мою — сделаю за четыреста». Ты меняешь скидку на клиентов.</p>'+
 
+      '<div class="decision"><p class="decision-q"><strong>Проверь себя:</strong> клиент пишет «А давай за триста вместо четыреста пятьдесят?» — что отвечаешь?</p>'+
+      '<button type="button" class="opt-btn" onclick="this.nextElementSibling.hidden=false;this.disabled=true;">«Ладно, давайте за триста»</button>'+
+      '<div class="decision-answer" hidden><p>Работает, но ты только что показал, что цена была выдумана — в следующий раз с тобой начнут торговаться сразу и ещё сильнее.</p></div>'+
+      '<button type="button" class="opt-btn" onclick="this.nextElementSibling.hidden=false;this.disabled=true;">«За триста — без дисков, только кузов и стёкла»</button>'+
+      '<div class="decision-answer" hidden><p>Именно так. Ты не «сдался» — предложил другой объём за другие деньги. Клиент видит взрослый подход, а не слив цены.</p></div></div>'+
+
       '<h2>Проверка на здравый смысл</h2>'+
       '<ul>'+
       '<li><strong>Стал бы я сам делать это за такие деньги?</strong> Если «за такое я корячиться не буду» — цена низкая, выгоришь на третьем заказе.</li>'+
@@ -520,28 +607,29 @@
 
       task:
       '<h3>Посчитай три цены</h3>'+
-      '<p>Возьми услуги из первого урока. Если не знаешь, сколько займёт времени — прикинь и добавь сверху двадцать процентов: на старте всё всегда дольше.</p>'+
-      '<div class="table-wrap"><table><thead><tr><th>Услуга</th><th>Время</th><th>Ставка</th><th>Расходы</th><th>Цена</th></tr></thead><tbody>'+
-      '<tr><td><input type="text" id="f2a1"></td><td><input type="text" id="f2b1"></td><td><input type="text" id="f2c1"></td><td><input type="text" id="f2d1"></td><td><input type="text" id="f2e1"></td></tr>'+
-      '<tr><td><input type="text" id="f2a2"></td><td><input type="text" id="f2b2"></td><td><input type="text" id="f2c2"></td><td><input type="text" id="f2d2"></td><td><input type="text" id="f2e2"></td></tr>'+
-      '<tr><td><input type="text" id="f2a3"></td><td><input type="text" id="f2b3"></td><td><input type="text" id="f2c3"></td><td><input type="text" id="f2d3"></td><td><input type="text" id="f2e3"></td></tr>'+
+      '<p>Возьми услуги из первого шага. Если не знаешь, сколько займёт времени — прикинь и добавь сверху двадцать процентов: на старте всё всегда дольше.</p>'+
+      '<div class="table-wrap"><table><thead><tr><th>Услуга</th><th>Время, ч</th><th>Ставка, ₽/ч</th><th>Расходы</th><th>Расчёт</th><th>Цена</th></tr></thead><tbody>'+
+      '<tr><td><input type="text" id="f2a1"></td><td><input type="text" id="f2b1"></td><td><input type="text" id="f2c1"></td><td><input type="text" id="f2d1"></td><td class="calc-cell" id="f2calc1">—</td><td><input type="text" id="f2e1"></td></tr>'+
+      '<tr><td><input type="text" id="f2a2"></td><td><input type="text" id="f2b2"></td><td><input type="text" id="f2c2"></td><td><input type="text" id="f2d2"></td><td class="calc-cell" id="f2calc2">—</td><td><input type="text" id="f2e2"></td></tr>'+
+      '<tr><td><input type="text" id="f2a3"></td><td><input type="text" id="f2b3"></td><td><input type="text" id="f2c3"></td><td><input type="text" id="f2d3"></td><td class="calc-cell" id="f2calc3">—</td><td><input type="text" id="f2e3"></td></tr>'+
       '</tbody></table></div>'+
+      '<p class="calc-note">«Расчёт» считается сам из времени, ставки и расходов — время × ставка + расходы. Цену в последней колонке впиши сам: можно округлить, как учит этот шаг.</p>'+
       '<div class="task-field"><label class="field-label" for="f2cut">Урезанный вариант — что уберёшь, если попросят дешевле</label>'+
       '<textarea id="f2cut" placeholder="Помощь с телефоном: без переноса фото, только контакты&#10;..."></textarea></div>'+
-      '<div class="callout"><span class="callout-label">Проверь себя</span><p>Урок сделан, если можешь вслух, не подглядывая, объяснить любую из трёх цен: почему столько, из чего сложилось, что убираешь при торге. Не получается объяснить вслух — не получится и клиенту.</p></div>',
+      '<div class="callout"><span class="callout-label">Проверь себя</span><p>Шаг сделан, если можешь вслух, не подглядывая, объяснить любую из трёх цен: почему столько, из чего сложилось, что убираешь при торге. Не получается объяснить вслух — не получится и клиенту.</p></div>',
 
       parents:
-      '<p>Ключевой урок всего курса. Здесь ребёнок впервые считает деньги как взрослый: время, расходы, дорога, торг.</p>'+
+      '<p>Ключевой шаг всей программы. Здесь ребёнок впервые считает деньги как взрослый: время, расходы, дорога, торг.</p>'+
       '<p><strong>Как помочь:</strong> попросите объяснить вам одну из цен вслух, как будто вы клиент. И поторгуйтесь — реально, не поддаваясь. Это лучшая тренировка, которую можно дать бесплатно.</p>'+
       '<p><strong>Чего не делать:</strong> не подсказывайте цифры и не говорите «это дорого/дёшево». Пусть ошибётся и увидит реакцию рынка — реальный отказ научит лучше вашей правки.</p>'
     },
     {
-      n:3, title:"Первый «да»", meta:"30 минут + главное действие",
+      n:3, verb:"Предложи", title:"Первый «да»", meta:"30 минут + главное действие",
       result:"Пять реальных предложений, отправленных живым людям",
       html:
       '<h2>Здесь отваливается большинство</h2>'+
-      '<p>Скажу честно: первые два урока делают почти все. Приятно составлять списки и считать цены — ты вроде занят делом и при этом ничем не рискуешь.</p>'+
-      '<p>А в этом уроке надо подойти к живому человеку и предложить ему заплатить тебе деньги. И вот тут большинство находит миллион причин отложить на завтра.</p>'+
+      '<p>Скажу честно: первые два шага делают почти все. Приятно составлять списки и считать цены — ты вроде занят делом и при этом ничем не рискуешь.</p>'+
+      '<p>А на этом шаге надо подойти к живому человеку и предложить ему заплатить тебе деньги. И вот тут большинство находит миллион причин отложить на завтра.</p>'+
       '<p>Страшно не из-за денег. Страшно услышать «нет» и почувствовать себя глупо.</p>'+
 
       '<h2>Математика отказов</h2>'+
@@ -566,6 +654,8 @@
       '<div class="script">«Здравствуйте. Я Саша, живу рядом. Монтирую короткие видео для соцсетей — до 30 секунд, с субтитрами. Стоит 700 ₽ за ролик. Могу сделать один бесплатно, чтобы вы посмотрели, как получается. Интересно?»</div>'+
       '<p>Приём «один бесплатно» снимает риск полностью, соглашаются заметно чаще. Но применяй его один раз с одним человеком — дальше только за деньги, иначе будешь работать бесплатно бесконечно.</p>'+
 
+      '<button type="button" class="btn btn-ghost card-btn" onclick="window.pdDownloadScriptCard && window.pdDownloadScriptCard()">Скачать карточку со скриптами</button>'+
+
       '<h2>Три вещи, которые убивают предложение</h2>'+
       '<ul>'+
       '<li><strong>«Может быть, вам, наверное, нужно...»</strong> Неуверенность заразна.</li>'+
@@ -579,11 +669,17 @@
       '<p>Ты оставляешь дверь открытой и уходишь красиво. Некоторые из этих людей вернутся через неделю — так бывает чаще, чем кажется.</p>'+
       '<p>А ещё добавь вопрос, который стоит дороже самого заказа:</p>'+
       '<div class="script">«А вы не знаете, кому это может быть нужно?»</div>'+
-      '<p>Человек, который отказал, часто с удовольствием подскажет соседа. Ему приятно помочь, ничего при этом не потратив.</p>',
+      '<p>Человек, который отказал, часто с удовольствием подскажет соседа. Ему приятно помочь, ничего при этом не потратив.</p>'+
+
+      '<div class="decision"><p class="decision-q"><strong>Проверь себя:</strong> сосед говорит «Не сейчас, спасибо» — что делаешь?</p>'+
+      '<button type="button" class="opt-btn" onclick="this.nextElementSibling.hidden=false;this.disabled=true;">Молча ухожу, неловко переспрашивать ещё что-то</button>'+
+      '<div class="decision-answer" hidden><p>Так теряется половина пользы отказа. Отказавший часто не против подсказать, кому это нужно — просто его никто не спросил.</p></div>'+
+      '<button type="button" class="opt-btn" onclick="this.nextElementSibling.hidden=false;this.disabled=true;">«Понял. Если понадобится — я в третьем подъезде». И спрашиваю, кому ещё это может быть нужно</button>'+
+      '<div class="decision-answer" hidden><p>Именно так учит этот шаг. Дверь остаётся открытой, а вопрос «кому ещё нужно» стоит дороже самого заказа.</p></div></div>',
 
       task:
       '<h3>Пять реальных предложений</h3>'+
-      '<p>Это главное задание всего курса. Не «подготовь», не «напиши черновик» — <strong>отправь или скажи вслух</strong>. Сегодня или завтра, не через неделю.</p>'+
+      '<p>Это главное задание всей программы. Не «подготовь», не «напиши черновик» — <strong>отправь или скажи вслух</strong>. Сегодня или завтра, не через неделю.</p>'+
       '<div class="table-wrap"><table><thead><tr><th>№</th><th>Кому</th><th>Как</th><th>Ответ</th><th>Что заметил</th></tr></thead><tbody>'+
       '<tr><td class="mono">1</td><td><input type="text" id="f3a1"></td><td><input type="text" id="f3b1"></td><td><input type="text" id="f3c1"></td><td><input type="text" id="f3d1"></td></tr>'+
       '<tr><td class="mono">2</td><td><input type="text" id="f3a2"></td><td><input type="text" id="f3b2"></td><td><input type="text" id="f3c2"></td><td><input type="text" id="f3d2"></td></tr>'+
@@ -593,16 +689,16 @@
       '</tbody></table></div>'+
       '<div class="task-field"><label class="field-label" for="f3my">Моя фраза — составь по схеме: кто ты → что → сколько → вопрос</label>'+
       '<textarea id="f3my" placeholder="Здравствуйте, ... Я ..., живу ... Делаю ... за ... ₽. ...?"></textarea></div>'+
-      '<div class="callout"><span class="callout-label">Если все пять отказали</span><p>Нормально, статистика такая. Сделай ещё пять предложений другим людям — часто дело просто в маленькой выборке. Если все говорят «дорого» — вернись к уроку 2 и посчитай урезанный вариант. Если переспрашивают «а что ты делаешь?» — сократи формулировку. Меняй услугу только после десяти предложений без интереса.</p></div>',
+      '<div class="callout"><span class="callout-label">Если все пять отказали</span><p>Нормально, статистика такая. Сделай ещё пять предложений другим людям — часто дело просто в маленькой выборке. Если все говорят «дорого» — вернись к шагу 2 и посчитай урезанный вариант. Если переспрашивают «а что ты делаешь?» — сократи формулировку. Меняй услугу только после десяти предложений без интереса.</p></div>',
 
       parents:
-      '<p>Это перелом всего курса. Здесь ребёнок впервые предлагает свою работу за деньги — и почти наверняка получает отказы.</p>'+
+      '<p>Это перелом всей программы. Здесь ребёнок впервые предлагает свою работу за деньги — и почти наверняка получает отказы.</p>'+
       '<p><strong>Самое важное:</strong> отреагируйте на отказы спокойно. Если скажете «ну ничего, не расстраивайся» с жалостью в голосе — вы подтвердите, что произошло что-то плохое. А не произошло: он сделал ровно то, что делают все взрослые, которые что-то продают.</p>'+
       '<p>Лучшая реакция — деловая: «Сколько сделал? Пять. Сколько согласились? Ноль. Значит, нужно ещё пять. У меня так же бывает».</p>'+
-      '<p><strong>Чего не делать:</strong> не звоните сами и не договаривайтесь за него. Это самый большой соблазн и самая большая ошибка в этом уроке. Заказ, который устроили вы, ничему не учит.</p>'
+      '<p><strong>Чего не делать:</strong> не звоните сами и не договаривайтесь за него. Это самый большой соблазн и самая большая ошибка на этом шаге. Заказ, который устроили вы, ничему не учит.</p>'
     },
     {
-      n:4, title:"Сделать и получить", meta:"зависит от заказа",
+      n:4, verb:"Сделай", title:"Сделать и получить", meta:"зависит от заказа",
       result:"Первые заработанные деньги",
       html:
       '<h2>Тебе сказали «да». Что теперь</h2>'+
@@ -658,13 +754,13 @@
       '<div class="callout"><span class="callout-label">Обрати внимание</span><p>Почти у всех первый заказ занимает дольше расчёта — значит, реальная ставка за час вышла ниже, чем планировал. Это не провал, это данные для следующей цены.</p></div>',
 
       parents:
-      '<p>Это результат курса. Здесь ребёнок получает первые самостоятельно заработанные деньги.</p>'+
+      '<p>Это результат программы. Здесь ребёнок получает первые самостоятельно заработанные деньги.</p>'+
       '<p><strong>Момент, который стоит не пропустить:</strong> когда он принесёт деньги — отреагируйте как на серьёзное событие, а не как на милую детскую активность. Разница между «ой, молодец, сто рублей заработал» и «поздравляю, ты сделал полный цикл: нашёл клиента, договорился, выполнил, получил оплату» — огромная. Первое обесценивает, второе закрепляет.</p>'+
       '<p><strong>Полезный разговор после:</strong> спросите, сколько времени заняло на самом деле и совпало ли с расчётом. Почти наверняка не совпало. Это лучший урок экономики, который можно получить в четырнадцать лет — и он получил его на собственном опыте.</p>'+
       '<p><strong>Если что-то пошло плохо</strong> — клиент недоволен, недоплатил: не бросайтесь решать за него. Разберите вместе, что можно было сделать иначе на этапе договорённости.</p>'
     },
     {
-      n:5, title:"Что дальше", meta:"15 минут",
+      n:5, verb:"Раздели", title:"Что дальше", meta:"15 минут",
       result:"Правило распределения денег и план второго заказа",
       html:
       '<h2>Первое, что происходит с первыми деньгами</h2>'+
@@ -700,7 +796,9 @@
 
       '<h2>Что дальше вообще</h2>'+
       '<p>Ты прошёл полный цикл: нашёл, посчитал, предложил, сделал, получил, распределил. Это тот же самый цикл, по которому работает любой бизнес — от монтажа роликов для соседского магазина до строительной компании. Отличаются только суммы и количество людей.</p>'+
-      '<p>Три направления роста: <strong>больше клиентов</strong> (то же самое, но чаще — самый простой путь), <strong>дороже за то же самое</strong>, <strong>другая услуга</strong> (механика переносится на что угодно). Начни с первого.</p>',
+      '<p>Три направления роста: <strong>больше клиентов</strong> (то же самое, но чаще — самый простой путь), <strong>дороже за то же самое</strong>, <strong>другая услуга</strong> (механика переносится на что угодно). Начни с первого.</p>'+
+
+      '<div class="callout"><span class="callout-label">И ещё</span><p>Пять шагов заканчиваются здесь, но твой цикл — нет. Мы читаем, у кого что получилось и что дальше нужно тем, кто дошёл до конца, и по этому решаем, что строить дальше. Если дойдёшь — дай знать через бота поддержки, что было интересно, а чего не хватило. Серьёзно читаем каждое сообщение.</p></div>',
 
       task:
       '<h3>Раздели деньги и запланируй второй заказ</h3>'+
@@ -715,12 +813,12 @@
       '<textarea id="f5next" placeholder="Кому: ...&#10;Что: ...&#10;Когда напишу (конкретный день): ..."></textarea></div>'+
       '<div class="task-field"><label class="field-label" for="f5proof">Доказательства: где лежат фото до/после, скриншоты отзывов, кто может порекомендовать</label>'+
       '<textarea id="f5proof"></textarea></div>'+
-      '<div class="callout"><span class="callout-label">Курс пройден, если</span><p>Есть заработанные деньги, разделённые на три части. Записана конкретная цель. Назначен день второго предложения. Если все три пункта закрыты — ты умеешь то, чего не умеет большинство взрослых людей. Серьёзно.</p></div>',
+      '<div class="callout"><span class="callout-label">Программа пройдена, если</span><p>Есть заработанные деньги, разделённые на три части. Записана конкретная цель. Назначен день второго предложения. Если все три пункта закрыты — ты умеешь то, чего не умеет большинство взрослых людей. Серьёзно.</p></div>',
 
       parents:
-      '<p>Этот урок закрывает главное родительское опасение — «деньги в руках подростка уйдут на ерунду».</p>'+
+      '<p>Этот шаг закрывает главное родительское опасение — «деньги в руках подростка уйдут на ерунду».</p>'+
       '<p><strong>Почему половина отдаётся на свободные траты:</strong> это осознанное решение, а не уступка. Если запретить тратить, работа перестанет иметь смысл в его глазах и он бросит через две-три недели. Половина, потраченная на «ерунду» — плата за то, что вторая половина откладывается добровольно, без вашего контроля.</p>'+
-      '<p><strong>Самое ценное после курса:</strong> не превращайте это в вашу систему отчётности. Не спрашивайте каждую неделю, сколько отложено. Как только это станет вашим контролем, а не его делом — интерес умрёт.</p>'+
+      '<p><strong>Самое ценное после программы:</strong> не превращайте это в вашу систему отчётности. Не спрашивайте каждую неделю, сколько отложено. Как только это станет вашим контролем, а не его делом — интерес умрёт.</p>'+
       '<p><strong>Реалистичное ожидание:</strong> второй заказ случится не у всех. Часть подростков останавливается после первого — получили результат, доказали себе и потеряли интерес. Это нормально: навык остался, а желание вернётся, когда появится цель, ради которой нужны деньги.</p>'
     }
   ];
@@ -803,10 +901,221 @@
     });
 
     document.getElementById("doneCount").textContent = done.length;
-    document.getElementById("barFill").style.width = (done.length / LESSONS.length * 100) + "%";
+
+    var trackEl = document.getElementById("cycleTrack");
+    trackEl.innerHTML = LESSONS.map(function(les){
+      var isDone = done.indexOf(les.n) !== -1;
+      return '<div class="cycle-node' + (isDone ? " done" : "") + '">' +
+        '<span class="cycle-dot">' + (isDone ? "✓" : les.n) + '</span>' +
+        '<span class="cycle-verb">' + les.verb + '</span>' +
+      '</div>';
+    }).join("");
+
+    var certBlock = document.getElementById("certBlock");
+    if(isCertQualified()){
+      certBlock.hidden = false;
+      certBlock.innerHTML =
+        '<div class="cert-cta"><h2 class="display">Ты прошёл весь путь</h2>' +
+        '<p>Нашёл клиента, посчитал цену, предложил, сделал и получил деньги — это то, что реально умеет не каждый взрослый. Получи сертификат со своим именем.</p>' +
+        '<button class="btn" id="certBtn">Получить сертификат</button></div>';
+      document.getElementById("certBtn").addEventListener("click", openCertificate);
+    } else {
+      certBlock.hidden = true;
+      certBlock.innerHTML = "";
+    }
 
     dash.hidden = false;
     reader.hidden = true;
+  }
+
+  /* ---------- Сертификат ---------- */
+  function isCertQualified(){
+    var done = getDone();
+    var allDone = [1,2,3,4,5].every(function(n){ return done.indexOf(n) !== -1; });
+    if(!allDone) return false;
+    var earned = read(KEY_FIELD + "f4c");
+    var a = read(KEY_FIELD + "f5a"), b = read(KEY_FIELD + "f5b"), c = read(KEY_FIELD + "f5c");
+    return !!(earned && earned.trim()) && !!(a && a.trim()) && !!(b && b.trim()) && !!(c && c.trim());
+  }
+
+  function openCertificate(){
+    dash.hidden = true;
+    reader.hidden = true;
+    document.getElementById("certView").hidden = false;
+    document.getElementById("certResult").hidden = true;
+    var saved = read("pd_cert_name");
+    if(saved) document.getElementById("certName").value = saved;
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }
+
+  function pdWrapLines(ctx, text, maxWidth){
+    var words = text.split(" ");
+    var line = "", lines = [];
+    for(var i = 0; i < words.length; i++){
+      var test = line + words[i] + " ";
+      if(ctx.measureText(test).width > maxWidth && line !== ""){
+        lines.push(line.trim());
+        line = words[i] + " ";
+      } else {
+        line = test;
+      }
+    }
+    lines.push(line.trim());
+    return lines;
+  }
+
+  function drawCertificate(name){
+    var canvas = document.getElementById("certCanvas");
+    var ctx = canvas.getContext("2d");
+    var W = canvas.width, H = canvas.height;
+
+    var grad = ctx.createLinearGradient(0, 0, W, H);
+    grad.addColorStop(0, "#0F6259");
+    grad.addColorStop(1, "#052B2A");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.textAlign = "left";
+    ctx.fillStyle = "#F2B705";
+    ctx.font = "700 24px 'JetBrains Mono', monospace";
+    ctx.fillText("ПЕРВЫЕ ДЕНЬГИ · СЕРТИФИКАТ", 90, 110);
+
+    ctx.fillStyle = "#FBF6EC";
+    ctx.font = "800 60px 'Unbounded', sans-serif";
+    var nameLines = pdWrapLines(ctx, name, W - 180);
+    nameLines.slice(0, 2).forEach(function(l, i){ ctx.fillText(l, 90, 210 + i * 68); });
+    var afterName = 210 + Math.min(nameLines.length, 2) * 68 + 30;
+
+    ctx.fillStyle = "#CFE3DD";
+    ctx.font = "400 26px 'PT Sans', sans-serif";
+    ctx.fillText("прошёл(-а) путь от идеи до первых заработанных денег", 90, afterName);
+
+    var stepY = afterName + 100;
+    var stepX = 90, trackW = W - 180;
+    var gap = trackW / LESSONS.length;
+    ctx.textAlign = "center";
+    LESSONS.forEach(function(les, i){
+      var cx = stepX + gap * i + gap / 2;
+      if(i < LESSONS.length - 1){
+        ctx.strokeStyle = "#3C665F";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(cx + 28, stepY);
+        ctx.lineTo(cx + gap - 28, stepY);
+        ctx.stroke();
+      }
+      ctx.beginPath();
+      ctx.arc(cx, stepY, 26, 0, Math.PI * 2);
+      ctx.fillStyle = "#F2B705";
+      ctx.fill();
+      ctx.fillStyle = "#052B2A";
+      ctx.font = "700 22px 'JetBrains Mono', monospace";
+      ctx.fillText(String(les.n), cx, stepY + 8);
+      ctx.fillStyle = "#F4EFE2";
+      ctx.font = "700 17px 'JetBrains Mono', monospace";
+      ctx.fillText(les.verb, cx, stepY + 55);
+    });
+
+    ctx.textAlign = "left";
+    var today = new Date();
+    var pad2 = function(n){ return (n < 10 ? "0" : "") + n; };
+    var dateStr = pad2(today.getDate()) + "." + pad2(today.getMonth() + 1) + "." + today.getFullYear();
+    ctx.fillStyle = "#CFE3DD";
+    ctx.font = "400 22px 'JetBrains Mono', monospace";
+    ctx.fillText(dateStr + " · pervye-dengi.com", 90, H - 60);
+
+    document.getElementById("certDownload").href = canvas.toDataURL("image/png");
+  }
+
+  document.getElementById("certBackBtn").addEventListener("click", function(){
+    document.getElementById("certView").hidden = true;
+    renderDash();
+  });
+  document.getElementById("certDrawBtn").addEventListener("click", function(){
+    var name = (document.getElementById("certName").value || "").trim();
+    if(!name){ document.getElementById("certName").focus(); return; }
+    store("pd_cert_name", name);
+    var fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+    fontsReady.then(function(){
+      drawCertificate(name);
+      document.getElementById("certResult").hidden = false;
+    });
+  });
+
+  /* ---------- Карточка со скриптами (Шаг 3) ---------- */
+  window.pdDownloadScriptCard = function(){
+    var canvas = document.createElement("canvas");
+    canvas.width = 1000; canvas.height = 1360;
+    var ctx = canvas.getContext("2d");
+    var fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+    fontsReady.then(function(){
+      ctx.fillStyle = "#FBF6EC";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#0F6259";
+      ctx.font = "700 22px 'JetBrains Mono', monospace";
+      ctx.fillText("ПЕРВЫЕ ДЕНЬГИ · ШПАРГАЛКА", 60, 80);
+
+      ctx.fillStyle = "#16241F";
+      ctx.font = "800 42px 'Unbounded', sans-serif";
+      ctx.fillText("Что сказать клиенту", 60, 150);
+
+      var blocks = [
+        { label: "ВЖИВУЮ ИЛИ ПО ТЕЛЕФОНУ", text: "«Здравствуйте, Тамара Викторовна. Я Саша, живу в третьем подъезде. Помогаю разобраться с телефоном и фотографиями — быстро, без сложных слов, 300 ₽ в час. Нужна помощь?»" },
+        { label: "В СООБЩЕНИИ", text: "«Здравствуйте! Это Саша из третьего подъезда. Разбираю фотографии в телефоне и делаю альбом или слайд-шоу к празднику — от 500 ₽ за сотню фото. Могу показать пример. Интересно?»" },
+        { label: "ДЛЯ МЕСТНОГО БИЗНЕСА", text: "«Здравствуйте. Я Саша, живу рядом. Монтирую короткие видео для соцсетей — до 30 секунд, с субтитрами. Стоит 700 ₽ за ролик. Могу сделать один бесплатно, чтобы вы посмотрели, как получается. Интересно?»" }
+      ];
+      var y = 230;
+      blocks.forEach(function(b){
+        ctx.fillStyle = "#0F6259";
+        ctx.font = "700 19px 'JetBrains Mono', monospace";
+        ctx.fillText(b.label, 60, y);
+        y += 18;
+        ctx.strokeStyle = "#E4DBC8";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(60, y + 14); ctx.lineTo(940, y + 14); ctx.stroke();
+        y += 46;
+        ctx.fillStyle = "#16241F";
+        ctx.font = "italic 400 26px 'PT Sans', sans-serif";
+        var lines = pdWrapLines(ctx, b.text, 880);
+        lines.forEach(function(l){ ctx.fillText(l, 60, y); y += 37; });
+        y += 42;
+      });
+
+      ctx.fillStyle = "#4E5D56";
+      ctx.font = "400 19px 'JetBrains Mono', monospace";
+      ctx.fillText("Замени имя, услугу и цену на свои. pervye-dengi.com", 60, canvas.height - 50);
+
+      var a = document.createElement("a");
+      a.href = canvas.toDataURL("image/png");
+      a.download = "pervye-dengi-skripty.png";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+  };
+
+  /* ---------- Калькулятор цены (Шаг 2) ---------- */
+  function parseNum(s){
+    if(!s) return NaN;
+    var n = parseFloat(String(s).replace(",", "."));
+    return isNaN(n) ? NaN : n;
+  }
+  function bindCalc(){
+    [1,2,3].forEach(function(i){
+      var timeEl = document.getElementById("f2b" + i);
+      var rateEl = document.getElementById("f2c" + i);
+      var expEl = document.getElementById("f2d" + i);
+      var calcEl = document.getElementById("f2calc" + i);
+      if(!timeEl || !rateEl || !expEl || !calcEl) return;
+      function update(){
+        var t = parseNum(timeEl.value), r = parseNum(rateEl.value), e = parseNum(expEl.value);
+        if(isNaN(e)) e = 0;
+        calcEl.textContent = (!isNaN(t) && !isNaN(r)) ? ("≈ " + Math.round(t * r + e) + " ₽") : "—";
+      }
+      [timeEl, rateEl, expEl].forEach(function(el){ el.addEventListener("input", update); });
+      update();
+    });
   }
 
   /* ---------- Урок ---------- */
@@ -821,7 +1130,7 @@
     }
 
     document.getElementById("lessonContent").innerHTML =
-      '<h1>Урок ' + les.n + '. ' + les.title + '</h1>' +
+      '<h1>Шаг ' + les.n + '. ' + les.title + '</h1>' +
       '<div class="lesson-meta">' + les.meta + ' · в конце у тебя будет: ' + les.result + '</div>' +
       les.html +
       '<div class="task"><span class="task-label">Задание</span>' + les.task +
@@ -830,11 +1139,12 @@
 
     restoreFields();
     bindFields();
+    bindCalc();
 
     var done = getDone();
     var btn = document.getElementById("doneBtn");
     var isDone = done.indexOf(n) !== -1;
-    btn.textContent = isDone ? "✓ Урок пройден" : "Отметить пройденным";
+    btn.textContent = isDone ? "✓ Шаг пройден" : "Отметить пройденным";
     btn.className = "btn done-btn" + (isDone ? " is-done" : "");
 
     document.getElementById("nextBtn").hidden = (n >= LESSONS.length);
