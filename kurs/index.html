@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
@@ -355,12 +355,25 @@
     transform:translateX(-50%) translateY(16px);
     background:var(--teal-700); color:#F4EFE2;
     font-family:'JetBrains Mono',monospace; font-size:0.82rem; font-weight:700;
-    padding:12px 20px; border-radius:99px;
+    padding:13px 22px; border-radius:16px;
+    max-width:min(520px, calc(100vw - 32px)); line-height:1.45; text-align:center;
     box-shadow:0 12px 28px -10px rgba(0,0,0,0.4);
     opacity:0; pointer-events:none;
     transition:opacity .25s ease, transform .25s ease;
   }
   .pd-toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* ---------- ПОДСВЕТКА НЕЗАПОЛНЕННОГО ДОКАЗАТЕЛЬСТВА ---------- */
+  .need-proof{
+    border-color:var(--gold-500) !important;
+    box-shadow:0 0 0 4px rgba(242,183,5,0.18);
+    animation:pdNudge .45s ease;
+  }
+  @keyframes pdNudge{
+    0%,100%{ transform:translateX(0); }
+    25%{ transform:translateX(-5px); }
+    75%{ transform:translateX(5px); }
+  }
 
   /* ---------- ПЛАВНЫЕ ПЕРЕХОДЫ ЭКРАНОВ ---------- */
   main{ animation:pdFadeIn .4s ease; }
@@ -426,6 +439,27 @@
   }
   .decision-answer p{ margin:0; font-size:0.92rem; color:var(--ink-soft); }
   .decision-answer:last-child{ margin-bottom:0; }
+
+  /* ---------- СМЕНА РОЛИ: ПРЕДЛОЖЕНИЯ ---------- */
+  .offer{
+    background:var(--paper); border:1.5px solid var(--line);
+    border-left:4px solid var(--line);
+    border-radius:10px; padding:12px 15px; margin:0 0 8px;
+  }
+  .offer-mine{ border-left-color:var(--gold-500); background:var(--card); }
+  .offer-tag{
+    display:block; font-family:'JetBrains Mono',monospace;
+    font-size:0.66rem; letter-spacing:0.07em; text-transform:uppercase;
+    color:var(--ink-soft); margin-bottom:6px;
+  }
+  .offer-mine .offer-tag{ color:var(--gold-600); font-weight:700; }
+  .offer-line{ margin:0 !important; font-size:0.93rem; }
+  .opt-chosen{ border-color:var(--teal-600) !important; background:var(--card) !important; opacity:1 !important; }
+  .decision-final{
+    border-top:1px dashed var(--line); margin-top:14px; padding-top:14px;
+  }
+  .decision-final p{ margin:0; font-size:0.93rem; }
+  #memoOut textarea{ margin-top:12px; font-family:'PT Sans',sans-serif; }
 
   /* ---------- КАЛЬКУЛЯТОР ---------- */
   .calc-cell{
@@ -503,13 +537,13 @@
   <main id="certView" hidden>
     <div class="wrap lesson-view">
       <button class="back-btn" id="certBackBtn">← Назад к шагам</button>
-      <h1>Сертификат</h1>
-      <p>Ты прошёл весь путь: нашёл клиента, посчитал цену, предложил, сделал и получил деньги. Впиши своё имя так, как хочешь видеть его на сертификате.</p>
+      <h1>Карточка первой сделки</h1>
+      <p>Это не бумажка о прохождении курса — это свидетельство факта: что ты сделал, для кого и сколько получил. Впиши своё имя так, как хочешь видеть его на карточке.</p>
       <input type="text" id="certName" placeholder="Имя Фамилия" maxlength="40" style="max-width:420px;">
-      <button class="btn" id="certDrawBtn" style="margin-top:14px;">Показать сертификат</button>
+      <button class="btn" id="certDrawBtn" style="margin-top:14px;">Показать карточку</button>
       <div id="certResult" hidden>
         <canvas id="certCanvas" width="1200" height="800" style="width:100%;height:auto;border-radius:16px;margin:22px 0;display:block;"></canvas>
-        <a class="btn btn-wide" id="certDownload" download="pervye-dengi-sertifikat.png">Скачать сертификат</a>
+        <a class="btn btn-wide" id="certDownload" download="pervaya-sdelka.png">Скачать карточку</a>
       </div>
     </div>
   </main>
@@ -543,7 +577,8 @@
     pdToastEl.textContent = msg;
     pdToastEl.classList.add("show");
     clearTimeout(pdToastTimer);
-    pdToastTimer = setTimeout(function(){ pdToastEl.classList.remove("show"); }, 1400);
+    var hold = Math.min(6000, Math.max(1400, msg.length * 55));
+    pdToastTimer = setTimeout(function(){ pdToastEl.classList.remove("show"); }, hold);
   }
 
   /* ---------- Появление при прокрутке ---------- */
@@ -671,6 +706,11 @@
       '<p class="calc-note">«Расчёт» считается сам из времени, ставки и расходов — время × ставка + расходы. Цену в последней колонке впиши сам: можно округлить, как учит этот шаг.</p>'+
       '<div class="task-field"><label class="field-label" for="f2cut">Урезанный вариант — что уберёшь, если попросят дешевле</label>'+
       '<textarea id="f2cut" placeholder="Помощь с телефоном: без переноса фото, только контакты&#10;..."></textarea></div>'+
+
+      '<h3>Теперь платишь ты</h3>'+
+      '<p>Представь: тебе нужна эта услуга, и деньги ты платишь свои. Перед тобой три исполнителя. Выбери одного.</p>'+
+      '<div id="roleSwap"></div>'+
+
       '<div class="callout"><span class="callout-label">Проверь себя</span><p>Шаг сделан, если можешь вслух, не подглядывая, объяснить любую из трёх цен: почему столько, из чего сложилось, что убираешь при торге. Не получается объяснить вслух — не получится и клиенту.</p></div>',
 
       parents:
@@ -795,8 +835,21 @@
       '<p>Десять секунд, а приносит следующего клиента чаще, чем любое объявление. И попроси пару слов отзывом — скриншот этого сообщения станет твоим первым доказательством для следующих людей.</p>',
 
       task:
+      '<h3>Памятка о договорённости</h3>'+
+      '<p>Заполни четыре строки — и получишь готовое сообщение, которое можно отправить человеку до начала работы. Это не договор и не юридическая бумага: подросток до 18 лет сделки сам не заключает. Это <strong>защита от недопонимания</strong> — чтобы вы оба одинаково помнили, о чём договорились.</p>'+
+      '<div class="task-field"><label class="field-label" for="f4m1">Что именно я делаю (и чего НЕ делаю)</label>'+
+      '<input type="text" id="f4m1" placeholder="монтирую ролик до 30 секунд с субтитрами, съёмку не делаю"></div>'+
+      '<div class="grid-3">'+
+      '<div><label class="field-label" for="f4m2">Когда сдам</label><input type="text" id="f4m2" placeholder="в субботу к 12:00"></div>'+
+      '<div><label class="field-label" for="f4m3">Сколько стоит</label><input type="text" id="f4m3" placeholder="700 ₽"></div>'+
+      '<div><label class="field-label" for="f4m4">Когда платят</label><input type="text" id="f4m4" placeholder="сразу после сдачи"></div>'+
+      '</div>'+
+      '<button type="button" class="btn btn-ghost card-btn" id="memoBtn">Собрать сообщение</button>'+
+      '<div id="memoOut" hidden><textarea id="memoText" readonly rows="3"></textarea>'+
+      '<button type="button" class="btn btn-ghost card-btn" id="memoCopy">Скопировать</button></div>'+
+
       '<h3>Выполни заказ и получи деньги</h3>'+
-      '<p>Порядок: отправь договорённость по четырём пунктам → приди вовремя → сделай как договаривались → добавь мелочь сверх обещанного → покажи результат и назови сумму → попроси рекомендацию.</p>'+
+      '<p>Порядок: отправь памятку о договорённости → приди вовремя → сделай как договаривались → добавь мелочь сверх обещанного → покажи результат и назови сумму → попроси рекомендацию.</p>'+
       '<div class="task-field"><label class="field-label" for="f4a">Что делал</label><input type="text" id="f4a"></div>'+
       '<div class="grid-3">'+
       '<div><label class="field-label" for="f4b">Сколько времени заняло</label><input type="text" id="f4b"></div>'+
@@ -970,9 +1023,9 @@
     if(isCertQualified()){
       certBlock.hidden = false;
       certBlock.innerHTML =
-        '<div class="cert-cta reveal"><h2 class="display">Ты прошёл весь путь</h2>' +
-        '<p>Нашёл клиента, посчитал цену, предложил, сделал и получил деньги — это то, что реально умеет не каждый взрослый. Получи сертификат со своим именем.</p>' +
-        '<button class="btn" id="certBtn">Получить сертификат</button></div>';
+        '<div class="cert-cta reveal"><h2 class="display">У тебя есть первая сделка</h2>' +
+        '<p>Нашёл клиента, посчитал цену, предложил, сделал и получил деньги — это то, что реально умеет не каждый взрослый. Забери карточку: что сделал, сколько получил, когда.</p>' +
+        '<button class="btn" id="certBtn">Получить карточку сделки</button></div>';
       document.getElementById("certBtn").addEventListener("click", openCertificate);
     } else {
       certBlock.hidden = true;
@@ -989,9 +1042,10 @@
     var done = getDone();
     var allDone = [1,2,3,4,5].every(function(n){ return done.indexOf(n) !== -1; });
     if(!allDone) return false;
+    var what = read(KEY_FIELD + "f4a");
     var earned = read(KEY_FIELD + "f4c");
     var a = read(KEY_FIELD + "f5a"), b = read(KEY_FIELD + "f5b"), c = read(KEY_FIELD + "f5c");
-    return !!(earned && earned.trim()) && !!(a && a.trim()) && !!(b && b.trim()) && !!(c && c.trim());
+    return !!(what && what.trim()) && !!(earned && earned.trim()) && !!(a && a.trim()) && !!(b && b.trim()) && !!(c && c.trim());
   }
 
   function openCertificate(){
@@ -1034,19 +1088,34 @@
     ctx.textAlign = "left";
     ctx.fillStyle = "#F2B705";
     ctx.font = "700 24px 'JetBrains Mono', monospace";
-    ctx.fillText("ПЕРВЫЕ ДЕНЬГИ · СЕРТИФИКАТ", 90, 110);
+    ctx.fillText("ПЕРВЫЕ ДЕНЬГИ · ПЕРВАЯ СДЕЛКА", 90, 110);
 
     ctx.fillStyle = "#FBF6EC";
-    ctx.font = "800 60px 'Unbounded', sans-serif";
+    ctx.font = "800 54px 'Unbounded', sans-serif";
     var nameLines = pdWrapLines(ctx, name, W - 180);
-    nameLines.slice(0, 2).forEach(function(l, i){ ctx.fillText(l, 90, 210 + i * 68); });
-    var afterName = 210 + Math.min(nameLines.length, 2) * 68 + 30;
+    nameLines.slice(0, 1).forEach(function(l, i){ ctx.fillText(l, 90, 190 + i * 62); });
+    var y = 190 + 56;
 
-    ctx.fillStyle = "#CFE3DD";
-    ctx.font = "400 26px 'PT Sans', sans-serif";
-    ctx.fillText("прошёл(-а) путь от идеи до первых заработанных денег", 90, afterName);
+    var whatRaw = (read(KEY_FIELD + "f4a") || "").trim();
+    var earnedRaw = (read(KEY_FIELD + "f4c") || "").trim();
 
-    var stepY = afterName + 100;
+    ctx.fillStyle = "#8FB3AC";
+    ctx.font = "700 18px 'JetBrains Mono', monospace";
+    ctx.fillText("ЧТО СДЕЛАЛ", 90, y + 30);
+    ctx.fillStyle = "#FBF6EC";
+    ctx.font = "400 30px 'PT Sans', sans-serif";
+    var whatLines = pdWrapLines(ctx, whatRaw, W - 180).slice(0, 2);
+    whatLines.forEach(function(l, i){ ctx.fillText(l, 90, y + 70 + i * 38); });
+    y = y + 70 + whatLines.length * 38;
+
+    ctx.fillStyle = "#8FB3AC";
+    ctx.font = "700 18px 'JetBrains Mono', monospace";
+    ctx.fillText("ПОЛУЧИЛ", 90, y + 26);
+    ctx.fillStyle = "#F2B705";
+    ctx.font = "800 40px 'Unbounded', sans-serif";
+    ctx.fillText(pdWrapLines(ctx, earnedRaw, W - 180)[0] || "", 90, y + 72);
+
+    var stepY = y + 175;
     var stepX = 90, trackW = W - 180;
     var gap = trackW / LESSONS.length;
     ctx.textAlign = "center";
@@ -1151,6 +1220,104 @@
     });
   };
 
+  /* ---------- Памятка о договорённости (Шаг 4) ---------- */
+  function bindMemo(){
+    var btn = document.getElementById("memoBtn");
+    if(!btn) return;
+
+    btn.addEventListener("click", function(){
+      var v = function(id){ return (document.getElementById(id).value || "").trim(); };
+      var what = v("f4m1"), when = v("f4m2"), price = v("f4m3"), pay = v("f4m4");
+
+      if(!what || !when || !price){
+        pdToast("Заполни хотя бы что делаешь, когда сдашь и сколько стоит.");
+        return;
+      }
+
+      var text = "Договорились: " + what + ". Сдам " + when + ". Стоимость — " + price +
+        (pay ? ", оплата " + pay : "") + ". Всё верно?";
+
+      var out = document.getElementById("memoOut");
+      document.getElementById("memoText").value = text;
+      out.hidden = false;
+    });
+
+    var copyBtn = document.getElementById("memoCopy");
+    if(copyBtn){
+      copyBtn.addEventListener("click", function(){
+        var ta = document.getElementById("memoText");
+        ta.select();
+        var ok = false;
+        try{ ok = document.execCommand("copy"); }catch(e){}
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(ta.value).then(function(){ pdToast("Скопировано ✓"); }, function(){
+            if(!ok) pdToast("Не вышло скопировать — выдели текст и скопируй вручную.");
+          });
+        } else {
+          pdToast(ok ? "Скопировано ✓" : "Не вышло скопировать — выдели текст и скопируй вручную.");
+        }
+      });
+    }
+  }
+
+  /* ---------- Смена роли: «теперь платишь ты» (Шаг 2) ---------- */
+  function pdEsc(s){
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+  function roundTo50(n){ return Math.max(50, Math.round(n / 50) * 50); }
+
+  var roleSwapAnswered = false;
+
+  function renderRoleSwap(){
+    var host = document.getElementById("roleSwap");
+    if(!host) return;
+    if(roleSwapAnswered) return;
+
+    var service = (read(KEY_FIELD + "f2a1") || "").trim();
+    var priceRaw = (read(KEY_FIELD + "f2e1") || "").trim();
+
+    if(!service || !priceRaw){
+      host.innerHTML = '<div class="decision"><p class="decision-q">Сначала заполни первую строку таблицы выше — услугу и цену. Тогда здесь появится <strong>твоё собственное предложение</strong> рядом с двумя другими, и ты увидишь его глазами того, кто платит.</p></div>';
+      return;
+    }
+
+    var p = parseNum(priceRaw);
+    var cheapPrice = isNaN(p) ? "дешевле тебя" : roundTo50(p * 0.6) + " ₽";
+    var proPrice = isNaN(p) ? "дороже тебя" : roundTo50(p * 1.25) + " ₽";
+    var myPrice = isNaN(p) ? pdEsc(priceRaw) : (Math.round(p) + " ₽");
+
+    host.innerHTML =
+      '<div class="decision">' +
+        '<div class="offer"><span class="offer-tag">Исполнитель А</span>' +
+          '<p class="offer-line"><strong>' + cheapPrice + '</strong> — «' + pdEsc(service) + '», сделаю недорого, там по ходу разберёмся.</p></div>' +
+        '<button type="button" class="opt-btn" onclick="window.pdRoleChoice &amp;&amp; window.pdRoleChoice(this,\'a\')">Выбираю А</button>' +
+        '<div class="decision-answer" hidden><p>Так почти никто не выбирает, когда платит свои деньги. Дешевле — это ещё и риск: непонятно, что именно получишь и когда. Экономия небольшая, а неизвестность полная.</p></div>' +
+
+        '<div class="offer offer-mine"><span class="offer-tag">Исполнитель Б — это ты</span>' +
+          '<p class="offer-line"><strong>' + myPrice + '</strong> — «' + pdEsc(service) + '»</p></div>' +
+        '<button type="button" class="opt-btn" onclick="window.pdRoleChoice &amp;&amp; window.pdRoleChoice(this,\'b\')">Выбираю себя</button>' +
+        '<div class="decision-answer" hidden><p>Хорошо, но проверь честно, глазами человека с деньгами: по твоей строчке понятно, <strong>что именно</strong> он получит и <strong>когда</strong>? Есть хоть одно доказательство, что ты это уже делал? Если нет — ты сейчас выглядишь как исполнитель А, только дороже.</p></div>' +
+
+        '<div class="offer"><span class="offer-tag">Исполнитель В</span>' +
+          '<p class="offer-line"><strong>' + proPrice + '</strong> — «' + pdEsc(service) + '», сделаю к субботе, делал уже пятерым в вашем доме, покажу фото до и после.</p></div>' +
+        '<button type="button" class="opt-btn" onclick="window.pdRoleChoice &amp;&amp; window.pdRoleChoice(this,\'v\')">Выбираю В</button>' +
+        '<div class="decision-answer" hidden><p>Так выбирает большинство — и это не про деньги. В дороже, но он снял риск: назвал срок, показал, что уже делал это, и пообещал доказательство. Человек платит не за низкую цену, а за спокойствие.</p></div>' +
+
+        '<div class="decision-final" hidden><p><strong>Вывод.</strong> Выигрывает не самая низкая цена, а самое понятное предложение с доказательством. Вернись к своей строке в таблице и допиши в неё то, чего не хватает: срок, объём, доказательство.</p></div>' +
+      '</div>';
+  }
+
+  window.pdRoleChoice = function(btn, key){
+    roleSwapAnswered = true;
+    var box = btn.parentNode;
+    var opts = box.querySelectorAll(".opt-btn");
+    Array.prototype.forEach.call(opts, function(b){ b.disabled = true; });
+    btn.classList.add("opt-chosen");
+    if(btn.nextElementSibling) btn.nextElementSibling.hidden = false;
+    var fin = box.querySelector(".decision-final");
+    if(fin) fin.hidden = false;
+  };
+
   /* ---------- Калькулятор цены (Шаг 2) ---------- */
   function parseNum(s){
     if(!s) return NaN;
@@ -1171,6 +1338,12 @@
       }
       [timeEl, rateEl, expEl].forEach(function(el){ el.addEventListener("input", update); });
       update();
+    });
+
+    /* строка 1 кормит блок «теперь платишь ты» */
+    ["f2a1", "f2e1"].forEach(function(id){
+      var el = document.getElementById(id);
+      if(el) el.addEventListener("input", function(){ renderRoleSwap(); });
     });
   }
 
@@ -1196,6 +1369,9 @@
     restoreFields();
     bindFields();
     bindCalc();
+    roleSwapAnswered = false;
+    renderRoleSwap();
+    bindMemo();
 
     var revealTargets = document.querySelectorAll("#lessonContent .callout, #lessonContent .decision, #lessonContent .task, #lessonContent .parents");
     Array.prototype.forEach.call(revealTargets, function(el){ el.classList.add("reveal"); });
@@ -1236,11 +1412,43 @@
     });
   }
 
+  /* ---------- Шаг закрывается результатом, а не прочтением ---------- */
+  var PROOF = {
+    1: { field: "f1c", msg: "Шаг закрывается результатом. Впиши три услуги — и напротив каждой имя человека или название места." },
+    2: { field: "f2e1", msg: "Шаг закрывается результатом. Посчитай хотя бы одну цену в таблице." },
+    3: { field: "f3a1", msg: "Это главный шаг. Он закрывается, когда ты реально кому-то сказал — впиши, кому именно." },
+    4: { field: "f4c", msg: "Шаг закрывается, когда деньги получены. Впиши, сколько получил." },
+    5: { field: "f5a", msg: "Шаг закрывается, когда деньги разделены. Впиши, сколько оставляешь на траты." }
+  };
+  function proofMissing(n){
+    var rule = PROOF[n];
+    if(!rule) return null;
+    var v = read(KEY_FIELD + rule.field);
+    return (v && v.trim()) ? null : rule;
+  }
+
   /* ---------- Кнопки урока ---------- */
   document.getElementById("doneBtn").addEventListener("click", function(){
     var done = getDone();
     var i = done.indexOf(current);
-    if(i === -1) done.push(current); else done.splice(i, 1);
+
+    if(i === -1){
+      var missing = proofMissing(current);
+      if(missing){
+        pdToast(missing.msg);
+        var el = document.getElementById(missing.field);
+        if(el){
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+          el.classList.add("need-proof");
+          setTimeout(function(){ el.classList.remove("need-proof"); }, 2600);
+          el.focus({ preventScroll: true });
+        }
+        return;
+      }
+      done.push(current);
+    } else {
+      done.splice(i, 1);
+    }
     setDone(done);
     openLesson(current);
   });
@@ -1271,6 +1479,7 @@
 })();
 </script>
 
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"a5489bc336a2442b99d669e0195a2aa9","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
 
