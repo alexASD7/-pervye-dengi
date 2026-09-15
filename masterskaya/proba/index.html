@@ -87,6 +87,7 @@
 
 <footer class="site">Первые деньги · служебная страница, в поиске не показывается</footer>
 
+<script src="/assets/ws.js"></script>
 <script>
 /* ---------- общее ---------- */
 var S={ img:null, base:null, W:0, H:0, fast:null, ai:null, bytes:0, dlMs:0, aiMs:0, fastMs:0 };
@@ -149,10 +150,7 @@ function transparentShare(cv){
   return Math.round(clear*100/n);
 }
 
-/* ---------- способ 1: заливка по цвету (то, что работает сейчас) ---------- */
-/* Станок вычищает фон не с исходника, а после автокоррекции света:
-   на выровненном кадре товар и стол расходятся по цвету сильнее.
-   Без этого шага сравнение было бы нечестным к своему же способу. */
+/* ---------- способ 1: тот же движок, что в станке ---------- */
 function correct(src){
   var c=document.createElement("canvas"); c.width=src.width; c.height=src.height;
   var x=c.getContext("2d",{willReadFrequently:true});
@@ -168,63 +166,29 @@ function correct(src){
     for(v=255;v>=0;v--){ acc+=hist[ch][v]; if(acc>cut){ hi=v; break; } }
     if(hi-lo<12){ lo=0; hi=255; }
     var span=Math.max(1,hi-lo), tbl=new Uint8ClampedArray(256);
-    for(v=0;v<256;v++){ var s=(v-lo)*255/span; tbl[v]=v+(Math.max(0,Math.min(255,s))-v)*0.85; }
+    for(v=0;v<256;v++){ var sV=(v-lo)*255/span; tbl[v]=v+(Math.max(0,Math.min(255,sV))-v)*0.85; }
     lut.push(tbl);
   }
-  for(var j=0;j<d.length;j+=4){
-    d[j]=lut[0][d[j]]; d[j+1]=lut[1][d[j+1]]; d[j+2]=lut[2][d[j+2]];
-  }
+  for(var j=0;j<d.length;j+=4){ d[j]=lut[0][d[j]]; d[j+1]=lut[1][d[j+1]]; d[j+2]=lut[2][d[j+2]]; }
   x.putImageData(id,0,0);
   return c;
 }
 function runFast(){
   var t0=performance.now();
   var src=correct(S.base);
-  var sw=Math.max(60,Math.round(360*S.W/Math.max(S.W,S.H)));
-  var sh=Math.max(60,Math.round(360*S.H/Math.max(S.W,S.H)));
-  var sc=document.createElement("canvas"); sc.width=sw; sc.height=sh;
-  var sx=sc.getContext("2d",{willReadFrequently:true});
-  sx.drawImage(src,0,0,sw,sh);
-  var d=sx.getImageData(0,0,sw,sh).data;
-  var N=sw*sh, bg=new Uint8Array(N), q=new Int32Array(N), qh=0, qt=0;
-  var tol=30, tol2=tol*tol*3;
-  function push(i){ if(!bg[i]){ bg[i]=1; q[qt++]=i; } }
-  for(var x=0;x<sw;x++){ push(x); push((sh-1)*sw+x); }
-  for(var y=0;y<sh;y++){ push(y*sw); push(y*sw+sw-1); }
-  while(qh<qt){
-    var i=q[qh++], ix=i*4, cx=i%sw, cy=(i/sw)|0;
-    var nb=[ cx>0?i-1:-1, cx<sw-1?i+1:-1, cy>0?i-sw:-1, cy<sh-1?i+sw:-1 ];
-    for(var k=0;k<4;k++){
-      var j=nb[k]; if(j<0||bg[j]) continue;
-      var jx=j*4, dr=d[ix]-d[jx], dg=d[ix+1]-d[jx+1], db=d[ix+2]-d[jx+2];
-      if(dr*dr+dg*dg+db*db<tol2){ bg[j]=1; q[qt++]=j; }
-    }
-  }
-  var mc=document.createElement("canvas"); mc.width=sw; mc.height=sh;
-  var mx=mc.getContext("2d");
-  var mid=mx.createImageData(sw,sh);
-  for(var p=0;p<N;p++){
-    mid.data[p*4]=255; mid.data[p*4+1]=255; mid.data[p*4+2]=255;
-    mid.data[p*4+3]=bg[p]?0:255;
-  }
-  mx.putImageData(mid,0,0);
-  var out=document.createElement("canvas"); out.width=S.W; out.height=S.H;
-  var ox=out.getContext("2d");
-  ox.drawImage(src,0,0);
-  ox.imageSmoothingEnabled=true; ox.imageSmoothingQuality="high";
-  ox.globalCompositeOperation="destination-in";
-  ox.drawImage(mc,0,0,S.W,S.H);
-  ox.globalCompositeOperation="source-over";
+  var r=WS.bgMask(src,{tol:30});
+  var out=WS.applyMask(src,r.mask);
   S.fast=out;
   S.fastMs=Math.round(performance.now()-t0);
   show("c1",out);
-  var sh2=transparentShare(out);
-  $("n1").textContent = S.fastMs + " мс · убрано " + sh2 + "% кадра";
-  log("заливка по цвету: " + S.fastMs + " мс, убрано " + sh2 + "%");
-  if(sh2<5) log("  ← фон почти не нашёлся: для этого фото способ не годится");
-  if(sh2>93) log("  ← съело почти всё: для этого фото способ не годится");
+  var share=transparentShare(out);
+  $("n1").textContent = S.fastMs + " мс · убрано " + share + "% кадра";
+  log("заливка по цвету: " + S.fastMs + " мс, убрано " + share + "%");
+  if(!r.reliable){
+    log("  ← станок сам считает результат ненадёжным: ни одна строгость не дала осмысленного разделения");
+    $("s1").textContent="способ не справился с этим фото";
+  }
 }
-
 /* ---------- способ 2: нейросеть в браузере ---------- */
 $("runAi").addEventListener("click",function(){
   if(!S.base){ alert("Сначала выбери фото."); return; }
