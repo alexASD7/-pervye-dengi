@@ -16,7 +16,6 @@
     <span class="brand">Первые деньги · <span>Мастерская</span></span>
     <span class="spacer"></span>
     <span class="chip" id="codeChip" hidden></span>
-    <a class="back" href="/masterskaya/">← Все станки</a>
     <a class="back" href="/put/">Путь</a>
     <a class="back" href="/kurs/">← К шагам</a>
   </div>
@@ -350,6 +349,7 @@
 
 <footer class="site">Первые деньги · мастерская для подростков 13–16 лет</footer>
 
+<script src="/assets/ws.js"></script>
 <script>
 (function(){
 "use strict";
@@ -604,59 +604,19 @@ function autoCut(){
   },20);
 }
 function doAutoCut(){
-  var sw=Math.max(60,Math.round(360*S.W/Math.max(S.W,S.H)));
-  var sh=Math.max(60,Math.round(360*S.H/Math.max(S.W,S.H)));
-  var sc=document.createElement("canvas"); sc.width=sw; sc.height=sh;
-  var sctx=sc.getContext("2d",{willReadFrequently:true});
-  sctx.drawImage(S.corrected,0,0,sw,sh);
-  var d=sctx.getImageData(0,0,sw,sh).data;
-  var N=sw*sh;
-  var bg=new Uint8Array(N);
-  var queue=new Int32Array(N); var qh=0, qt=0;
-  var tol=S.tol; var tol2=tol*tol*3;
-  function push(i){ if(!bg[i]){ bg[i]=1; queue[qt++]=i; } }
-  for(var x=0;x<sw;x++){ push(x); push((sh-1)*sw+x); }
-  for(var y=0;y<sh;y++){ push(y*sw); push(y*sw+sw-1); }
-  while(qh<qt){
-    var i=queue[qh++]; var ix=i*4;
-    var cx=i%sw, cy=(i/sw)|0;
-    var nb=[ cx>0?i-1:-1, cx<sw-1?i+1:-1, cy>0?i-sw:-1, cy<sh-1?i+sw:-1 ];
-    for(var k=0;k<4;k++){
-      var j=nb[k]; if(j<0||bg[j]) continue;
-      var jx=j*4;
-      var dr=d[ix]-d[jx], dg=d[ix+1]-d[jx+1], db=d[ix+2]-d[jx+2];
-      if(dr*dr+dg*dg+db*db < tol2){ bg[j]=1; queue[qt++]=j; }
-    }
-  }
-  /* сглаживание: медиана 3x3 */
-  var sm=new Uint8Array(N);
-  for(var yy=0;yy<sh;yy++){
-    for(var xx=0;xx<sw;xx++){
-      var s=0,cnt=0;
-      for(var oy=-1;oy<=1;oy++){ for(var ox=-1;ox<=1;ox++){
-        var px=xx+ox, py=yy+oy;
-        if(px<0||py<0||px>=sw||py>=sh) continue;
-        s+=bg[py*sw+px]; cnt++;
-      }}
-      sm[yy*sw+xx]= (s*2>cnt)?1:0;
-    }
-  }
-  /* Маска хранится В АЛЬФЕ: непрозрачное = оставить, прозрачное = фон.
-     Именно альфу читает destination-in, а не яркость. */
-  var mc=document.createElement("canvas"); mc.width=sw; mc.height=sh;
-  var mctx=mc.getContext("2d");
-  var mid=mctx.createImageData(sw,sh);
-  for(var p=0;p<N;p++){
-    mid.data[p*4]=255; mid.data[p*4+1]=255; mid.data[p*4+2]=255;
-    mid.data[p*4+3]=sm[p]?0:255;
-  }
-  mctx.putImageData(mid,0,0);
+  /* Раньше заливка шла прямо здесь и на гладкой фотографии проходила кадр
+     насквозь — от стены через стол и тень прямо в товар, съедая всё.
+     Теперь движок общий, он же в пробе и в остальных станках: не пускает
+     цепочку далеко от цвета края, не даёт перелезть через контур, сам
+     подбирает строгость и отбрасывает куски фона, не связанные с товаром. */
+  var r=WS.bgMask(S.corrected,{tol:S.tol});
   var mx=S.mask.getContext("2d");
   mx.clearRect(0,0,S.W,S.H);
   mx.globalCompositeOperation="source-over";
   mx.imageSmoothingEnabled=true;
   mx.imageSmoothingQuality="high";
-  mx.drawImage(mc,0,0,S.W,S.H);
+  mx.drawImage(r.mask,0,0,S.W,S.H);
+  S.cutReliable=r.reliable;
   if(S.edge>0) shrinkMask(S.edge);
 }
 function shrinkMask(px){
