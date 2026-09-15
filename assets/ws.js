@@ -119,6 +119,157 @@ WS.plural=function(n,forms){
 };
 WS.count=function(n,forms){ return n+" "+WS.plural(n,forms); };
 
+/* ---------- вычистка фона ----------
+   Наивная заливка от краёв шагает по соседям, пока они похожи, и на гладкой
+   фотографии проходит весь кадр насквозь: стена → стол → тень → сам товар.
+   Каждый шаг маленький, а сумма — через всё изображение. Поэтому здесь три
+   ограничителя: пиксель должен быть похож на соседа, НЕ должен далеко уйти
+   от цвета того края, откуда пришла цепочка, и цепочка не перелезает через
+   контур. Плюс подбор строгости по результату, а не вслепую.            */
+WS.bgMask=function(src,opts){
+  opts=opts||{};
+  var maxSide=opts.maxSide||420;
+  var k=Math.min(1,maxSide/Math.max(src.width,src.height));
+  var sw=Math.max(40,Math.round(src.width*k)), sh=Math.max(40,Math.round(src.height*k));
+  var sc=document.createElement("canvas"); sc.width=sw; sc.height=sh;
+  var sx=sc.getContext("2d",{willReadFrequently:true});
+  sx.drawImage(src,0,0,sw,sh);
+  var d=sx.getImageData(0,0,sw,sh).data;
+  var N=sw*sh;
+
+  /* карта контуров: где яркость резко меняется */
+  var lum=new Float32Array(N);
+  for(var i=0;i<N;i++){ lum[i]=0.299*d[i*4]+0.587*d[i*4+1]+0.114*d[i*4+2]; }
+  var edge=new Float32Array(N), sum=0;
+  for(var y=1;y<sh-1;y++){
+    for(var x=1;x<sw-1;x++){
+      var p=y*sw+x;
+      var gx=lum[p-1]-lum[p+1], gy=lum[p-sw]-lum[p+sw];
+      var g=Math.sqrt(gx*gx+gy*gy);
+      edge[p]=g; sum+=g;
+    }
+  }
+  var edgeMax=clamp((sum/N)*3.2,10,70);
+
+  function fill(localTol,globalTol){
+    var bg=new Uint8Array(N), q=new Int32Array(N);
+    var sr=new Uint8Array(N), sg=new Uint8Array(N), sb=new Uint8Array(N);
+    var qh=0, qt=0;
+    function seed(i){
+      if(bg[i]) return;
+      bg[i]=1; sr[i]=d[i*4]; sg[i]=d[i*4+1]; sb[i]=d[i*4+2]; q[qt++]=i;
+    }
+    for(var x=0;x<sw;x++){ seed(x); seed((sh-1)*sw+x); }
+    for(var y=0;y<sh;y++){ seed(y*sw); seed(y*sw+sw-1); }
+    var lt2=localTol*localTol*3, gt2=globalTol*globalTol*3;
+    while(qh<qt){
+      var i=q[qh++], ix=i*4, cx=i%sw, cy=(i/sw)|0;
+      var nb=[ cx>0?i-1:-1, cx<sw-1?i+1:-1, cy>0?i-sw:-1, cy<sh-1?i+sw:-1 ];
+      for(var t=0;t<4;t++){
+        var j=nb[t]; if(j<0||bg[j]) continue;
+        if(edge[j]>edgeMax) continue;
+        var jx=j*4;
+        var dr=d[ix]-d[jx], dg=d[ix+1]-d[jx+1], db=d[ix+2]-d[jx+2];
+        if(dr*dr+dg*dg+db*db>=lt2) continue;
+        var er=sr[i]-d[jx], eg=sg[i]-d[jx+1], eb=sb[i]-d[jx+2];
+        if(er*er+eg*eg+eb*eb>=gt2) continue;
+        bg[j]=1; sr[j]=sr[i]; sg[j]=sg[i]; sb[j]=sb[i]; q[qt++]=j;
+      }
+    }
+    var removed=0;
+    for(var m=0;m<N;m++){ if(bg[m]) removed++; }
+    return { bg:bg, share:removed/N };
+  }
+
+  /* Строгость подбираем по результату: съело почти всё или не нашло ничего —
+     пробуем следующую пару. Годным считаем 8–93% убранного. */
+  var base=opts.tol||30;
+  var ladder=[
+    [base, base*2.0],
+    [base*0.7, base*1.4],
+    [base*0.5, base*1.0],
+    [base*1.3, base*3.0]
+  ];
+  var best=null, chosen=null;
+  for(var a=0;a<ladder.length;a++){
+    var r=fill(ladder[a][0],ladder[a][1]);
+    if(!best || Math.abs(r.share-0.5)<Math.abs(best.share-0.5)) best=r;
+    if(r.share>=0.08 && r.share<=0.93){ chosen=r; break; }
+  }
+  var res=chosen||best;
+
+  /* сглаживание: медиана 3×3 убирает крапины */
+  var sm=new Uint8Array(N);
+  for(var yy=0;yy<sh;yy++){
+    for(var xx=0;xx<sw;xx++){
+      var s=0,c=0;
+      for(var oy=-1;oy<=1;oy++){ for(var ox=-1;ox<=1;ox++){
+        var px=xx+ox, py=yy+oy;
+        if(px<0||py<0||px>=sw||py>=sh) continue;
+        s+=res.bg[py*sw+px]; c++;
+      }}
+      sm[yy*sw+xx]=(s*2>c)?1:0;
+    }
+  }
+
+  /* Оставляем только сам предмет. Куски фона, до которых заливка не дошла
+     (полоска стены за контуром, посторонняя тарелка в углу), остаются
+     помеченными как товар — а это мусор в кадре. Считаем связные области
+     и держим главную плюс те, что сравнимы с ней по размеру. */
+  var lab=new Int32Array(N).fill(-1);
+  var areas=[], stack=new Int32Array(N);
+  for(var st=0;st<N;st++){
+    if(sm[st] || lab[st]>=0) continue;
+    var id=areas.length, top=0, area=0;
+    stack[top++]=st; lab[st]=id;
+    while(top>0){
+      var cur=stack[--top]; area++;
+      var ux=cur%sw, uy=(cur/sw)|0;
+      var ns=[ ux>0?cur-1:-1, ux<sw-1?cur+1:-1, uy>0?cur-sw:-1, uy<sh-1?cur+sw:-1 ];
+      for(var v=0;v<4;v++){
+        var w2=ns[v];
+        if(w2<0||sm[w2]||lab[w2]>=0) continue;
+        lab[w2]=id; stack[top++]=w2;
+      }
+    }
+    areas.push(area);
+  }
+  if(areas.length>1){
+    var maxA=0;
+    for(var ai=0;ai<areas.length;ai++){ if(areas[ai]>maxA) maxA=areas[ai]; }
+    var keepMin=Math.max(maxA*0.12, N*0.004);
+    for(var pi=0;pi<N;pi++){
+      if(!sm[pi] && areas[lab[pi]]<keepMin) sm[pi]=1;
+    }
+  }
+
+  var mc=document.createElement("canvas"); mc.width=sw; mc.height=sh;
+  var mx=mc.getContext("2d");
+  var mid=mx.createImageData(sw,sh);
+  for(var z=0;z<N;z++){
+    mid.data[z*4]=255; mid.data[z*4+1]=255; mid.data[z*4+2]=255;
+    mid.data[z*4+3]=sm[z]?0:255;
+  }
+  mx.putImageData(mid,0,0);
+
+  var full=document.createElement("canvas"); full.width=src.width; full.height=src.height;
+  var fx=full.getContext("2d");
+  fx.imageSmoothingEnabled=true; fx.imageSmoothingQuality="high";
+  fx.drawImage(mc,0,0,src.width,src.height);
+  return { mask:full, share:res.share, reliable:(res.share>=0.08 && res.share<=0.93) };
+};
+/* Накладывает маску на картинку и отдаёт вырезанное. */
+WS.applyMask=function(src,mask){
+  var c=document.createElement("canvas"); c.width=src.width; c.height=src.height;
+  var x=c.getContext("2d");
+  x.drawImage(src,0,0);
+  x.imageSmoothingEnabled=true; x.imageSmoothingQuality="high";
+  x.globalCompositeOperation="destination-in";
+  x.drawImage(mask,0,0);
+  x.globalCompositeOperation="source-over";
+  return c;
+};
+
 /* ---------- контраст по WCAG ---------- */
 function toRgb(hex){
   hex=String(hex).replace("#","");
