@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Проба: вырезание фона</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%A7%AA%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/fonts.css">
+<link rel="stylesheet" href="/assets/ws.css">
+<style>
+  .three{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px}
+  @media(min-width:760px){ .three{grid-template-columns:repeat(3,1fr)} }
+  .pan{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px}
+  .pan h3{font-size:.85rem;margin:0 0 4px}
+  .pan .sub{font-family:'JetBrains Mono',monospace;font-size:.66rem;color:var(--ink-soft);
+    display:block;margin-bottom:8px;min-height:14px}
+  .pan canvas{width:100%;height:auto;display:block;border-radius:9px}
+  .num{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--teal);margin-top:8px;display:block}
+  .bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:10px 0 6px}
+  .bar i{display:block;height:100%;width:0;background:var(--teal);transition:width .2s}
+  #log{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--ink-soft);
+    white-space:pre-wrap;background:var(--cream);border:1px solid var(--line);
+    border-radius:10px;padding:10px;margin-top:12px;max-height:190px;overflow:auto}
+  .verdict{background:var(--teal-dk);color:var(--cream);border-radius:16px;padding:18px;margin-top:16px}
+  .verdict h2{color:#fff;font-size:1.05rem;margin-bottom:8px}
+  .verdict p{color:#CFE0DB;font-size:.93rem;margin:0 0 8px}
+  .verdict b{color:var(--gold)}
+  .big-btn{font-size:1rem;padding:18px 24px;width:100%}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-in">
+    <span class="brand">Первые деньги · <span>Проба</span></span>
+    <span class="spacer"></span>
+    <a class="back" href="/masterskaya/">← Мастерская</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap" style="padding-bottom:40px">
+    <div class="panel-head" style="padding-top:28px">
+      <span class="kicker">Внутренняя проверка</span>
+      <h1>Нужна ли нам нейросеть</h1>
+      <p>Выбери фото товара — лучше настоящее, с ковром, обоями или бликующим столом. Страница вычистит фон двумя способами и покажет честные цифры: сколько весит, сколько думает и что получается.</p>
+    </div>
+
+    <div class="drop" id="drop">
+      <div class="big">📷</div>
+      <p><b>Выбрать фото</b><br>С телефона можно снять прямо сейчас</p>
+      <input type="file" id="file" accept="image/*" hidden>
+    </div>
+
+    <div id="work" hidden>
+      <div class="three">
+        <div class="pan">
+          <h3>1. Было</h3><span class="sub" id="s0">исходник</span>
+          <canvas id="c0"></canvas>
+        </div>
+        <div class="pan">
+          <h3>2. Как чистит сейчас</h3><span class="sub" id="s1">заливка по цвету, без интернета</span>
+          <canvas id="c1" class="checker"></canvas>
+          <span class="num" id="n1"></span>
+        </div>
+        <div class="pan">
+          <h3>3. Нейросетью</h3><span class="sub" id="s2">не запускалась</span>
+          <canvas id="c2" class="checker"></canvas>
+          <span class="num" id="n2"></span>
+        </div>
+      </div>
+
+      <div class="bar" id="barBox" hidden><i id="bar"></i></div>
+      <button class="btn big-btn" id="runAi" style="margin-top:14px">Проверить нейросеть</button>
+      <p class="note" style="margin-top:8px"><b>Первый запуск скачает около 42 МБ.</b> Лучше по Wi-Fi. Дальше модель лежит в памяти браузера и заново не качается. Ничего никуда не отправляется — она считает прямо на твоём устройстве.</p>
+
+      <div class="verdict" id="verdict" hidden>
+        <h2>Что из этого следует</h2>
+        <div id="verdictText"></div>
+      </div>
+
+      <div id="log"></div>
+    </div>
+  </div>
+</main>
+
+<footer class="site">Первые деньги · служебная страница, в поиске не показывается</footer>
+
+<script>
+/* ---------- общее ---------- */
+var S={ img:null, base:null, W:0, H:0, fast:null, ai:null, bytes:0, dlMs:0, aiMs:0, fastMs:0 };
+function $(i){ return document.getElementById(i); }
+function log(s){
+  var el=$("log");
+  el.textContent += (el.textContent?"\n":"") + s;
+  el.scrollTop = el.scrollHeight;
+}
+function mb(b){ return (b/1048576).toFixed(1); }
+
+/* ---------- устройство ---------- */
+(function(){
+  var bits=[];
+  bits.push("экран " + window.innerWidth + "×" + window.innerHeight + " при " + (window.devicePixelRatio||1) + "x");
+  if(navigator.deviceMemory) bits.push("память " + navigator.deviceMemory + " ГБ");
+  if(navigator.hardwareConcurrency) bits.push("ядер " + navigator.hardwareConcurrency);
+  bits.push("WebGPU " + (("gpu" in navigator) ? "есть" : "нет"));
+  window.__DEV = bits.join(" · ");
+})();
+
+/* ---------- загрузка фото ---------- */
+function onFile(f){
+  if(!f) return;
+  if(!/^image\//.test(f.type)){ alert("Это не картинка."); return; }
+  var url=URL.createObjectURL(f), im=new Image();
+  im.onload=function(){
+    URL.revokeObjectURL(url);
+    S.img=im;
+    var k=Math.min(1,1400/Math.max(im.width,im.height));
+    S.W=Math.round(im.width*k); S.H=Math.round(im.height*k);
+    var c=document.createElement("canvas"); c.width=S.W; c.height=S.H;
+    c.getContext("2d").drawImage(im,0,0,S.W,S.H);
+    S.base=c;
+    $("work").hidden=false;
+    show("c0",c);
+    $("s0").textContent = im.naturalWidth+"×"+im.naturalHeight+" · "+mb(f.size)+" МБ";
+    $("log").textContent="";
+    log("устройство: " + window.__DEV);
+    log("фото: " + im.naturalWidth + "×" + im.naturalHeight + ", " + mb(f.size) + " МБ");
+    runFast();
+  };
+  im.onerror=function(){ alert("Не получилось открыть фото."); };
+  im.src=url;
+}
+$("drop").addEventListener("click",function(){ $("file").click(); });
+$("file").addEventListener("change",function(e){ onFile(e.target.files[0]); });
+
+function show(id,cv){
+  var c=$(id);
+  c.width=cv.width; c.height=cv.height;
+  c.getContext("2d").drawImage(cv,0,0);
+}
+function transparentShare(cv){
+  var c=document.createElement("canvas"); c.width=120; c.height=120;
+  var x=c.getContext("2d",{willReadFrequently:true});
+  x.drawImage(cv,0,0,120,120);
+  var d=x.getImageData(0,0,120,120).data, clear=0, n=0;
+  for(var i=3;i<d.length;i+=4){ if(d[i]<26) clear++; n++; }
+  return Math.round(clear*100/n);
+}
+
+/* ---------- способ 1: заливка по цвету (то, что работает сейчас) ---------- */
+/* Станок вычищает фон не с исходника, а после автокоррекции света:
+   на выровненном кадре товар и стол расходятся по цвету сильнее.
+   Без этого шага сравнение было бы нечестным к своему же способу. */
+function correct(src){
+  var c=document.createElement("canvas"); c.width=src.width; c.height=src.height;
+  var x=c.getContext("2d",{willReadFrequently:true});
+  x.drawImage(src,0,0);
+  var id=x.getImageData(0,0,c.width,c.height), d=id.data, n=d.length/4;
+  var hist=[new Uint32Array(256),new Uint32Array(256),new Uint32Array(256)];
+  for(var i=0;i<d.length;i+=4){ hist[0][d[i]]++; hist[1][d[i+1]]++; hist[2][d[i+2]]++; }
+  var cut=Math.max(1,Math.floor(n*0.004)), lut=[];
+  for(var ch=0;ch<3;ch++){
+    var acc=0, lo=0, hi=255, v;
+    for(v=0;v<256;v++){ acc+=hist[ch][v]; if(acc>cut){ lo=v; break; } }
+    acc=0;
+    for(v=255;v>=0;v--){ acc+=hist[ch][v]; if(acc>cut){ hi=v; break; } }
+    if(hi-lo<12){ lo=0; hi=255; }
+    var span=Math.max(1,hi-lo), tbl=new Uint8ClampedArray(256);
+    for(v=0;v<256;v++){ var s=(v-lo)*255/span; tbl[v]=v+(Math.max(0,Math.min(255,s))-v)*0.85; }
+    lut.push(tbl);
+  }
+  for(var j=0;j<d.length;j+=4){
+    d[j]=lut[0][d[j]]; d[j+1]=lut[1][d[j+1]]; d[j+2]=lut[2][d[j+2]];
+  }
+  x.putImageData(id,0,0);
+  return c;
+}
+function runFast(){
+  var t0=performance.now();
+  var src=correct(S.base);
+  var sw=Math.max(60,Math.round(360*S.W/Math.max(S.W,S.H)));
+  var sh=Math.max(60,Math.round(360*S.H/Math.max(S.W,S.H)));
+  var sc=document.createElement("canvas"); sc.width=sw; sc.height=sh;
+  var sx=sc.getContext("2d",{willReadFrequently:true});
+  sx.drawImage(src,0,0,sw,sh);
+  var d=sx.getImageData(0,0,sw,sh).data;
+  var N=sw*sh, bg=new Uint8Array(N), q=new Int32Array(N), qh=0, qt=0;
+  var tol=30, tol2=tol*tol*3;
+  function push(i){ if(!bg[i]){ bg[i]=1; q[qt++]=i; } }
+  for(var x=0;x<sw;x++){ push(x); push((sh-1)*sw+x); }
+  for(var y=0;y<sh;y++){ push(y*sw); push(y*sw+sw-1); }
+  while(qh<qt){
+    var i=q[qh++], ix=i*4, cx=i%sw, cy=(i/sw)|0;
+    var nb=[ cx>0?i-1:-1, cx<sw-1?i+1:-1, cy>0?i-sw:-1, cy<sh-1?i+sw:-1 ];
+    for(var k=0;k<4;k++){
+      var j=nb[k]; if(j<0||bg[j]) continue;
+      var jx=j*4, dr=d[ix]-d[jx], dg=d[ix+1]-d[jx+1], db=d[ix+2]-d[jx+2];
+      if(dr*dr+dg*dg+db*db<tol2){ bg[j]=1; q[qt++]=j; }
+    }
+  }
+  var mc=document.createElement("canvas"); mc.width=sw; mc.height=sh;
+  var mx=mc.getContext("2d");
+  var mid=mx.createImageData(sw,sh);
+  for(var p=0;p<N;p++){
+    mid.data[p*4]=255; mid.data[p*4+1]=255; mid.data[p*4+2]=255;
+    mid.data[p*4+3]=bg[p]?0:255;
+  }
+  mx.putImageData(mid,0,0);
+  var out=document.createElement("canvas"); out.width=S.W; out.height=S.H;
+  var ox=out.getContext("2d");
+  ox.drawImage(src,0,0);
+  ox.imageSmoothingEnabled=true; ox.imageSmoothingQuality="high";
+  ox.globalCompositeOperation="destination-in";
+  ox.drawImage(mc,0,0,S.W,S.H);
+  ox.globalCompositeOperation="source-over";
+  S.fast=out;
+  S.fastMs=Math.round(performance.now()-t0);
+  show("c1",out);
+  var sh2=transparentShare(out);
+  $("n1").textContent = S.fastMs + " мс · убрано " + sh2 + "% кадра";
+  log("заливка по цвету: " + S.fastMs + " мс, убрано " + sh2 + "%");
+  if(sh2<5) log("  ← фон почти не нашёлся: для этого фото способ не годится");
+  if(sh2>93) log("  ← съело почти всё: для этого фото способ не годится");
+}
+
+/* ---------- способ 2: нейросеть в браузере ---------- */
+$("runAi").addEventListener("click",function(){
+  if(!S.base){ alert("Сначала выбери фото."); return; }
+  var b=$("runAi");
+  b.disabled=true; b.textContent="Качаю модель…";
+  $("barBox").hidden=false;
+  $("s2").textContent="скачивается…";
+  runAi().catch(function(e){
+    log("ОШИБКА: " + (e && e.message ? e.message : e));
+    $("s2").textContent="не получилось";
+    b.disabled=false; b.textContent="Попробовать ещё раз";
+    verdict();
+  });
+});
+
+var files={};
+async function runAi(){
+  var t0=performance.now();
+  log("подключаю библиотеку…");
+  var mod = await import("https://cdn.jsdelivr.net/npm/@huggingface/transformers@3/+esm");
+  log("библиотека подключена, " + Math.round(performance.now()-t0) + " мс");
+
+  var AutoModel=mod.AutoModel, AutoProcessor=mod.AutoProcessor, RawImage=mod.RawImage, env=mod.env;
+  if(env && env.backends && env.backends.onnx && env.backends.onnx.wasm){
+    env.backends.onnx.wasm.numThreads = Math.min(4, navigator.hardwareConcurrency || 2);
+  }
+
+  function prog(p){
+    if(p && p.file){
+      if(p.status==="progress" && p.total){
+        files[p.file]={ loaded:p.loaded, total:p.total };
+        var L=0,T=0;
+        for(var k in files){ L+=files[k].loaded; T+=files[k].total; }
+        S.bytes=T;
+        $("bar").style.width = Math.round(L*100/T) + "%";
+        $("s2").textContent = mb(L) + " из " + mb(T) + " МБ";
+      }
+      if(p.status==="done" && p.file.indexOf(".onnx")>=0) log("скачан " + p.file);
+    }
+  }
+
+  log("качаю модель RMBG-1.4 (сжатая, около 42 МБ)…");
+  var tDl=performance.now();
+  var stall=setTimeout(function(){
+    if(!S.ai){
+      log("скачивание идёт дольше полутора минут — либо медленный интернет, либо доступ к хранилищу модели закрыт");
+      $("s2").textContent="качается очень долго";
+    }
+  },90000);
+  var model = await AutoModel.from_pretrained("briaai/RMBG-1.4", {
+    config:{ model_type:"custom" }, dtype:"q8", progress_callback:prog
+  });
+  var processor = await AutoProcessor.from_pretrained("briaai/RMBG-1.4", {
+    config:{
+      do_normalize:true, do_pad:false, do_rescale:true, do_resize:true,
+      image_mean:[0.5,0.5,0.5], image_std:[1,1,1],
+      feature_extractor_type:"ImageFeatureExtractor",
+      resample:2, rescale_factor:0.00392156862745098,
+      size:{ width:1024, height:1024 }
+    }, progress_callback:prog
+  });
+  clearTimeout(stall);
+  S.dlMs=Math.round(performance.now()-tDl);
+  log("модель готова за " + (S.dlMs/1000).toFixed(1) + " с, вес " + mb(S.bytes) + " МБ");
+  $("runAi").textContent="Считаю…";
+  $("s2").textContent="считает…";
+
+  var tAi=performance.now();
+  var url=S.base.toDataURL("image/png");
+  var image = await RawImage.fromURL(url);
+  var inputs = await processor(image);
+  var out = await model({ input: inputs.pixel_values });
+  var key = out.output ? "output" : Object.keys(out)[0];
+  var tensor = out[key];
+  var maskImg = await RawImage.fromTensor(tensor[0].mul(255).to("uint8")).resize(S.base.width, S.base.height);
+  S.aiMs=Math.round(performance.now()-tAi);
+
+  var res=document.createElement("canvas");
+  res.width=S.base.width; res.height=S.base.height;
+  var rx=res.getContext("2d");
+  rx.drawImage(S.base,0,0);
+  var id=rx.getImageData(0,0,res.width,res.height);
+  for(var i=0;i<maskImg.data.length;i++){ id.data[i*4+3]=maskImg.data[i]; }
+  rx.putImageData(id,0,0);
+  S.ai=res;
+  show("c2",res);
+  var share=transparentShare(res);
+  $("n2").textContent = (S.dlMs/1000).toFixed(1)+" с скачивание · "+S.aiMs+" мс расчёт · убрано "+share+"%";
+  $("s2").textContent = mb(S.bytes)+" МБ, лежит в памяти браузера";
+  log("нейросеть: расчёт " + S.aiMs + " мс, убрано " + share + "%");
+  $("runAi").disabled=false;
+  $("runAi").textContent="Посчитать ещё раз";
+  $("barBox").hidden=true;
+  verdict();
+}
+
+/* ---------- вывод ---------- */
+function verdict(){
+  var v=$("verdict"), t=$("verdictText");
+  v.hidden=false;
+  var rows=[];
+  rows.push("<p>Заливка по цвету: <b>"+S.fastMs+" мс</b>, ничего не качает, стоит ноль.</p>");
+  if(S.ai){
+    rows.push("<p>Нейросеть: скачалась один раз <b>"+mb(S.bytes)+" МБ за "+(S.dlMs/1000).toFixed(1)+" с</b>, считает <b>"+(S.aiMs/1000).toFixed(1)+" с</b>. Дальше не качается и тоже стоит ноль — работает на этом устройстве, не на сервере.</p>");
+    var slow = S.aiMs>12000, heavy = S.dlMs>60000;
+    if(slow||heavy){
+      rows.push("<p>Похоже, для слабого телефона тяжеловато: "+(heavy?"долгое скачивание":"")+(slow&&heavy?" и ":"")+(slow?"долгий расчёт":"")+". Значит включать её нужно не всем подряд, а по кнопке «фон сложный» — и честно предупреждать про вес.</p>");
+    } else {
+      rows.push("<p><b>Это рабочий вариант.</b> Скачивание и расчёт в приемлемых пределах, платить никому не нужно, ребёнок нигде не регистрируется.</p>");
+    }
+    rows.push("<p>Сравни вторую и третью картинку глазами. Если разницы почти нет — нейросеть нам не нужна вовсе.</p>");
+  } else {
+    rows.push("<p>Нейросеть на этом устройстве не запустилась. Это тоже ответ: значит на такой путь полагаться нельзя, и надо либо оставлять кисть, либо думать про ключ.</p>");
+  }
+  t.innerHTML=rows.join("");
+}
+</script>
+</body>
+</html>
