@@ -1,0 +1,843 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Станок: меню и прайс · Мастерская</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%8D%B5%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/fonts.css">
+<link rel="stylesheet" href="/assets/ws.css">
+<style>
+  .rows{width:100%;border-collapse:collapse}
+  .rows th{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--ink-soft);
+    text-transform:uppercase;letter-spacing:.05em;text-align:left;padding:0 6px 6px}
+  .rows td{padding:3px 4px;vertical-align:middle}
+  .rows input{width:100%;padding:8px 9px;border:1.5px solid var(--line);border-radius:8px;
+    background:var(--cream);color:var(--ink);font-family:inherit;font-size:.9rem}
+  .rows .del{background:transparent;border:none;color:var(--ink-soft);cursor:pointer;
+    font-size:1.1rem;line-height:1;padding:4px 6px}
+  .rows .del:hover{color:var(--warn)}
+  .rows td.narrow{width:92px}
+  .rows td.sec{width:120px}
+  .rows td.act{width:34px}
+  @media(max-width:640px){
+    .rows, .rows tbody, .rows tr, .rows td{display:block;width:auto}
+    .rows thead{display:none}
+    .rows tr{border:1px solid var(--line);border-radius:12px;padding:8px;margin-bottom:10px}
+    .rows td.narrow, .rows td.sec, .rows td.act{width:auto}
+    .rows td{padding:3px 0}
+  }
+  .fmt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .fmt-grid .item{display:flex;flex-direction:column}
+  .fmt-grid .item canvas{background:#fff;object-fit:contain}
+  .fmt-grid .item .cap{margin-top:auto;padding-top:8px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-in">
+    <span class="brand">Первые деньги · <span>Мастерская</span></span>
+    <span class="spacer"></span>
+    <span class="chip" id="codeChip" hidden></span>
+    <a class="back" href="/masterskaya/">← Все станки</a>
+  </div>
+</header>
+
+<main id="gate">
+  <div class="wrap">
+    <div class="gate-box">
+      <h1>Меню и прайс</h1>
+      <p style="color:var(--ink-soft);font-size:.92rem">Введи код доступа — тот же, что и к пяти шагам.</p>
+      <input type="text" id="code" placeholder="XXXX-XXXX" autocomplete="off" spellcheck="false">
+      <div class="gate-err" id="gateErr"></div>
+      <button class="btn btn-wide" id="enterBtn">Войти</button>
+      <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line)">
+        <p style="font-size:.9rem;color:var(--ink-soft);margin-bottom:12px">Кода пока нет? Открой станок и собери меню целиком — виден весь путь. Файлы скачиваются по коду.</p>
+        <button class="btn btn-ghost btn-wide" id="demoBtn">Посмотреть, как работает</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<main id="app" hidden>
+  <div class="wrap">
+    <div class="stepper" id="stepper"></div>
+
+    <!-- 0. Заведение -->
+    <section class="panel on" data-step="0">
+      <div class="panel-head">
+        <span class="kicker">Шаг 1 из 5</span>
+        <h1>Чьё меню делаем</h1>
+        <p>Кофейня, барбершоп, шиномонтаж, маникюр — у маленьких заведений прайс чаще всего написан от руки или не обновлялся год. Это и есть заказ.</p>
+      </div>
+      <div class="layout">
+        <div class="tools">
+          <div class="field"><label for="mName">Название заведения</label>
+            <input type="text" id="mName" maxlength="40" placeholder="Кофейня «Зерно»"></div>
+          <div class="field"><label for="mKind">Одна строка под названием — что это</label>
+            <input type="text" id="mKind" maxlength="60" placeholder="кофе, выпечка, завтраки до 12:00"></div>
+          <div class="grid2">
+            <div class="field"><label for="mAddr">Адрес (можно пусто)</label>
+              <input type="text" id="mAddr" maxlength="60" placeholder="ул. Ленина, 14"></div>
+            <div class="field"><label for="mPhone">Телефон (можно пусто)</label>
+              <input type="text" id="mPhone" maxlength="30" placeholder="+7 900 000-00-00"></div>
+          </div>
+          <div class="field"><label for="mFoot">Нижняя строка (можно пусто)</label>
+            <input type="text" id="mFoot" maxlength="70" placeholder="Wi-Fi: zerno-guest · оплата картой"></div>
+        </div>
+        <div class="tools">
+          <h3>Старое меню</h3>
+          <p style="font-size:.88rem;color:var(--ink-soft)">Сфотографируй то, что висит сейчас. Нужно для картинки «было → стало» — именно её ты отправишь заказчику на третьем шаге программы.</p>
+          <div class="drop" id="drop" style="padding:22px 14px">
+            <div class="big" style="font-size:1.7rem">📷</div>
+            <p style="font-size:.85rem">Нажми или перетащи фото<br>Можно пропустить</p>
+            <input type="file" id="file" accept="image/*" hidden>
+          </div>
+          <div id="oldPrev" hidden style="margin-top:12px">
+            <canvas id="oldC" style="width:100%;height:auto;border-radius:9px;display:block"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="nav">
+        <span></span>
+        <button class="btn" data-go="1">Дальше: позиции →</button>
+      </div>
+    </section>
+
+    <!-- 1. Позиции -->
+    <section class="panel" data-step="1">
+      <div class="panel-head">
+        <span class="kicker">Шаг 2 из 5</span>
+        <h1>Позиции и цены</h1>
+        <p>Перепиши то, что на фото. Раздел — по желанию: если заполнишь, позиции сгруппируются, если нет — пойдут одним списком.</p>
+      </div>
+
+      <div class="tools" style="margin-bottom:14px">
+        <h3>Вставить списком</h3>
+        <p style="font-size:.88rem;color:var(--ink-soft)">Быстрее, чем по одной. Одна строка — одна позиция: <b>Капучино 250</b>, или <b>Капучино — 250 ₽</b>, или <b>Капучино ... 250</b>. Строка без цифры считается названием раздела.</p>
+        <div class="field">
+          <textarea id="paste" rows="5" placeholder="КОФЕ&#10;Эспрессо 120&#10;Капучино — 250 ₽&#10;Раф солёная карамель ... 320&#10;&#10;ВЫПЕЧКА&#10;Круассан 180"></textarea>
+        </div>
+        <button type="button" class="btn btn-dark" id="parseBtn">Разобрать и заполнить</button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="rows">
+          <thead><tr><th>Раздел</th><th>Название</th><th>Описание</th><th>Цена</th><th></th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+        <button type="button" class="btn btn-ghost btn-sm" id="addRow">+ Ещё позиция</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="clearRows">Очистить всё</button>
+        <span class="note" id="rowCount" style="align-self:center"></span>
+      </div>
+
+      <div class="callout">
+        <span class="lab">Про цены</span>
+        <p>Пиши только число: <b>250</b>, а не «250 руб.» и не «от 250». Значок рубля станок поставит сам и одинаково у всех строк — именно из-за разнобоя в написании цен меню выглядит самодельным.</p>
+      </div>
+
+      <div class="nav">
+        <button class="btn btn-ghost" data-go="0">← Назад</button>
+        <button class="btn" data-go="2">Дальше: вид →</button>
+      </div>
+    </section>
+
+    <!-- 2. Вид -->
+    <section class="panel" data-step="2">
+      <div class="panel-head">
+        <span class="kicker">Шаг 3 из 5</span>
+        <h1>Как это выглядит</h1>
+        <p>Раскладка подбирается под число позиций: чем их больше, тем нужнее две колонки. Станок посчитает, влезает ли всё, на последнем шаге.</p>
+      </div>
+      <div class="layout">
+        <div class="stage">
+          <canvas id="prevC"></canvas>
+        </div>
+        <div class="tools">
+          <h3>Раскладка</h3>
+          <div class="seg" id="layoutSeg" style="margin-bottom:14px"></div>
+          <h3>Цвет</h3>
+          <div class="swatches" id="palSw" style="margin-bottom:14px"></div>
+          <div class="tool-row">
+            <label>Плотность <b id="vDens">0</b></label>
+            <input type="range" id="pDens" min="-3" max="3" value="0">
+            <div class="hint" style="font-size:.72rem;color:var(--ink-soft)">Влево — просторнее и крупнее, вправо — плотнее и мельче.</div>
+          </div>
+          <div class="seg" style="margin-bottom:8px">
+            <button data-lead="1" class="on">С точками</button>
+            <button data-lead="0">Без точек</button>
+          </div>
+          <div class="seg" style="margin-bottom:12px">
+            <button data-cur="1" class="on">С ₽</button>
+            <button data-cur="0">Без значка</button>
+          </div>
+          <div class="callout" style="margin-bottom:0">
+            <span class="lab">Честно про «правила меню»</span>
+            <p>Говорят, что цены столбиком заставляют выбирать по цене, а цена сразу после названия — по блюду. Мы это проверяли: <strong>исследования за этим нет</strong>, это мнение одного известного консультанта, разошедшееся по статьям. Пробуй оба варианта и спроси заказчика, что ему ближе, — но не выдавай это за доказанное.</p>
+            <p>А вот что проверено: в одном исследовании Корнелльского университета уборка значка валюты из меню подняла средний чек примерно на восемь процентов. Оговорка авторов: это один ресторан и один обед, повторно этого никто не проверял.</p>
+          </div>
+        </div>
+      </div>
+      <div class="nav">
+        <button class="btn btn-ghost" data-go="1">← Назад</button>
+        <button class="btn" data-go="3">Дальше: форматы →</button>
+      </div>
+    </section>
+
+    <!-- 3. Форматы -->
+    <section class="panel" data-step="3">
+      <div class="panel-head">
+        <span class="kicker">Шаг 4 из 5</span>
+        <h1>Куда это пойдёт</h1>
+        <p>Одно и то же меню нужно в разных местах: распечатать на стойку, повесить в зал, выложить в ленту и в сторис. Станок соберёт все форматы из одних и тех же позиций.</p>
+      </div>
+      <div class="layout">
+        <div class="stage">
+          <canvas id="fmtC"></canvas>
+        </div>
+        <div class="tools">
+          <h3>Формат</h3>
+          <div class="seg" id="fmtSeg" style="margin-bottom:14px"></div>
+          <div id="fmtInfo" class="note" style="margin-bottom:14px"></div>
+          <div class="callout" style="margin-bottom:0">
+            <span class="lab">Про печать</span>
+            <p>Файл считается в двухстах точках на дюйм — этого хватает и обычному принтеру, и печати в копицентре. Поля по краям станок оставляет сам: если печатать вплотную к краю, принтер обрежет строки.</p>
+          </div>
+        </div>
+      </div>
+      <div class="nav">
+        <button class="btn btn-ghost" data-go="2">← Назад</button>
+        <button class="btn" data-go="4">Дальше: проверка →</button>
+      </div>
+    </section>
+
+    <!-- 4. Сдача -->
+    <section class="panel" data-step="4">
+      <div class="panel-head">
+        <span class="kicker">Шаг 5 из 5</span>
+        <h1>Проверка и сдача</h1>
+        <p>Прежде чем отправлять заказчику — станок смотрит на работу так, как посмотрит человек в зале: видно ли шрифт, хватает ли контраста, всё ли влезло.</p>
+      </div>
+
+      <div class="callout demo-only" hidden>
+        <span class="lab">Режим просмотра</span>
+        <p>Станок отработал целиком — ниже настоящий результат по твоим позициям. Не выгружаются только файлы в рабочем разрешении.</p>
+        <p style="margin-bottom:0"><a class="btn btn-sm" href="/#price">Открыть станок — 1490 ₽</a> <a class="btn btn-ghost btn-sm" href="/put/">Что ещё входит</a></p>
+      </div>
+
+      <div class="layout">
+        <div class="tools">
+          <h3>Проверка перед сдачей</h3>
+          <ul class="check" id="checkList"></ul>
+          <button class="btn btn-ghost btn-sm btn-wide" id="runCheck" style="margin-top:12px">Проверить заново</button>
+        </div>
+        <div class="tools">
+          <h3>Что отправить первым</h3>
+          <p style="font-size:.9rem;color:var(--ink-soft)">Сначала только «было → стало» и фразу из третьего шага. Остальные файлы — после того, как договорились письменно.</p>
+          <div class="callout warn" style="margin-bottom:0">
+            <span class="lab">Проверь цены дважды</span>
+            <p>Ошибка в цене на меню — это деньги заказчика и его скандал с покупателем. Перечитай цифры по фотографии старого меню ещё раз, прежде чем сдавать.</p>
+          </div>
+        </div>
+      </div>
+
+      <h2 style="margin-top:24px">Комплект</h2>
+      <div class="sheet fmt-grid" id="sheet"></div>
+
+      <div class="nav">
+        <button class="btn btn-ghost" data-go="3">← Назад</button>
+        <button class="btn btn-ghost" id="startOver">Начать другое меню</button>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site">Первые деньги · мастерская для подростков 13–16 лет</footer>
+
+<script src="/assets/ws.js"></script>
+<script>
+(function(){
+"use strict";
+var $=WS.$, qsa=WS.qsa, toast=WS.toast, clamp=WS.clamp;
+
+/* ================= параметры =================
+   Плотность точек 200 на дюйм: хватает и принтеру, и копицентру,
+   при этом файл остаётся разумного веса.                          */
+var DPI=200;
+var MM=DPI/25.4;                      /* пикселей в миллиметре */
+function mm(v){ return Math.round(v*MM); }
+var PT=DPI/72;                        /* пикселей в типографском пункте */
+var MIN_PT=10;                        /* жёсткий пол: ниже читают с трудом */
+var GOOD_PT=12;                       /* рекомендация RNIB для печатного текста */
+var MIN_CONTRAST=4.5;                 /* порог WCAG для обычного текста */
+
+var FORMATS=[
+  { id:"a4",    name:"A4 для печати",   w:mm(210), h:mm(297), print:true,  note:"210 × 297 мм. Стойка, папка, лист на стене." },
+  { id:"a5",    name:"A5 для печати",   w:mm(148), h:mm(210), print:true,  note:"148 × 210 мм. На стол, в руки, как вкладыш." },
+  { id:"sq",    name:"Квадрат в ленту", w:1080, h:1080, print:false, note:"1080 × 1080. Пост в ленте." },
+  { id:"story", name:"Сторис",          w:1080, h:1920, print:false, note:"1080 × 1920. Вертикальный экран целиком." }
+];
+var LAYOUTS=[
+  { id:"list",  name:"Список" },
+  { id:"two",   name:"Две колонки" },
+  { id:"cards", name:"Карточки" },
+  { id:"board", name:"Доска" }
+];
+var PALETTES=[
+  { id:"teal",  name:"Изумруд", bg:"#FBF6EC", ink:"#16241F", soft:"#4E5D56", accent:"#0F6259", line:"#D9CFB8" },
+  { id:"coal",  name:"Графит",  bg:"#FFFFFF", ink:"#1B1B1D", soft:"#5A5A60", accent:"#2E2E33", line:"#DEDEE2" },
+  { id:"dark",  name:"Тёмный",  bg:"#14211E", ink:"#F4EFE4", soft:"#A8BCB6", accent:"#F2B705", line:"#2C423C" },
+  { id:"wine",  name:"Вишня",   bg:"#FDF6F2", ink:"#3A0E1C", soft:"#6E4450", accent:"#8E1B36", line:"#E8D2D6" },
+  { id:"navy",  name:"Синий",   bg:"#F4F7FB", ink:"#0E2140", soft:"#4A5B75", accent:"#17457F", line:"#D3DEEC" }
+];
+
+/* ================= состояние ================= */
+var S={
+  step:0, maxStep:0,
+  items:[], old:null,
+  layout:LAYOUTS[0], pal:PALETTES[0], fmt:FORMATS[0],
+  dens:0, leader:1, cur:1
+};
+/* Разная стартовая раскладка и цвет — чтобы работы разных ребят
+   не выглядели одинаково. */
+S.layout=LAYOUTS[Math.floor(Math.random()*2)];
+S.pal=PALETTES[Math.floor(Math.random()*PALETTES.length)];
+
+var FIELDS=["mName","mKind","mAddr","mPhone","mFoot"];
+var store=WS.fields(FIELDS,"pd_menu_");
+
+/* ================= позиции ================= */
+function addRow(sec,name,desc,price){
+  S.items.push({ sec:sec||"", name:name||"", desc:desc||"", price:price||"" });
+}
+function renderRows(){
+  var tb=$("rows"); tb.innerHTML="";
+  S.items.forEach(function(it,i){
+    var tr=document.createElement("tr");
+    tr.innerHTML=
+      '<td class="sec"><input type="text" value="'+esc(it.sec)+'" placeholder="Кофе" data-f="sec" data-i="'+i+'"></td>'+
+      '<td><input type="text" value="'+esc(it.name)+'" placeholder="Капучино" data-f="name" data-i="'+i+'"></td>'+
+      '<td><input type="text" value="'+esc(it.desc)+'" placeholder="на кокосовом +40" data-f="desc" data-i="'+i+'"></td>'+
+      '<td class="narrow"><input type="text" inputmode="numeric" value="'+esc(it.price)+'" placeholder="250" data-f="price" data-i="'+i+'"></td>'+
+      '<td class="act"><button type="button" class="del" data-del="'+i+'" title="Убрать">×</button></td>';
+    tb.appendChild(tr);
+  });
+  $("rowCount").textContent=WS.count(S.items.length,["позиция","позиции","позиций"]);
+  saveItems();
+}
+function esc(s){ return String(s||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
+$("rows").addEventListener("input",function(e){
+  var t=e.target;
+  if(t.dataset && t.dataset.f!=null){
+    S.items[+t.dataset.i][t.dataset.f]=t.value;
+    saveItems();
+  }
+});
+$("rows").addEventListener("click",function(e){
+  var d=e.target.getAttribute && e.target.getAttribute("data-del");
+  if(d!=null){ S.items.splice(+d,1); renderRows(); }
+});
+$("addRow").addEventListener("click",function(){ addRow(); renderRows(); });
+$("clearRows").addEventListener("click",function(){
+  if(!S.items.length) return;
+  S.items=[]; renderRows();
+  toast("Позиции очищены.");
+});
+function saveItems(){ WS.store("pd_menu_items", JSON.stringify(S.items)); }
+function loadItems(){
+  try{
+    var v=JSON.parse(WS.read("pd_menu_items")||"[]");
+    if(v && v.length){ S.items=v; return true; }
+  }catch(e){}
+  return false;
+}
+
+/* Разбор вставленного списка. Строка без цифры в конце — это раздел. */
+$("parseBtn").addEventListener("click",function(){
+  var raw=($("paste").value||"").split(/\r?\n/);
+  var sec="", added=0, secs=0;
+  var out=[];
+  raw.forEach(function(line){
+    var s=line.trim();
+    if(!s) return;
+    var m=s.match(/^(.*?)[\s.…\-–—:]*?(\d[\d\s]*)(?:\s*(?:₽|руб\.?|р\.?))?$/i);
+    if(m && m[1].trim()){
+      var nm=m[1].replace(/[.…\s\-–—:]+$/,"").trim();
+      var pr=m[2].replace(/\s+/g,"");
+      out.push({ sec:sec, name:nm, desc:"", price:pr });
+      added++;
+    } else {
+      sec=s.replace(/[:：]+$/,"").trim();
+      secs++;
+    }
+  });
+  if(!added){ toast("Не нашёл ни одной строки с ценой. Проверь, что цифра стоит в конце строки."); return; }
+  S.items=out;
+  renderRows();
+  toast("Разобрано: "+WS.count(added,["позиция","позиции","позиций"])+(secs?", "+WS.count(secs,["раздел","раздела","разделов"]):"")+". Проверь цены глазами — это важнее скорости.");
+});
+
+/* ================= старое фото ================= */
+function onFile(f){
+  if(!f) return;
+  if(!/^image\//.test(f.type)){ toast("Это не картинка."); return; }
+  var url=URL.createObjectURL(f), im=new Image();
+  im.onload=function(){
+    URL.revokeObjectURL(url);
+    var k=Math.min(1,1400/Math.max(im.width,im.height));
+    var c=document.createElement("canvas");
+    c.width=Math.round(im.width*k); c.height=Math.round(im.height*k);
+    c.getContext("2d").drawImage(im,0,0,c.width,c.height);
+    S.old=c;
+    var p=$("oldC");
+    p.width=c.width; p.height=c.height;
+    p.getContext("2d").drawImage(c,0,0);
+    $("oldPrev").hidden=false;
+    toast("Фото старого меню сохранено для картинки «было → стало».");
+  };
+  im.onerror=function(){ toast("Не получилось открыть это фото."); };
+  im.src=url;
+}
+$("drop").addEventListener("click",function(){ $("file").click(); });
+$("file").addEventListener("change",function(e){ onFile(e.target.files[0]); });
+["dragenter","dragover"].forEach(function(ev){
+  $("drop").addEventListener(ev,function(e){ e.preventDefault(); $("drop").classList.add("hot"); });
+});
+["dragleave","drop"].forEach(function(ev){
+  $("drop").addEventListener(ev,function(e){ e.preventDefault(); $("drop").classList.remove("hot"); });
+});
+$("drop").addEventListener("drop",function(e){
+  if(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) onFile(e.dataTransfer.files[0]);
+});
+
+/* ================= сборка меню ================= */
+function grouped(){
+  var out=[], cur=null;
+  S.items.forEach(function(it){
+    if(!it.name || !String(it.name).trim()) return;
+    var sec=(it.sec||"").trim();
+    if(!cur || cur.sec!==sec){ cur={ sec:sec, list:[] }; out.push(cur); }
+    cur.list.push(it);
+  });
+  return out;
+}
+function money(p){
+  var s=String(p||"").replace(/\s+/g,"");
+  if(!s) return "";
+  if(!/^\d+$/.test(s)) return s;
+  var num=s.replace(/\B(?=(\d{3})+(?!\d))/g," ");
+  return S.cur ? num+" ₽" : num;
+}
+
+/* Возвращает { canvas, meta } — meta нужна проверке перед сдачей. */
+function compose(fmt,scale){
+  var k=scale||1;
+  var W=Math.round(fmt.w*k), H=Math.round(fmt.h*k);
+  var cv=document.createElement("canvas"); cv.width=W; cv.height=H;
+  var ctx=cv.getContext("2d");
+  var P=S.pal;
+  var U=W/1000;
+
+  ctx.fillStyle=P.bg; ctx.fillRect(0,0,W,H);
+
+  var pad=Math.round(W*(fmt.print?0.085:0.075));
+  var x0=pad, x1=W-pad, innerW=x1-x0;
+
+  /* --- шапка --- */
+  var name=($("mName").value||"").trim() || "Меню";
+  var kind=($("mKind").value||"").trim();
+  var y=pad;
+
+  ctx.textBaseline="alphabetic"; ctx.textAlign="left";
+  var nameFit=WS.fitLines(ctx,name,innerW,Math.round(58*U),2,Math.round(22*U),"800 {px}px 'Unbounded',sans-serif");
+  ctx.fillStyle=P.ink;
+  ctx.font="800 "+nameFit.px+"px 'Unbounded',sans-serif";
+  nameFit.lines.forEach(function(l){ y+=nameFit.px; ctx.fillText(l,x0,y); y+=Math.round(nameFit.px*0.2); });
+
+  if(kind){
+    var kp=Math.round(22*U);
+    ctx.font="400 "+kp+"px 'PT Sans',sans-serif";
+    ctx.fillStyle=P.soft;
+    y+=Math.round(kp*0.5);
+    WS.wrap(ctx,kind,innerW).slice(0,2).forEach(function(l){ y+=kp; ctx.fillText(l,x0,y); });
+  }
+  y+=Math.round(26*U);
+  ctx.strokeStyle=P.accent; ctx.lineWidth=Math.max(2,Math.round(3*U));
+  ctx.beginPath(); ctx.moveTo(x0,y); ctx.lineTo(x1,y); ctx.stroke();
+  y+=Math.round(28*U);
+
+  /* --- подвал считаем заранее, он отъедает высоту --- */
+  var addr=($("mAddr").value||"").trim(), phone=($("mPhone").value||"").trim(), foot=($("mFoot").value||"").trim();
+  var footParts=[addr,phone].filter(Boolean).join("  ·  ");
+  var footH=(footParts||foot) ? Math.round(64*U) : 0;
+  var bottom=H-pad-footH;
+
+  /* --- позиции --- */
+  var groups=grouped();
+  var meta={ fits:true, fontPx:0, drawn:0, total:0, cols:1 };
+  groups.forEach(function(g){ meta.total+=g.list.length; });
+
+  var cols=(S.layout.id==="two")?2:1;
+  if(S.layout.id==="cards") cols=2;
+  meta.cols=cols;
+
+  var avail=bottom-y;
+  var unitsTotal=0;
+  groups.forEach(function(g){ unitsTotal+=(g.sec?1.5:0)+g.list.length*(g.list[0]&&hasDesc(g)?1.45:1); });
+  if(unitsTotal<=0) unitsTotal=1;
+
+  var perCol=avail*cols;
+  var rowH=perCol/unitsTotal;
+  var densK=1-S.dens*0.07;
+  rowH=rowH*densK;
+  var maxRow=Math.round((S.layout.id==="board"?92:58)*U);
+  rowH=Math.min(rowH,maxRow);
+  var fontPx=Math.round(rowH*(S.layout.id==="board"?0.5:0.44));
+  fontPx=Math.max(fontPx,Math.round(10*U));
+  meta.fontPx=fontPx;
+
+  var colW=(innerW-(cols>1?Math.round(46*U):0))/cols;
+  var cx=[x0], cy=[y];
+  if(cols===2){ cx.push(x0+colW+Math.round(46*U)); cy.push(y); }
+  var col=0;
+
+  function nextLine(h){
+    if(cy[col]+h>bottom){
+      if(col<cols-1){ col++; }
+      else { return false; }
+    }
+    return cy[col]+h<=bottom;
+  }
+
+  groups.forEach(function(g){
+    if(g.sec){
+      var sh=Math.round(fontPx*1.9);
+      if(!nextLine(sh)){ meta.fits=false; return; }
+      cy[col]+=sh*0.72;
+      ctx.font="800 "+Math.round(fontPx*0.82)+"px 'JetBrains Mono',monospace";
+      ctx.fillStyle=P.accent;
+      ctx.fillText(g.sec.toUpperCase(),cx[col],cy[col]);
+      cy[col]+=sh*0.36;
+    }
+    g.list.forEach(function(it){
+      var withDesc=!!(it.desc||"").trim();
+      var h=Math.round(rowH*(withDesc?1.45:1));
+      if(!nextLine(h)){ meta.fits=false; return; }
+      cy[col]+=Math.round(fontPx*0.95);
+      var nm=String(it.name||"").trim();
+      var pr=money(it.price);
+
+      ctx.font="700 "+fontPx+"px 'PT Sans',sans-serif";
+      ctx.fillStyle=P.ink;
+      var prW=pr?ctx.measureText(pr).width:0;
+      ctx.textAlign="left";
+      var maxNameW=colW-prW-Math.round(24*U);
+      var shown=nm;
+      while(ctx.measureText(shown).width>maxNameW && shown.length>4){ shown=shown.slice(0,-2); }
+      if(shown!==nm) shown=shown.replace(/\s+$/,"")+"…";
+      ctx.fillText(shown,cx[col],cy[col]);
+
+      if(pr){
+        if(S.leader){
+          var nw=ctx.measureText(shown).width;
+          var dotFrom=cx[col]+nw+Math.round(10*U);
+          var dotTo=cx[col]+colW-prW-Math.round(10*U);
+          if(dotTo>dotFrom){
+            ctx.save();
+            ctx.globalAlpha=.42; ctx.fillStyle=P.soft;
+            ctx.font="400 "+fontPx+"px 'PT Sans',sans-serif";
+            var dw=ctx.measureText("·").width*1.9, dx=dotFrom;
+            while(dx<dotTo){ ctx.fillText("·",dx,cy[col]); dx+=dw; }
+            ctx.restore();
+          }
+        }
+        ctx.textAlign="right";
+        ctx.font="700 "+fontPx+"px 'PT Sans',sans-serif";
+        ctx.fillStyle=P.ink;
+        ctx.fillText(pr,cx[col]+colW,cy[col]);
+        ctx.textAlign="left";
+      }
+
+      if(withDesc){
+        cy[col]+=Math.round(fontPx*0.78);
+        ctx.font="400 "+Math.round(fontPx*0.72)+"px 'PT Sans',sans-serif";
+        ctx.fillStyle=P.soft;
+        var dline=WS.wrap(ctx,it.desc.trim(),colW)[0]||"";
+        ctx.fillText(dline,cx[col],cy[col]);
+      }
+      cy[col]+=Math.round(rowH*0.42);
+      meta.drawn++;
+    });
+  });
+
+  /* --- подвал --- */
+  if(footParts||foot){
+    var fy=H-pad;
+    ctx.textAlign="left";
+    if(foot){
+      ctx.font="400 "+Math.round(19*U)+"px 'PT Sans',sans-serif";
+      ctx.fillStyle=P.soft;
+      ctx.fillText(foot,x0,fy);
+      fy-=Math.round(28*U);
+    }
+    if(footParts){
+      ctx.font="700 "+Math.round(21*U)+"px 'JetBrains Mono',monospace";
+      ctx.fillStyle=P.accent;
+      ctx.fillText(footParts,x0,fy);
+    }
+  }
+  return { canvas:cv, meta:meta };
+}
+function hasDesc(g){
+  for(var i=0;i<g.list.length;i++){ if((g.list[i].desc||"").trim()) return true; }
+  return false;
+}
+
+/* --- было / стало --- */
+function composeBA(){
+  var W=1600,H=900, cv=document.createElement("canvas");
+  cv.width=W; cv.height=H;
+  var ctx=cv.getContext("2d");
+  ctx.fillStyle="#FBF6EC"; ctx.fillRect(0,0,W,H);
+  var pad=34, gap=22, capH=54;
+  var cellW=(W-pad*2-gap)/2, cellH=H-pad*2-capH;
+  function cell(src,x,label){
+    ctx.save();
+    ctx.fillStyle="#FFFFFF";
+    WS.roundRect(ctx,x,pad,cellW,cellH,18); ctx.fill(); ctx.clip();
+    if(src){
+      var k=Math.min(cellW/src.width, cellH/src.height);
+      ctx.drawImage(src, x+(cellW-src.width*k)/2, pad+(cellH-src.height*k)/2, src.width*k, src.height*k);
+    } else {
+      ctx.fillStyle="#8FB3AC"; ctx.textAlign="center"; ctx.textBaseline="middle";
+      ctx.font="400 26px 'PT Sans',sans-serif";
+      ctx.fillText("фото старого меню не приложено", x+cellW/2, pad+cellH/2);
+    }
+    ctx.restore();
+    ctx.strokeStyle="#E4DBC8"; ctx.lineWidth=2;
+    WS.roundRect(ctx,x,pad,cellW,cellH,18); ctx.stroke();
+    ctx.fillStyle="#4E5D56"; ctx.textAlign="center"; ctx.textBaseline="middle";
+    ctx.font="700 26px 'JetBrains Mono',monospace";
+    ctx.fillText(label, x+cellW/2, pad+cellH+capH/2);
+  }
+  cell(S.old, pad, "БЫЛО");
+  cell(compose(FORMATS[0],0.5).canvas, pad+cellW+gap, "СТАЛО");
+  return cv;
+}
+
+/* ================= превью ================= */
+function draw(id,fmt,scale){
+  var r=compose(fmt,scale);
+  var c=$(id);
+  c.width=r.canvas.width; c.height=r.canvas.height;
+  c.getContext("2d").drawImage(r.canvas,0,0);
+  return r.meta;
+}
+function drawPrev(){ draw("prevC",S.fmt,0.42); }
+function drawFmt(){
+  draw("fmtC",S.fmt,S.fmt.h>2000?0.32:0.42);
+  $("fmtInfo").textContent=S.fmt.w+" × "+S.fmt.h+" точек · "+S.fmt.note;
+}
+
+/* ================= проверка ================= */
+function runCheck(){
+  var rows=[];
+  function add(s,t,n){ rows.push({s:s,t:t,n:n}); }
+  var items=S.items.filter(function(i){ return (i.name||"").trim(); });
+
+  if(!items.length){ add("no","Позиций нет","Вернись на второй шаг и впиши хотя бы одну строку."); }
+  else add("ok","В меню "+WS.count(items.length,["позиция","позиции","позиций"]),"");
+
+  var noPrice=items.filter(function(i){ return !String(i.price||"").trim(); });
+  if(noPrice.length) add("no","Без цены "+WS.count(noPrice.length,["позиция","позиции","позиций"]),
+    "Первая такая позиция — «"+noPrice[0].name+"». Меню с пустой ценой заказчик не примет.");
+  else if(items.length) add("ok","У всех позиций есть цена","");
+
+  var odd=items.filter(function(i){ var p=String(i.price||"").replace(/\s/g,""); return p && !/^\d+$/.test(p); });
+  if(odd.length) add("warn","Цена записана не цифрой: "+WS.count(odd.length,["позиция","позиции","позиций"]),
+    "Например «"+odd[0].price+"». Станок ставит значок рубля сам — в поле нужна только цифра.");
+
+  var seen={}, dup=[];
+  items.forEach(function(i){
+    var k=(i.name||"").trim().toLowerCase();
+    if(seen[k]) dup.push(i.name); else seen[k]=1;
+  });
+  if(dup.length) add("warn","Повторяются названия: "+dup.slice(0,3).join(", "),
+    "Проверь, не задвоил ли строку при вводе.");
+
+  /* влезло ли всё и каким кеглем */
+  var r=compose(S.fmt,1);
+  if(!r.meta.fits || r.meta.drawn<r.meta.total){
+    add("no","Не влезло: показано "+r.meta.drawn+" из "+r.meta.total,
+      "Возьми две колонки на третьем шаге, сдвинь плотность вправо или раздели меню на два листа.");
+  } else add("ok","Всё влезло на лист","Ни одна строка не обрезалась, показаны все позиции — "+r.meta.total+".");
+
+  if(S.fmt.print){
+    var pt=r.meta.fontPx/PT;
+    if(pt<MIN_PT) add("no","Шрифт в печати — "+pt.toFixed(1)+" пункта",
+      "Меньше "+MIN_PT+" пунктов читают с трудом, а в зале ещё и при плохом свете. Убавь плотность, возьми A4 вместо A5, раздели меню на два листа или сократи число позиций.");
+    else if(pt<GOOD_PT) add("warn","Шрифт в печати — "+pt.toFixed(1)+" пункта",
+      "Прочитать можно, но для печатного текста советуют от "+GOOD_PT+" пунктов. Если меню висит на стене, а не лежит в руках, сделай крупнее.");
+    else add("ok","Шрифт в печати — "+pt.toFixed(1)+" пункта","От "+GOOD_PT+" пунктов текст читают спокойно.");
+  } else {
+    add("ok","Формат экранный","Требование к печатному кеглю здесь не применяется.");
+  }
+
+  /* контраст текста к фону */
+  var c1=WS.contrast(S.pal.ink,S.pal.bg);
+  var c2=WS.contrast(S.pal.soft,S.pal.bg);
+  var worst=Math.min(c1,c2);
+  if(worst<MIN_CONTRAST) add("no","Контраст текста к фону — "+worst.toFixed(1)+" к одному",
+    "Норма доступности — от "+MIN_CONTRAST+". Возьми другой цвет на третьем шаге: этот текст не прочитают ни в полумраке зала, ни на солнце.");
+  else add("ok","Контраст текста к фону — "+worst.toFixed(1)+" к одному","Выше нормы "+MIN_CONTRAST+", читается при любом свете.");
+
+  if(!S.old) add("warn","Фото старого меню не приложено",
+    "Без него не получится картинка «было → стало» — а именно она убеждает заказчика на третьем шаге.");
+  else add("ok","Фото старого меню есть","«Было → стало» соберётся.");
+
+  var bad=WS.renderCheck("checkList",rows);
+  return bad===0;
+}
+$("runCheck").addEventListener("click",function(){
+  var ok=runCheck();
+  toast(ok?"Всё чисто — работу можно сдавать.":"Есть замечания. Красные пункты нужно закрыть до сдачи.");
+});
+
+/* ================= комплект ================= */
+function buildSheet(){
+  var host=$("sheet"); host.innerHTML="";
+  var items=FORMATS.map(function(f){
+    return { cap:f.name, fmt:f, file:"menu-"+f.id+".jpg" };
+  });
+  items.push({ cap:"Было → стало", ba:true, file:"menu-bylo-stalo.jpg" });
+
+  items.forEach(function(it){
+    var box=document.createElement("div"); box.className="item";
+    var cv=it.ba?composeBA():compose(it.fmt,0.3).canvas;
+    var prev=document.createElement("canvas");
+    var k=Math.min(1,320/cv.width);
+    prev.width=Math.round(cv.width*k); prev.height=Math.round(cv.height*k);
+    prev.getContext("2d").drawImage(cv,0,0,prev.width,prev.height);
+    box.appendChild(prev);
+    var c=document.createElement("span"); c.className="cap"; c.textContent=it.cap;
+    box.appendChild(c);
+    var b=document.createElement("button"); b.className="btn btn-ghost btn-sm btn-wide";
+    b.textContent=WS.demo?"Скачать по коду":"Скачать";
+    b.addEventListener("click",function(){
+      WS.guarded(function(){ return it.ba?composeBA():compose(it.fmt,1).canvas; }, it.file, 0.94);
+    });
+    box.appendChild(b);
+    host.appendChild(box);
+  });
+}
+
+/* ================= навигация ================= */
+var STEPS=["Заведение","Позиции","Вид","Форматы","Сдача"];
+var stepper=WS.stepper("stepper",STEPS,function(){ return S; },go);
+function go(n){
+  if(n>S.maxStep) return;
+  S.step=n;
+  qsa(".panel").forEach(function(p){ p.classList.toggle("on", +p.getAttribute("data-step")===n); });
+  stepper.build();
+  if(n===2) drawPrev();
+  if(n===3) drawFmt();
+  if(n===4){ runCheck(); buildSheet(); }
+  window.scrollTo({top:0,behavior:"auto"});
+}
+qsa("[data-go]").forEach(function(b){
+  b.addEventListener("click",function(){
+    var n=+b.getAttribute("data-go");
+    if(n===1 && S.maxStep<1) S.maxStep=1;
+    if(n>=2){
+      if(!S.items.filter(function(i){ return (i.name||"").trim(); }).length){
+        toast("Сначала впиши хотя бы одну позицию с ценой.");
+        return;
+      }
+      S.maxStep=4;
+    }
+    go(n);
+  });
+});
+$("startOver").addEventListener("click",function(){
+  S.items=[]; S.old=null; S.maxStep=0;
+  store.clear(); WS.store("pd_menu_items","");
+  $("oldPrev").hidden=true; $("file").value=""; $("paste").value="";
+  renderRows(); go(0);
+});
+
+/* ================= контролы ================= */
+(function(){
+  var ls=$("layoutSeg");
+  LAYOUTS.forEach(function(l){
+    var b=document.createElement("button");
+    b.textContent=l.name; if(l===S.layout) b.className="on";
+    b.addEventListener("click",function(){
+      qsa("button",ls).forEach(function(x){ x.classList.remove("on"); });
+      b.classList.add("on"); S.layout=l; drawPrev();
+    });
+    ls.appendChild(b);
+  });
+  var ps=$("palSw");
+  PALETTES.forEach(function(p){
+    var b=document.createElement("button");
+    b.className="swatch"+(p===S.pal?" on":"");
+    b.style.background="linear-gradient(135deg,"+p.bg+" 0 50%,"+p.accent+" 50% 100%)";
+    b.title=p.name;
+    b.addEventListener("click",function(){
+      qsa(".swatch",ps).forEach(function(x){ x.classList.remove("on"); });
+      b.classList.add("on"); S.pal=p; drawPrev();
+    });
+    ps.appendChild(b);
+  });
+  var fs=$("fmtSeg");
+  FORMATS.forEach(function(f){
+    var b=document.createElement("button");
+    b.textContent=f.name; if(f===S.fmt) b.className="on";
+    b.addEventListener("click",function(){
+      qsa("button",fs).forEach(function(x){ x.classList.remove("on"); });
+      b.classList.add("on"); S.fmt=f; drawFmt();
+    });
+    fs.appendChild(b);
+  });
+})();
+$("pDens").addEventListener("input",function(){
+  S.dens=+this.value; $("vDens").textContent=S.dens; drawPrev();
+});
+qsa("[data-lead]").forEach(function(b){
+  b.addEventListener("click",function(){
+    qsa("[data-lead]").forEach(function(x){ x.classList.remove("on"); });
+    b.classList.add("on"); S.leader=+b.getAttribute("data-lead"); drawPrev();
+  });
+});
+qsa("[data-cur]").forEach(function(b){
+  b.addEventListener("click",function(){
+    qsa("[data-cur]").forEach(function(x){ x.classList.remove("on"); });
+    b.classList.add("on"); S.cur=+b.getAttribute("data-cur"); drawPrev();
+  });
+});
+FIELDS.forEach(function(id){ $(id).addEventListener("input",function(){ if(S.step>=2) drawPrev(); }); });
+
+WS.guardUnload(function(){ return S.items.length>0; });
+
+/* ================= старт ================= */
+WS.gate({ onUnlock:function(){
+  var hadFields=store.restore();
+  var hadItems=loadItems();
+  if(!S.items.length){ addRow("","","",""); addRow("","","",""); addRow("","","",""); }
+  renderRows();
+  if(hadFields||hadItems){
+    S.maxStep=4;
+    toast("Прошлое меню на месте. Фото старого нужно приложить заново — его мы не храним.");
+  }
+  stepper.build();
+}});
+
+window.__PD_MENU=S;
+})();
+</script>
+</body>
+</html>
