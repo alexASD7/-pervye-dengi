@@ -1539,6 +1539,12 @@ qsa("[data-brush]").forEach(function(b){
 });
 $("redoCut").addEventListener("click",autoCut);
 
+/* Стартовая раскладка и цвет выбираются случайно.
+   Иначе все, кто не трогал настройки, сдают одинаковые на вид карточки —
+   а повторы заказчик читает как шаблон из интернета. */
+S.tpl=TEMPLATES[Math.floor(Math.random()*TEMPLATES.length)];
+S.pal=PALETTES[Math.floor(Math.random()*PALETTES.length)];
+
 (function(){
   var seg=$("presetSeg");
   PRESETS.forEach(function(p,i){
@@ -1566,7 +1572,7 @@ $("redoCut").addEventListener("click",autoCut);
   var tseg=$("tplSeg");
   TEMPLATES.forEach(function(t,i){
     var b=document.createElement("button");
-    b.textContent=t.name; if(i===0) b.className="on";
+    b.textContent=t.name; if(t===S.tpl) b.className="on";
     b.addEventListener("click",function(){
       qsa("button",tseg).forEach(function(x){ x.classList.remove("on"); });
       b.classList.add("on"); S.tpl=t; drawInfoPreview();
@@ -1576,7 +1582,7 @@ $("redoCut").addEventListener("click",autoCut);
   var psw=$("palSw");
   PALETTES.forEach(function(p,i){
     var b=document.createElement("button");
-    b.className="swatch"+(i===0?" on":"");
+    b.className="swatch"+(p===S.pal?" on":"");
     b.style.background="linear-gradient(135deg,"+p.accent+" 0 60%,"+p.chip+" 60% 100%)";
     b.title=p.name;
     b.addEventListener("click",function(){
