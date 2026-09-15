@@ -593,6 +593,9 @@ function verifyCode(code,ok,bad){
 function unlock(){
   $("gate").hidden=true; $("app").hidden=false;
   var c=read(KEY_AUTH); if(c){ $("codeChip").hidden=false; $("codeChip").textContent=c; }
+  if(typeof wsRestore==="function" && wsRestore()){
+    toast("Твои прошлые ответы на месте. Фото нужно загрузить заново — его мы не храним.");
+  }
   buildStepper();
 }
 function tryCode(){
@@ -1608,6 +1611,33 @@ qsa("[data-shadow]").forEach(function(b){
 });
 ["iTitle","iB1","iB2","iB3","iBadge"].forEach(function(id){
   $(id).addEventListener("input",function(){ drawInfoPreview(); });
+});
+
+/* ================= сохранение ответов =================
+   Само фото не храним — оно тяжёлое и лежит у ребёнка на устройстве.
+   Но переписывать заново пятнадцать полей после случайно закрытой
+   вкладки — верный способ бросить работу на середине. */
+var WS_FIELDS=["iTitle","iB1","iB2","iB3","iBadge",
+  "tType","tBrand","tF1","tF2","tF3","tWho","tW1","tW2","tW3","tCare"];
+var WS_KEY="pd_ws_";
+function wsSave(id){ store(WS_KEY+id, $(id).value||""); }
+function wsRestore(){
+  var any=false;
+  WS_FIELDS.forEach(function(id){
+    var v=read(WS_KEY+id);
+    if(v && $(id) && !$(id).value){ $(id).value=v; any=true; }
+  });
+  return any;
+}
+WS_FIELDS.forEach(function(id){
+  var el=$(id);
+  if(el) el.addEventListener("input",function(){ wsSave(id); });
+});
+$("startOver").addEventListener("click",function(){
+  WS_FIELDS.forEach(function(id){ store(WS_KEY+id,""); if($(id)) $(id).value=""; });
+});
+window.addEventListener("beforeunload",function(e){
+  if(S.base){ e.preventDefault(); e.returnValue=""; return ""; }
 });
 
 /* ================= старт ================= */
