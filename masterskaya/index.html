@@ -1001,11 +1001,15 @@ function composeInfo(scale,src){
     placeProduct(ctx,W,H,area,{src:src});
     ctx.fillStyle=pal.accent; ctx.fillRect(0,0,W,bandH);
     ctx.fillStyle=pal.on; ctx.textAlign="center"; ctx.textBaseline="middle";
+    /* Значок рисуется в правом верхнем углу — освобождаем под него место,
+       иначе он наезжает на заголовок. */
+    var badgeW=t.badge?Math.round(210*U):0;
+    var titleCx=(W-badgeW)/2, titleMax=W-badgeW-Math.round(70*U);
     var fs=Math.round(52*U);
     ctx.font="800 "+fs+"px 'Unbounded',sans-serif";
-    var ls=wrap(ctx,t.title||"",W*0.9);
-    while(ls.length>2 && fs>24){ fs-=4; ctx.font="800 "+fs+"px 'Unbounded',sans-serif"; ls=wrap(ctx,t.title||"",W*0.9); }
-    ls.slice(0,2).forEach(function(l,i){ ctx.fillText(l, W/2, bandH/2 + (i-(Math.min(ls.length,2)-1)/2)*fs*1.16); });
+    var ls=wrap(ctx,t.title||"",titleMax);
+    while(ls.length>2 && fs>22){ fs-=4; ctx.font="800 "+fs+"px 'Unbounded',sans-serif"; ls=wrap(ctx,t.title||"",titleMax); }
+    ls.slice(0,2).forEach(function(l,i){ ctx.fillText(l, titleCx, bandH/2 + (i-(Math.min(ls.length,2)-1)/2)*fs*1.16); });
     if(t.b.length){
       var by=H-Math.round(H*0.13), bh=Math.round(H*0.13);
       ctx.fillStyle=pal.soft; ctx.fillRect(0,by,W,bh);
