@@ -161,6 +161,19 @@
   .dash-intro{ padding:24px 0 8px; }
   .dash-intro h1{ font-size:1.7rem; margin-bottom:10px; }
   .dash-intro p{ color:var(--ink-soft); margin:0; }
+  .ws-promo{ background:var(--teal-dk,#052B2A); color:#FBF6EC; border-radius:20px;
+    padding:26px; margin:26px 0 8px; }
+  .ws-promo h2{ color:#fff; font-size:1.25rem; margin:6px 0 10px; }
+  .ws-promo p{ color:#CFE0DB; font-size:0.95rem; margin:0 0 12px; }
+  .ws-lab{ display:block; font-family:'JetBrains Mono',monospace; font-size:0.68rem;
+    text-transform:uppercase; letter-spacing:0.08em; color:#F2B705; }
+  .ws-promo ul{ margin:0 0 14px; padding-left:20px; }
+  .ws-promo li{ color:#CFE0DB; font-size:0.93rem; margin-bottom:6px; }
+  .ws-promo li b{ color:#fff; }
+  .ws-promo .ws-why{ font-size:0.9rem; }
+  .ws-promo .ws-why b{ color:#fff; }
+  .ws-btns{ display:flex; gap:10px; flex-wrap:wrap; }
+  .ws-promo .btn-ghost{ color:#FBF6EC; border-color:rgba(251,246,236,0.35); background:transparent; }
 
   .lesson-list{ display:flex; flex-direction:column; gap:12px; padding:22px 0 50px; }
   .lesson-card{
@@ -477,6 +490,22 @@
       </div>
 
       <div class="lesson-list" id="lessonList"></div>
+
+      <div class="ws-promo">
+        <span class="ws-lab">РџР»Р°С‚РЅР°СЏ СЃС‚СѓРїРµРЅСЊ</span>
+        <h2>РњР°СЃС‚РµСЂСЃРєР°СЏ: С‚СЂРё СЃС‚Р°РЅРєР°</h2>
+        <p>РџСЏС‚СЊ С€Р°РіРѕРІ РґРѕРІРѕРґСЏС‚ РґРѕ В«С‡РµРј СЏ СЌС‚Рѕ СЃРґРµР»Р°СЋВ». РњР°СЃС‚РµСЂСЃРєР°СЏ РѕС‚РІРµС‡Р°РµС‚: РёРЅСЃС‚СЂСѓРјРµРЅС‚С‹ Р¶РёРІСѓС‚ РїСЂСЏРјРѕ Р·РґРµСЃСЊ, РЅР° СЃР°Р№С‚Рµ, Рё СЂРµР±С‘РЅРѕРє РЅРёРіРґРµ РЅРµ СЂРµРіРёСЃС‚СЂРёСЂСѓРµС‚СЃСЏ.</p>
+        <ul>
+          <li><b>РљР°СЂС‚РѕС‡РєР° С‚РѕРІР°СЂР°</b> вЂ” РґРѕРјР°С€РЅРµРµ С„РѕС‚Рѕ РїСЂРµРІСЂР°С‰Р°РµС‚СЃСЏ РІ РєР°СЂС‚РѕС‡РєСѓ, РєРѕС‚РѕСЂСѓСЋ РїСЂРёРјРµС‚ РїР»РѕС‰Р°РґРєР°</li>
+          <li><b>РњРµРЅСЋ Рё РїСЂР°Р№СЃ</b> вЂ” СЂСѓРєРѕРїРёСЃРЅС‹Р№ СЃРїРёСЃРѕРє С†РµРЅ РІ С„Р°Р№Р» РґР»СЏ РїРµС‡Р°С‚Рё Рё РґР»СЏ РёРЅС‚РµСЂРЅРµС‚Р°</li>
+          <li><b>РћР±Р»РѕР¶РєР° РєР°РЅР°Р»Р°</b> вЂ” РєР°РґСЂ РІ РѕР±Р»РѕР¶РєСѓ, РєРѕС‚РѕСЂСѓСЋ РІРёРґРЅРѕ РІ РјРµР»РєРѕРј РїСЂРµРІСЊСЋ</li>
+        </ul>
+        <p class="ws-why">РљР°Р¶РґС‹Р№ СЃС‚Р°РЅРѕРє СЃРѕР±РёСЂР°РµС‚ РЅРµ РєР°СЂС‚РёРЅРєСѓ, Р° <b>СЃРґР°С‡Сѓ Р·Р°РєР°Р·Р° С†РµР»РёРєРѕРј</b>: С„Р°Р№Р»С‹ РІ СЂР°Р·РјРµСЂР°С… РІСЃРµС… РїР»РѕС‰Р°РґРѕРє Р·Р° РѕРґРёРЅ РїСЂРѕРіРѕРЅ, С‚РµРєСЃС‚ РІ РёС… Р»РёРјРёС‚Р°С…, РїСЂРѕРІРµСЂРєСѓ РЅР° С‚Рѕ, Р·Р° С‡С‚Рѕ СЂР°Р±РѕС‚Сѓ РІРµСЂРЅСѓС‚, Рё РєР°СЂС‚РёРЅРєСѓ В«Р±С‹Р»Рѕ в†’ СЃС‚Р°Р»РѕВ» РґР»СЏ СЂР°Р·РіРѕРІРѕСЂР° СЃ Р·Р°РєР°Р·С‡РёРєРѕРј.</p>
+        <div class="ws-btns">
+          <a class="btn" href="/masterskaya/">РџРѕСЃРјРѕС‚СЂРµС‚СЊ, РєР°Рє СЂР°Р±РѕС‚Р°РµС‚</a>
+          <a class="btn btn-ghost" href="/#price">РћС‚РєСЂС‹С‚СЊ РјР°СЃС‚РµСЂСЃРєСѓСЋ</a>
+        </div>
+      </div>
 
       <div class="cert-block" id="certBlock" hidden></div>
     </div>
@@ -988,8 +1017,15 @@
   function unlock(){
     gate.hidden = true;
     app.hidden = false;
+    var code = read(KEY_AUTH) || "";
     var codeEl = document.getElementById("codeDisplay");
-    if(codeEl) codeEl.textContent = read(KEY_AUTH) || "";
+    if(codeEl){
+      codeEl.textContent = code;
+      var holder = codeEl.parentNode;
+      if(holder) holder.hidden = !code;
+    }
+    var exitB = document.getElementById("exitBtn");
+    if(exitB) exitB.hidden = !code;
     var refundEl = document.getElementById("refundLink");
     var pid = read(KEY_PID);
     if(refundEl && pid){
@@ -1514,13 +1550,14 @@
     if(saved) verifyCode(saved, unlock, function(){});
   }
 
+  /* РџСЏС‚СЊ С€Р°РіРѕРІ Р±РµСЃРїР»Р°С‚РЅС‹: РєР°Р±РёРЅРµС‚ РѕС‚РєСЂС‹РІР°РµС‚СЃСЏ СЃСЂР°Р·Сѓ, Р±РµР· РєРѕРґР°.
+     РљРѕРґ РїРѕ-РїСЂРµР¶РЅРµРјСѓ РЅСѓР¶РµРЅ РјР°СЃС‚РµСЂСЃРєРѕР№ Рё Р·Р°РїРѕРјРёРЅР°РµС‚СЃСЏ, РµСЃР»Рё РїСЂРёС€С‘Р». */
   if(urlCode){
-    verifyCode(urlCode, function(){
-      store(KEY_AUTH, urlCode);
-      unlock();
-    }, trySaved);
+    verifyCode(urlCode, function(){ store(KEY_AUTH, urlCode); unlock(); }, unlock);
   } else {
-    trySaved();
+    var saved = read(KEY_AUTH);
+    if(saved) verifyCode(saved, unlock, unlock);
+    else unlock();
   }
 })();
 </script>
