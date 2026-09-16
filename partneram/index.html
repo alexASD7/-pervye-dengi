@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Партнёрам — Первые деньги</title>
+<meta name="description" content="Рекомендуйте программу «Первые деньги» и получайте 725 ₽ с каждой оплаты. Персональная ссылка, автоматический учёт, выплата после закрытия срока возврата.">
+<link rel="canonical" href="https://pervye-dengi.com/partneram/">
+<meta name="robots" content="index,follow">
+<link rel="stylesheet" href="/assets/fonts.css">
+<style>
+  :root{
+    --teal-950:#052B2A;
+    --teal-800:#0A4744;
+    --teal-700:#0F6259;
+    --gold-500:#F2B705;
+    --paper-050:#FBF6EC;
+    --card-050:#FFFFFF;
+    --ink-900:#16241F;
+    --ink-600:#4E5D56;
+    --line:#E4DBC8;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --paper-050:#0B1512; --card-050:#10221F; --ink-900:#EDEAE2; --ink-600:#B7C4BD; --line:#20342F; color-scheme: dark; }
+  }
+  :root[data-theme="dark"]{ --paper-050:#0B1512; --card-050:#10221F; --ink-900:#EDEAE2; --ink-600:#B7C4BD; --line:#20342F; color-scheme: dark; }
+  :root[data-theme="light"]{ --paper-050:#FBF6EC; --card-050:#FFFFFF; --ink-900:#16241F; --ink-600:#4E5D56; --line:#E4DBC8; color-scheme: light; }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--paper-050); color:var(--ink-900);
+    font-family:'PT Sans',-apple-system,sans-serif;
+    font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{ color:inherit; }
+  .wrap{ max-width:680px; margin:0 auto; padding:0 24px; }
+
+  .topnav{ background:var(--card-050); border-bottom:1px solid var(--line); }
+  .topnav-inner{ max-width:680px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .topnav-logo{ font-family:'Unbounded',sans-serif; font-weight:700; font-size:0.95rem; color:var(--ink-900); text-decoration:none; white-space:nowrap; }
+  .topnav-links{ display:flex; gap:16px; }
+  .topnav-links a{ font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:var(--ink-600); text-decoration:none; white-space:nowrap; }
+  .topnav-links a:hover{ color:var(--teal-700); }
+
+  .head{
+    background:linear-gradient(165deg, var(--teal-700) 0%, var(--teal-950) 78%);
+    color:#F4EFE2; padding:44px 0 38px;
+  }
+  .head h1{
+    font-family:'Unbounded',sans-serif; font-weight:800;
+    font-size:clamp(1.7rem, 4.4vw + 0.5rem, 2.3rem);
+    line-height:1.16; margin:0 0 14px; color:#FBF6EC;
+  }
+  .head p{ color:#CFE3DD; margin:0; max-width:46ch; }
+
+  .money{
+    display:inline-flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+    margin-top:20px;
+    font-family:'JetBrains Mono',monospace;
+  }
+  .money .big{ font-size:2.4rem; font-weight:700; color:var(--gold-500); }
+  .money .small{ font-size:0.95rem; color:#CFE3DD; }
+
+  section{ padding:40px 0; border-bottom:1px solid var(--line); }
+  section:last-of-type{ border-bottom:none; }
+  h2{ font-family:'Unbounded',sans-serif; font-weight:800; font-size:1.35rem; margin:0 0 14px; }
+  p{ margin:0 0 14px; }
+  p:last-child{ margin-bottom:0; }
+  .muted{ color:var(--ink-600); }
+
+  .card{ background:var(--card-050); border:1px solid var(--line); border-radius:16px; padding:22px 24px; }
+
+  ul{ margin:0; padding-left:22px; }
+  li{ margin-bottom:10px; }
+  li:last-child{ margin-bottom:0; }
+
+  .linkbox{
+    background:var(--card-050); border:2px dashed var(--teal-700);
+    border-radius:12px; padding:16px 18px; margin-top:14px;
+    font-family:'JetBrains Mono',monospace; font-size:0.92rem;
+    word-break:break-all;
+  }
+
+  table{ width:100%; border-collapse:collapse; margin-top:8px; }
+  th,td{ text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); font-size:0.96rem; vertical-align:top; }
+  th{ font-family:'JetBrains Mono',monospace; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-600); }
+  .tbl-wrap{ overflow-x:auto; }
+
+  .no{ border-left:3px solid #B4451F; padding-left:16px; }
+
+  .cta-btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:9px;
+    background:var(--gold-500); color:#22190A;
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1rem;
+    padding:15px 26px; border-radius:12px; text-decoration:none; width:fit-content;
+    box-shadow:0 10px 24px -10px rgba(242,183,5,0.55);
+  }
+  .cta-btn:focus-visible{ outline:3px solid var(--teal-700); outline-offset:3px; }
+
+  footer{ padding:36px 0 52px; text-align:center; }
+  footer a{
+    font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:var(--ink-600);
+    text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:2px; margin:0 9px;
+  }
+  footer a:hover{ color:var(--teal-700); }
+</style>
+</head>
+<body>
+<header class="topnav">
+  <div class="topnav-inner">
+    <a class="topnav-logo" href="/">Первые деньги</a>
+    <nav class="topnav-links">
+      <a href="/probny-urok/">Пробный шаг</a>
+      <a href="/blog/">Блог</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="head">
+    <div class="wrap">
+      <h1>Рекомендуйте программу и получайте четверть с каждой оплаты</h1>
+      <p>Если вы работаете с родителями подростков, это способ и помочь им, и заработать. Без вложений, без склада, без созвонов.</p>
+      <div class="money">
+        <span class="big">725 ₽</span>
+        <span class="small">с каждой оплаты при цене 2900 ₽</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <section>
+      <h2>Кому это подходит</h2>
+      <ul>
+        <li>Каналам и сообществам, где читают родители детей 12–17 лет.</li>
+        <li>Репетиторам, педагогам, психологам и профориентологам, которые и так разговаривают с семьёй.</li>
+        <li>Администраторам родительских чатов класса и школы.</li>
+        <li>Тем, кто ведёт блог про воспитание, деньги или подростков.</li>
+      </ul>
+      <p class="muted" style="margin-top:16px">Размер аудитории значения не имеет. Пятьдесят родителей, которые вам доверяют, работают лучше, чем десять тысяч случайных подписчиков.</p>
+    </section>
+
+    <section>
+      <h2>Как это устроено</h2>
+      <p>Вы получаете персональную ссылку. Метка из неё приходит вместе с платежом, поэтому считать вручную ничего не нужно и просить покупателя что-то называть тоже не нужно.</p>
+      <div class="linkbox">https://pervye-dengi.com/pay?ref=<strong>ваша-метка</strong></div>
+      <p class="muted" style="margin-top:14px">Метку выбираете сами: имя, название канала, что угодно латиницей. Ссылку можно ставить в описание профиля, в пост, в сообщение родителю.</p>
+    </section>
+
+    <section>
+      <h2>Сколько и когда</h2>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Сколько</th><td><strong>25% с каждой оплаты.</strong> Сейчас это 725 ₽ при цене программы 2900 ₽. Когда цена станет 3900 ₽, доля останется прежней.</td></tr>
+          <tr><th>За что</th><td>За оплаченную покупку, пришедшую по вашей ссылке. Не за переход, не за подписку, не за просмотр.</td></tr>
+          <tr><th>Когда платим</th><td>После того, как закроется срок возврата по покупке. Раз в месяц, одним переводом за все покупки месяца.</td></tr>
+          <tr><th>Куда платим</th><td>На карту или как самозанятому. Если вы самозанятый, это удобнее для обеих сторон.</td></tr>
+          <tr><th>Если покупку вернули</th><td>Вознаграждение по ней не начисляется. Это единственный случай, когда оплата не засчитывается.</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>Чего делать нельзя</h2>
+      <div class="card no">
+        <ul>
+          <li><strong>Обещать ребёнку заработок.</strong> Программа не гарантирует денег и честно об этом пишет внутри. Обещание «заработает столько-то» мы просим не использовать никогда.</li>
+          <li><strong>Писать от имени школы.</strong> Вы рекомендуете со своей стороны, как человек, а не как наш сотрудник.</li>
+          <li><strong>Покупать рекламу по названию.</strong> Запросы со словами «первые деньги» и названием школы мы оставляем за собой.</li>
+          <li><strong>Рассылать без спроса.</strong> Массовые сообщения незнакомым людям вредят и вам, и нам.</li>
+        </ul>
+      </div>
+      <p class="muted" style="margin-top:16px">Нарушение любого пункта закрывает участие и отменяет невыплаченное вознаграждение. Правило одно и простое: мы продаём родителям подростков, и репутация здесь дороже разовой продажи.</p>
+    </section>
+
+    <section>
+      <h2>Что вы отдаёте родителю</h2>
+      <p>Программу из пяти шагов для подростка 13–16 лет: найти заказчика с деньгами, посчитать цену, показать образец и договориться, выполнить и получить оплату, разделить заработанное.</p>
+      <p>Внутри есть разбор для родителя в каждом шаге и прямой запрет на дропперство, ставки, криптовалюту и продажу аккаунтов. Возврат четырнадцать дней без объяснения причин, поэтому рекомендовать не страшно.</p>
+      <p><a href="/">Посмотреть, что именно получает семья →</a></p>
+    </section>
+
+    <section>
+      <h2>Как начать</h2>
+      <p>Напишите в поддержку, что хотите участвовать, и придумайте себе метку. В ответ придёт готовая ссылка и короткое описание программы, которое можно взять за основу поста.</p>
+      <p style="margin-top:20px"><a class="cta-btn" href="https://t.me/ervyedengi_support_bot">Написать и получить ссылку</a></p>
+    </section>
+
+  </div>
+
+  <footer>
+    <a href="/">На главную</a>
+    <a href="/oferta/">Оферта</a>
+    <a href="/blog/">Статьи</a>
+    <a href="https://t.me/ervyedengi_support_bot">Поддержка</a>
+  </footer>
+</main>
+</body>
+</html>
