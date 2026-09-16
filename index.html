@@ -295,32 +295,7 @@
   .topnav-links a{ font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:var(--ink-600); text-decoration:none; white-space:nowrap; }
   .topnav-links a:hover{ color:var(--teal-700); }
   .topnav-links a.active{ color:var(--teal-700); font-weight:700; }
-  .ladder{ display:flex; flex-direction:column; gap:10px; margin-top:20px; }
-  .lad{ display:flex; gap:14px; align-items:flex-start; text-decoration:none;
-    background:var(--card-050); border:1px solid var(--line); border-radius:14px;
-    padding:15px 16px; transition:border-color .15s ease, transform .15s ease; }
-  .lad:hover{ border-color:var(--teal-700); transform:translateY(-2px); }
-  .lad-n{ flex:0 0 auto; width:32px; height:32px; border-radius:10px; background:var(--teal-700);
-    color:#fff; display:flex; align-items:center; justify-content:center;
-    font-family:'Unbounded',sans-serif; font-weight:800; font-size:0.9rem; }
-  .lad-b{ min-width:0; }
-  .lad-t{ display:block; font-family:'Unbounded',sans-serif; font-weight:700; font-size:0.95rem;
-    color:var(--ink-900); line-height:1.3; margin-bottom:5px; }
-  .lad-s{ font-family:'JetBrains Mono',monospace; font-style:normal; font-size:0.62rem;
-    text-transform:uppercase; letter-spacing:0.06em; padding:3px 8px; border-radius:99px;
-    vertical-align:2px; white-space:nowrap; }
-  .lad-s.open{ background:rgba(15,98,89,0.12); color:var(--teal-700); }
-  .lad-s.work{ background:rgba(242,183,5,0.22); color:#7A5C00; }
-  .lad-s.soon{ background:rgba(78,93,86,0.13); color:var(--ink-600); }
-  .lad-d{ display:block; font-size:0.9rem; color:var(--ink-600); line-height:1.5; }
-  .lad-more{ font-family:'JetBrains Mono',monospace; font-size:0.85rem; color:var(--teal-700); }
-  .free-card{ background:var(--card-050); border:2px solid var(--teal-700); border-radius:18px;
-    padding:22px; margin-bottom:16px; }
-  .free-card h3{ font-family:'Unbounded',sans-serif; font-size:1.15rem; margin:6px 0 8px; }
-  .free-card p{ color:var(--ink-600); font-size:0.95rem; margin:0 0 16px; }
-  .free-lab{ display:block; font-family:'JetBrains Mono',monospace; font-size:0.68rem;
-    text-transform:uppercase; letter-spacing:0.08em; color:var(--teal-700); }
-  @media(max-width:480px){ .lad{ padding:13px 14px; gap:11px; } .lad-t{ font-size:0.9rem; } }
+
 
 
   .reveal{ opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease; }
@@ -333,7 +308,6 @@
   <div class="topnav-inner">
     <a class="topnav-logo" href="/">Первые деньги</a>
     <nav class="topnav-links">
-      <a href="/put/">Путь</a>
       <a href="/probny-urok/">Пробный шаг</a>
       <a href="/blog/">Блог</a>
     </nav>
@@ -356,7 +330,7 @@
       </svg>
 
       <h1 class="display">Первые деньги: не «вот тебе телефон, зарабатывай», а понятная структура для подростка</h1>
-      <p class="sub">Пять практических шагов: как подросток 13&ndash;16 лет может заработать свои первые деньги. Под присмотром, без риска. <b>Сами шаги — бесплатно.</b></p>
+      <p class="sub">Пять практических шагов: как подросток 13&ndash;16 лет может заработать свои первые деньги. Под присмотром, без риска.</p>
 
       <div class="chips">
         <span class="chip"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4l3 2"/></svg>1&ndash;2 недели</span>
@@ -365,14 +339,14 @@
       </div>
 
       <div class="cta-row">
-        <a class="cta-btn" href="/kurs/">
-          Открыть пять шагов — бесплатно
+        <a class="cta-btn" href="https://pervye-dengi.com/pay">
+          Оплатить — 1490 ₽
         </a>
-        <a class="cta-btn-secondary" href="/masterskaya/">
-          Посмотреть мастерскую
+        <a class="cta-btn-secondary" href="/probny-urok/">
+          Сначала бесплатный шаг
         </a>
       </div>
-      <span class="cta-note">Пять шагов открыты целиком, без оплаты и без регистрации. Платная ступень — мастерская с инструментами</span>
+      <span class="cta-note">Бронь — чат в Telegram. Пробный шаг — сразу на странице, без оплаты</span>
     </div>
   </div>
 
@@ -415,67 +389,17 @@
     </section>
 
     
-    <section class="reveal" id="put">
-      <h2>Куда это ведёт дальше</h2>
-      <p>Пять шагов — первая ступень из четырёх, и она бесплатная. Дальше идёт мастерская с инструментами, потом большая программа и работа куратором. Честно помечено, что уже открыто, а что ещё строится.</p>
-
-      <div class="ladder">
-        <a class="lad" href="/put/#t1">
-          <span class="lad-n">1</span>
-          <span class="lad-b">
-            <span class="lad-t">Пять шагов <em class="lad-s open">бесплатно</em></span>
-            <span class="lad-d">Чужой человек платит за сделанную работу. Деньги получены, разделены, работа сохранена в портфолио.</span>
-          </span>
-        </a>
-        <a class="lad" href="/put/#t2">
-          <span class="lad-n">2</span>
-          <span class="lad-b">
-            <span class="lad-t">Мастерская <em class="lad-s open">открыта</em></span>
-            <span class="lad-d">Три станка: карточка товара, меню и прайс, обложка канала. Ребёнок нигде не регистрируется.</span>
-          </span>
-        </a>
-        <a class="lad" href="/put/#t3">
-          <span class="lad-n">3</span>
-          <span class="lad-b">
-            <span class="lad-t">Большая программа <em class="lad-s soon">в разработке</em></span>
-            <span class="lad-d">Девяносто шагов до дела, которое приносит деньги без постоянного присутствия владельца.</span>
-          </span>
-        </a>
-        <a class="lad" href="/put/#t4">
-          <span class="lad-n">4</span>
-          <span class="lad-b">
-            <span class="lad-t">Кураторство <em class="lad-s soon">позже</em></span>
-            <span class="lad-d">Выпускник ведёт другие пары и получает за результат — за тех, кого довёл до первых денег.</span>
-          </span>
-        </a>
-      </div>
-
-      <p style="margin-top:18px"><a href="/put/" class="lad-more">Полный расклад по всем четырём ступеням →</a></p>
-    </section>
-
     <section id="price" class="reveal">
-      <h2>Что бесплатно, а что за деньги</h2>
-
-      <div class="free-card">
-        <span class="free-lab">Бесплатно, навсегда</span>
-        <h3>Пять шагов</h3>
-        <p>Найти заказчика с деньгами → посчитать цену → показать образец и договориться письменно → сделать и получить → разделить и закрепить. Целиком, без оплаты и без регистрации.</p>
-        <a class="cta-btn-secondary" href="/kurs/">Открыть пять шагов</a>
-      </div>
-
+      <h2>Цена</h2>
       <div class="price-card">
-        <span class="free-lab" style="color:var(--gold-500)">Платная ступень</span>
-        <h3 style="color:#fff;margin:6px 0 4px">Мастерская: три станка</h3>
-        <p class="price-cond" style="margin-bottom:14px">Карточка товара, меню и прайс, обложка канала. Инструменты живут на нашем сайте — ребёнок нигде не регистрируется.</p>
         <div class="price-row">
           <span class="price-now" id="priceNow">1490 ₽</span>
           <span class="price-then">2490 ₽</span>
         </div>
-        <p class="price-cond">Один раз, навсегда. Цена первого набора, дальше — 2490 ₽</p>
+        <p class="price-cond">Цена первого набора. Дальше — 2490 ₽</p>
         <a class="cta-btn" href="https://pervye-dengi.com/pay">
-          Открыть мастерскую — 1490 ₽
+          Оплатить — 1490 ₽
         </a>
-        <p class="price-cond" style="margin-top:12px">Каждый станок можно открыть и прогнать через него своё до оплаты — <a href="/masterskaya/" style="color:inherit;text-decoration:underline">посмотреть, как работает</a>. По коду выгружаются файлы.</p>
       </div>
     </section>
 
@@ -509,26 +433,10 @@
     "url": "https://pervye-dengi.com/"
   },
   "url": "https://pervye-dengi.com/",
-  "hasCourseInstance": {
-    "@type": "CourseInstance",
-    "courseMode": "online",
-    "name": "Пять шагов до первых денег",
-    "description": "Пять шагов открыты бесплатно и целиком.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "RUB",
-      "availability": "https://schema.org/InStock",
-      "url": "https://pervye-dengi.com/kurs/"
-    }
-  },
   "offers": {
     "@type": "Offer",
-    "name": "Мастерская: три станка",
-    "description": "Инструменты на сайте: карточка товара, меню и прайс, обложка канала.",
     "price": "1490",
     "priceCurrency": "RUB",
-    "availability": "https://schema.org/InStock",
     "url": "https://pervye-dengi.com/pay"
   }
 }
