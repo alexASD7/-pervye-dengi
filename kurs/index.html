@@ -161,19 +161,6 @@
   .dash-intro{ padding:24px 0 8px; }
   .dash-intro h1{ font-size:1.7rem; margin-bottom:10px; }
   .dash-intro p{ color:var(--ink-soft); margin:0; }
-  .ws-promo{ background:var(--teal-dk,#052B2A); color:#FBF6EC; border-radius:20px;
-    padding:26px; margin:26px 0 8px; }
-  .ws-promo h2{ color:#fff; font-size:1.25rem; margin:6px 0 10px; }
-  .ws-promo p{ color:#CFE0DB; font-size:0.95rem; margin:0 0 12px; }
-  .ws-lab{ display:block; font-family:'JetBrains Mono',monospace; font-size:0.68rem;
-    text-transform:uppercase; letter-spacing:0.08em; color:#F2B705; }
-  .ws-promo ul{ margin:0 0 14px; padding-left:20px; }
-  .ws-promo li{ color:#CFE0DB; font-size:0.93rem; margin-bottom:6px; }
-  .ws-promo li b{ color:#fff; }
-  .ws-promo .ws-why{ font-size:0.9rem; }
-  .ws-promo .ws-why b{ color:#fff; }
-  .ws-btns{ display:flex; gap:10px; flex-wrap:wrap; }
-  .ws-promo .btn-ghost{ color:#FBF6EC; border-color:rgba(251,246,236,0.35); background:transparent; }
 
   .lesson-list{ display:flex; flex-direction:column; gap:12px; padding:22px 0 50px; }
   .lesson-card{
@@ -466,9 +453,7 @@
       <div class="brand">Первые <span>деньги</span></div>
       <div style="display:flex;align-items:center;gap:14px">
         <span style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;opacity:0.75" title="Сохрани этот код — он понадобится для повторного входа">Код входа: <b id="codeDisplay"></b></span>
-        <a href="/masterskaya/" class="head-btn">Мастерская</a>
-        <a href="/put/" class="head-btn">Путь</a>
-<button class="head-btn" id="exitBtn">Выйти</button>
+        <button class="head-btn" id="exitBtn">Выйти</button>
       </div>
     </div>
   </header>
@@ -490,22 +475,6 @@
       </div>
 
       <div class="lesson-list" id="lessonList"></div>
-
-      <div class="ws-promo">
-        <span class="ws-lab">Платная ступень</span>
-        <h2>Мастерская: три станка</h2>
-        <p>Пять шагов доводят до вопроса «а чем я это сделаю». Мастерская на него отвечает: инструменты живут прямо здесь, на сайте, и ребёнок нигде не регистрируется.</p>
-        <ul>
-          <li><b>Карточка товара</b> — домашнее фото превращается в карточку, которую примет площадка</li>
-          <li><b>Меню и прайс</b> — рукописный список цен в файл для печати и для интернета</li>
-          <li><b>Обложка канала</b> — кадр в обложку, которую видно в мелком превью</li>
-        </ul>
-        <p class="ws-why">Каждый станок собирает не картинку, а <b>сдачу заказа целиком</b>: файлы в размерах всех площадок за один прогон, текст в их лимитах, проверку на то, за что работу вернут, и картинку «было → стало» для разговора с заказчиком.</p>
-        <div class="ws-btns">
-          <a class="btn" href="/masterskaya/">Посмотреть, как работает</a>
-          <a class="btn btn-ghost" href="/#price">Открыть мастерскую</a>
-        </div>
-      </div>
 
       <div class="cert-block" id="certBlock" hidden></div>
     </div>
@@ -615,7 +584,7 @@
       '<li><strong>У него видно место, где сделано плохо.</strong> Если всё уже вылизано — там работает кто-то другой, и тебе туда не нужно.</li>'+
       '</ul>'+
 
-      '<h2>Где их искать</h2>'+
+      '<h2>Где такие водятся</h2>'+
       '<h3>Продавцы на маркетплейсах</h3>'+
       '<p>Самое плотное место. Тысячи мелких продавцов, и у доброй половины карточки сняты на телефон дома. Оборот у них идёт каждый день, и каждая плохая фотография стоит им продаж — то есть твоя работа окупается сразу, и они это понимают без объяснений.</p>'+
       '<h3>Мелкий местный бизнес</h3>'+
@@ -762,10 +731,7 @@
       '<li><strong>Текст.</strong> Описание товара, заголовок ролика, подпись — то, что дольше всего висит неисправленным, потому что писать никому не хочется.</li>'+
       '</ul>'+
       '<div class="callout warn"><span class="callout-label">Про нейросети и регистрации</span><p>Нейросети многое из этого делают за минуты, и пользоваться ими нормально. Но: <strong>у части сервисов доступ только с 18 лет, а у остальных до 18 — с согласия родителей.</strong> Это не формальность на бумаге, а их правила, и аккаунт, заведённый в обход, могут просто закрыть вместе со всей твоей работой. Регистрируйся вместе со взрослым — заодно будет кому оплатить подписку, если она понадобится.</p></div>'+
-      '<div class="callout"><span class="callout-label">Станок карточек — уже открыт</span>'+
-      '<p>Если твой заказчик — продавец на маркетплейсе, не мучайся вручную. В <a href="/masterskaya/" style="color:inherit"><strong>мастерской</strong></a> работает станок карточек: загружаешь одно домашнее фото — получаешь главное фото на чистом фоне, карточку с подписями, название и описание в лимитах площадки и готовую картинку <strong>«было → стало»</strong> — ровно ту, которую и надо отправить заказчику по этому шагу.</p>'+
-      '<p>Вход по тому же коду, что и сюда. Регистрироваться нигде не нужно.</p></div>'+
-      '<p><strong>Честно:</strong> станок пока один, и он про карточки товара. Для меню, обложек и всего остального ремесло на первый заказ у тебя уже есть — оно в телефоне.</p>'+
+      '<p><strong>Честно:</strong> инструментов мы тебе не даём — эта программа про другое: как найти того, у кого есть деньги, договориться и не остаться без оплаты. Ремесло на первый заказ у тебя уже есть, оно в телефоне.</p>'+
 
       '<h2>Здесь отваливается большинство</h2>'+
       '<p>Скажу честно: первые два шага делают почти все. Приятно составлять списки и считать цены — ты вроде занят делом и при этом ничем не рискуешь.</p>'+
@@ -963,7 +929,7 @@
 
       '<h2>Сохрани работу, пока не потерял</h2>'+
       '<p>Сейчас самое время сделать то, что почти никто не делает, и что через полгода будет стоить дороже самих денег.</p>'+
-      '<p><strong>Сохрани «было» и «стало».</strong> Скриншот старой карточки рядом с новой. Меню до и после. Обложка, которую заменил. Положи в отдельную папку, подпиши датой и заказчиком. Если работал в <a href="/masterskaya/" style="color:inherit">мастерской</a> — такая картинка уже собрана, просто скачай её.</p>'+
+      '<p><strong>Сохрани «было» и «стало».</strong> Скриншот старой карточки рядом с новой. Меню до и после. Обложка, которую заменил. Положи в отдельную папку, подпиши датой и заказчиком.</p>'+
       '<p>Через месяц ты этого не найдёшь: карточку заменят, меню перепечатают, ролик удалят. Через полгода у тебя будет десять выполненных заказов и ни одного доказательства.</p>'+
       '<div class="callout"><span class="callout-label">Зачем это на самом деле</span><p>Со следующим заказчиком тебе больше не придётся ничего обещать и уговаривать. Ты просто показываешь: «вот что было, вот что стало, вот сколько это стоило». Человек смотрит и решает. Это работает в сто раз лучше любых слов о себе — и именно это отличает того, кому платят, от того, кто ищет шанс.</p></div>'+
 
@@ -1017,15 +983,8 @@
   function unlock(){
     gate.hidden = true;
     app.hidden = false;
-    var code = read(KEY_AUTH) || "";
     var codeEl = document.getElementById("codeDisplay");
-    if(codeEl){
-      codeEl.textContent = code;
-      var holder = codeEl.parentNode;
-      if(holder) holder.hidden = !code;
-    }
-    var exitB = document.getElementById("exitBtn");
-    if(exitB) exitB.hidden = !code;
+    if(codeEl) codeEl.textContent = read(KEY_AUTH) || "";
     var refundEl = document.getElementById("refundLink");
     var pid = read(KEY_PID);
     if(refundEl && pid){
@@ -1550,14 +1509,13 @@
     if(saved) verifyCode(saved, unlock, function(){});
   }
 
-  /* Пять шагов бесплатны: кабинет открывается сразу, без кода.
-     Код по-прежнему нужен мастерской и запоминается, если пришёл. */
   if(urlCode){
-    verifyCode(urlCode, function(){ store(KEY_AUTH, urlCode); unlock(); }, unlock);
+    verifyCode(urlCode, function(){
+      store(KEY_AUTH, urlCode);
+      unlock();
+    }, trySaved);
   } else {
-    var saved = read(KEY_AUTH);
-    if(saved) verifyCode(saved, unlock, unlock);
-    else unlock();
+    trySaved();
   }
 })();
 </script>
