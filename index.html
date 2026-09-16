@@ -6,12 +6,12 @@
 <meta name="yandex-verification" content="84058810f4103dab" />
 <meta name="google-site-verification" content="7K6jH65dflNA8icy99hUvdVk9EPeYFG4Qkd2sS_S6ik" />
 <title>Первые деньги — программа для подростка</title>
-<meta name="description" content="Пять практических шагов для подростка 13-16 лет: как найти заказчика, у которого есть деньги, и заработать свои первые — безопасно, под присмотром, без крипты и сомнительных схем.">
+<meta name="description" content="Подросток 13-16 лет проходит весь путь до первых заработанных денег: находит заказчика, считает цену, договаривается, делает, получает оплату. Пять шагов, по одному в день.">
 <link rel="canonical" href="https://pervye-dengi.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Первые деньги">
 <meta property="og:title" content="Первые деньги — программа для подростка">
-<meta property="og:description" content="Пять практических шагов: как подросток 13-16 лет может найти заказчика с деньгами и заработать свои первые.">
+<meta property="og:description" content="Пять шагов до первых заработанных денег: найти заказчика, посчитать цену, договориться, сделать, получить оплату.">
 <meta property="og:url" content="https://pervye-dengi.com/">
 <meta property="og:locale" content="ru_RU">
 <meta name="twitter:card" content="summary">
@@ -39,7 +39,7 @@
 <!-- /Yandex.Metrika counter -->
 <link rel="stylesheet" href="/assets/fonts.css">
 <style>
-  
+
 
   :root{
     --teal-950:#052B2A;
@@ -126,8 +126,8 @@
   }
   .eyebrow-dot{ width:6px; height:6px; border-radius:50%; background:var(--gold-500); }
   .hero h1{
-    font-size:clamp(1.9rem, 5vw + 0.5rem, 2.7rem);
-    line-height:1.14;
+    font-size:clamp(1.75rem, 4.6vw + 0.5rem, 2.5rem);
+    line-height:1.16;
     margin:0;
     color:#FBF6EC;
   }
@@ -198,6 +198,7 @@
     margin:0 0 16px;
     color:var(--ink-900);
   }
+  h2 + .sec-lead{ margin-top:-6px; margin-bottom:18px; color:var(--ink-600); }
   p{ color:var(--ink-900); margin:0 0 14px; }
   p:last-child{ margin-bottom:0; }
   .muted{ color:var(--ink-600); }
@@ -219,14 +220,54 @@
   .list-icon svg{ width:17px; height:17px; }
   .list-text{ padding-top:5px; }
 
-  .kaizen{
-    font-family:'PT Sans',sans-serif;
-    font-style:italic;
-    font-size:1.08rem;
-    color:var(--ink-900);
-    border-left:3px solid var(--gold-500);
-    padding-left:16px;
-    margin:18px 0 0;
+  /* ---------- Пять шагов ---------- */
+  .steps{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px; }
+  .step{
+    display:flex; gap:14px; align-items:flex-start;
+    background:var(--card-050);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px 18px;
+  }
+  .step-num{
+    flex:none; width:30px; height:30px; border-radius:9px;
+    background:var(--teal-700); color:#F4EFE2;
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.92rem;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .step-body{ min-width:0; }
+  .step-title{ font-family:'Unbounded',sans-serif; font-weight:700; font-size:1rem; margin:2px 0 4px; }
+  .step-out{ font-family:'JetBrains Mono',monospace; font-size:0.86rem; color:var(--teal-700); }
+  :root[data-theme="dark"] .step-out{ color:#7FBFB2; }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .step-out{ color:#7FBFB2; } }
+
+  /* ---------- Безопасность ---------- */
+  .safety{
+    background:linear-gradient(165deg, var(--teal-800), var(--teal-950));
+    color:#F4EFE2;
+    border-radius:18px;
+    padding:28px 26px;
+  }
+  .safety h3{
+    font-family:'Unbounded',sans-serif; font-weight:800;
+    font-size:1.15rem; margin:0 0 12px; color:#FBF6EC;
+  }
+  .safety p{ color:#CFE3DD; }
+  .safety ul{ margin:14px 0 0; padding:0 0 0 20px; color:#F4EFE2; }
+  .safety li{ margin-bottom:8px; }
+  .safety li:last-child{ margin-bottom:0; }
+  .safety .hard{ color:var(--gold-500); font-weight:700; }
+
+  /* ---------- Гарантия ---------- */
+  .guarantee{
+    background:var(--card-050);
+    border:2px solid var(--teal-700);
+    border-radius:16px;
+    padding:22px 24px;
+  }
+  .guarantee-title{
+    font-family:'Unbounded',sans-serif; font-weight:800; font-size:1.08rem;
+    margin:0 0 8px;
   }
 
   /* price */
@@ -252,6 +293,22 @@
   .price-then{ font-family:'JetBrains Mono',monospace; font-size:1rem; color:#AFC7C0; text-decoration:line-through; text-decoration-color:#5A7A72; }
   .price-cond{ font-family:'JetBrains Mono',monospace; font-size:0.88rem; color:#CFE3DD; margin-top:8px; }
   .price-card .cta-btn{ margin:20px auto 0; }
+  .payback{
+    margin:18px auto 0; max-width:44ch;
+    color:#CFE3DD; font-size:0.97rem; text-align:left;
+    border-left:3px solid var(--gold-500); padding-left:14px;
+  }
+
+  /* who */
+  .who{
+    background:var(--card-050);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:22px 24px;
+  }
+  .who dl{ margin:12px 0 0; display:grid; grid-template-columns:auto 1fr; gap:6px 16px; font-size:0.94rem; }
+  .who dt{ font-family:'JetBrains Mono',monospace; color:var(--ink-600); }
+  .who dd{ margin:0; }
 
   /* FAQ */
   details{
@@ -268,7 +325,9 @@
     list-style:none;
   }
   summary::-webkit-details-marker{ display:none; }
-  summary .plus{ flex:none; font-size:1.3rem; color:var(--gold-600); transition:transform 0.2s ease; }
+  summary .plus{ flex:none; font-size:1.3rem; color:var(--teal-700); transition:transform 0.2s ease; }
+  :root[data-theme="dark"] summary .plus{ color:#7FBFB2; }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) summary .plus{ color:#7FBFB2; } }
   details[open] summary .plus{ transform:rotate(45deg); }
   summary:focus-visible{ outline:2px solid var(--teal-700); outline-offset:4px; }
   details p{ margin-top:12px; color:var(--ink-600); }
@@ -295,8 +354,6 @@
   .topnav-links a{ font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:var(--ink-600); text-decoration:none; white-space:nowrap; }
   .topnav-links a:hover{ color:var(--teal-700); }
   .topnav-links a.active{ color:var(--teal-700); font-weight:700; }
-
-
 
   .reveal{ opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease; }
   .reveal.in{ opacity:1; transform:translateY(0); }
@@ -329,96 +386,209 @@
         <circle class="coin c3" cx="305" cy="18" r="7.5" fill="#0F6259"/>
       </svg>
 
-      <h1 class="display">Первые деньги: не «вот тебе телефон, зарабатывай», а понятная структура для подростка</h1>
-      <p class="sub">Пять практических шагов: как подросток 13&ndash;16 лет может заработать свои первые деньги. Под присмотром, без риска.</p>
+      <h1 class="display">Подросток проходит весь путь до первых заработанных денег: находит заказчика, считает цену, договаривается, делает, получает оплату</h1>
+      <p class="sub">Пять шагов, по одному в день. Каждый заканчивается сделанной вещью, а не прочитанной главой.</p>
 
       <div class="chips">
-        <span class="chip"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4l3 2"/></svg>1&ndash;2 недели</span>
-        <span class="chip"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 2.5 4 5v4.5c0 4 2.6 6.9 6 8 3.4-1.1 6-4 6-8V5l-6-2.5Z"/></svg>Под присмотром</span>
-        <span class="chip"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 14.5 8 7l3 3 6-7"/><path d="M13 3h4v4"/></svg>Практика, не теория</span>
+        <span class="chip"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4l3 2"/></svg>5 дней</span>
+        <span class="chip"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 4h6M6.5 4v12.5h7V4"/><path d="M8.5 8h3M8.5 11h3"/></svg>13&ndash;16 лет</span>
+        <span class="chip"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 10.5 8 14l8-8"/></svg>возврат 14 дней</span>
       </div>
 
       <div class="cta-row">
-        <a class="cta-btn" href="https://pervye-dengi.com/pay">
-          Оплатить — 1490 ₽
+        <a class="cta-btn" href="/probny-urok/">
+          Открыть первый шаг бесплатно
         </a>
-        <a class="cta-btn-secondary" href="/probny-urok/">
-          Сначала бесплатный шаг
+        <a class="cta-btn-secondary" href="https://pervye-dengi.com/pay">
+          Купить программу, 2900 ₽
         </a>
       </div>
-      <span class="cta-note">Бронь — чат в Telegram. Пробный шаг — сразу на странице, без оплаты</span>
+      <span class="cta-note">Первый шаг открывается сразу на странице, без оплаты и без регистрации</span>
     </div>
   </div>
 
   <div class="wrap">
 
     <section class="reveal">
-      <h2>Знакомая картина?</h2>
+      <h2>Телефон, игры и «потом»</h2>
       <div class="pain-card">
-        <p>Ребёнок дома, уроки более-менее сделаны, а дальше — телефон и игры до вечера. Кружки не увлекают, ограничения по времени не работают.</p>
-        <p class="muted">Вы сами хотите, чтобы он стал самостоятельнее — но не представляете, с чего начать. И боитесь, что деньги в руках подростка обернутся не ростом, а бесполезными тратами.</p>
+        <p>Уроки более-менее сделаны, а дальше телефон до вечера. Кружки не увлекают, ограничения по времени не работают.</p>
+        <p class="muted">Вы хотите, чтобы он стал самостоятельнее, но не знаете, с чего начать. И опасаетесь, что деньги в руках подростка уйдут за один день и ничему не научат.</p>
       </div>
     </section>
 
     <section class="reveal">
-      <h2>Что внутри</h2>
+      <h2>Что ребёнок унесёт</h2>
+      <p class="sec-lead">Не знания, а пять вещей, которые можно показать.</p>
       <ul class="list">
         <li>
-          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10" cy="10" r="7.5"/><path d="M8.5 7.5v5l4-2.5-4-2.5Z" fill="currentColor" stroke="none"/></svg></span>
-          <span class="list-text">Пять шагов: от поиска заказчика с деньгами до полученной оплаты</span>
+          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h12M4 10h12M4 15h8"/></svg></span>
+          <span class="list-text">Список из пяти заказчиков, у которых есть деньги и есть что починить</span>
         </li>
         <li>
-          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M10 2.5 4 5v4.5c0 4 2.6 6.9 6 8 3.4-1.1 6-4 6-8V5l-6-2.5Z"/></svg></span>
-          <span class="list-text">Конкретные, безопасные форматы заработка для 13&ndash;16 лет — не «инвестиции» и не сомнительные схемы</span>
+          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="3" width="12" height="14" rx="2"/><path d="M7 7h6M7 10.5h6M7 14h3"/></svg></span>
+          <span class="list-text">Посчитанная цена на три услуги, которую он умеет защитить, когда просят скидку</span>
         </li>
         <li>
-          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 10c2-4 5-6 7-6s5 2 7 6c-2 4-5 6-7 6s-5-2-7-6Z"/><circle cx="10" cy="10" r="2"/></svg></span>
-          <span class="list-text">Задания, которые ребёнок проходит сам, но результат виден и вам</span>
+          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 6.5 10 11l7-4.5"/><rect x="3" y="4" width="14" height="12" rx="2"/></svg></span>
+          <span class="list-text">Отправленное предложение с готовым образцом — не просьба дать шанс, а показанная работа</span>
         </li>
         <li>
-          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M11 2 4 12h5l-1 6 7-10h-5l1-6Z" stroke-linejoin="round"/></svg></span>
-          <span class="list-text">Никакой воды — только то, что применимо на практике за 1&ndash;2 недели</span>
+          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 3h10v14H5z"/><path d="M8 7h4M8 10h4M8 13h2"/></svg></span>
+          <span class="list-text">Письменная договорённость до начала работы: что делает, к какому сроку, за сколько, когда платят</span>
+        </li>
+        <li>
+          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 15V8m4 7V5m4 10v-4m4 4V3"/></svg></span>
+          <span class="list-text">Папка «было и стало» с первой работой и назначенный день второго предложения</span>
         </li>
       </ul>
     </section>
 
     <section class="reveal">
-      <h2>Почему это не «рано»</h2>
-      <p>Программа не даёт ребёнку деньги и не оставляет с ними один на один. Она даёт структуру мышления: как считать, как отвечать за результат, как не потратить всё за один день. Это снимает главный родительский страх — не «пусть зарабатывает как хочет», а «пусть научится, прежде чем зарабатывать».</p>
-      <p class="kaizen">Маленький, честный шаг к тому, чтобы быть сегодня лучше, чем вчера — а не обещание разом «перевоспитать» подростка за одну программу.</p>
+      <h2>Как устроено</h2>
+      <p class="sec-lead">Пять шагов, по одному в день. У каждого свой результат.</p>
+      <ol class="steps">
+        <li class="step">
+          <span class="step-num">1</span>
+          <span class="step-body">
+            <span class="step-title">Заметь: у кого есть деньги</span>
+            <span class="step-out">Результат: пять заказчиков с выручкой и названной поломкой</span>
+          </span>
+        </li>
+        <li class="step">
+          <span class="step-num">2</span>
+          <span class="step-body">
+            <span class="step-title">Посчитай: сколько это стоит</span>
+            <span class="step-out">Результат: цена, посчитанная от двух границ, а не выдуманная</span>
+          </span>
+        </li>
+        <li class="step">
+          <span class="step-num">3</span>
+          <span class="step-body">
+            <span class="step-title">Предложи: покажи и договорись</span>
+            <span class="step-out">Результат: показанный образец и письменная договорённость</span>
+          </span>
+        </li>
+        <li class="step">
+          <span class="step-num">4</span>
+          <span class="step-body">
+            <span class="step-title">Сделай: выполни и получи</span>
+            <span class="step-out">Результат: первые заработанные деньги</span>
+          </span>
+        </li>
+        <li class="step">
+          <span class="step-num">5</span>
+          <span class="step-body">
+            <span class="step-title">Раздели: закрепи и повтори</span>
+            <span class="step-out">Результат: деньги разделены, работа сохранена, второй заказ назначен</span>
+          </span>
+        </li>
+      </ol>
     </section>
 
-    
+    <section class="reveal">
+      <h2>Что получает родитель</h2>
+      <ul class="list">
+        <li>
+          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="14" height="10" rx="2"/><path d="M3 6.5 10 11l7-4.5"/></svg></span>
+          <span class="list-text">Разбор для родителя в каждом шаге: что вы увидите, чем помочь и чего не делать, чтобы не сломать</span>
+        </li>
+        <li>
+          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M10 2.5 4 5v4.5c0 4 2.6 6.9 6 8 3.4-1.1 6-4 6-8V5l-6-2.5Z"/></svg></span>
+          <span class="list-text">Разобранные прямым текстом дропперство, ставки, криптовалюта и продажа аккаунтов</span>
+        </li>
+        <li>
+          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 10c2-4 5-6 7-6s5 2 7 6c-2 4-5 6-7 6s-5-2-7-6Z"/><circle cx="10" cy="10" r="2"/></svg></span>
+          <span class="list-text">Видимый результат вместо формулировки «прошёл курс»: списки, расчёты и папка работ остаются у ребёнка на руках</span>
+        </li>
+        <li>
+          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 10.5 8 14l8-8"/></svg></span>
+          <span class="list-text">Возможность вернуть деньги четырнадцать дней, без объяснения причин</span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="reveal">
+      <h2>Безопасность</h2>
+      <div class="safety">
+        <h3>Раздел, который просим прочитать дважды</h3>
+        <p>Первый шаг заканчивается прямым запретом. Не смягчённым и не спрятанным в примечание.</p>
+        <ul>
+          <li><span class="hard">Никогда</span> не принимать чужие деньги на свою карту, как бы это ни называлось. Это дропперство, и это участие в отмывании чужих денег.</li>
+          <li><span class="hard">Никогда</span> не отдавать карту, документы и коды из сообщений. Никому и ни за какие деньги.</li>
+          <li><span class="hard">Не заходить</span> в ставки, криптовалюту и «инвестиции». Заработок это когда ты что-то сделал и тебе заплатили.</li>
+          <li><span class="hard">Не торговать</span> аккаунтами. Уголовная ответственность за мошенничество наступает с четырнадцати лет.</li>
+        </ul>
+        <p style="margin-top:14px">Отдельно разобрано, как выглядит вербовка подростков через мессенджеры и игровые чаты, и почему ставки предметами из игр устроены так же, как азартные игры.</p>
+      </div>
+    </section>
+
     <section id="price" class="reveal">
-      <h2>Цена</h2>
+      <h2>Сколько стоит и когда окупается</h2>
       <div class="price-card">
         <div class="price-row">
-          <span class="price-now" id="priceNow">1490 ₽</span>
-          <span class="price-then">2490 ₽</span>
+          <span class="price-now" id="priceNow">2900 ₽</span>
+          <span class="price-then">3900 ₽</span>
         </div>
-        <p class="price-cond">Цена первого набора. Дальше — 2490 ₽</p>
+        <p class="price-cond">Цена первого набора. Дальше — 3900 ₽. Доступ не ограничен по времени</p>
+        <p class="payback">Во втором шаге разбирается расчёт: работа, которой учит программа, стоит заказчику около 800 ₽. Второй заказ идёт дороже первого, потому что появляются доказательства. Программа окупается на третьем-четвёртом заказе, а умение считать цену остаётся навсегда.</p>
         <a class="cta-btn" href="https://pervye-dengi.com/pay">
-          Оплатить — 1490 ₽
+          Купить программу — 2900 ₽
         </a>
       </div>
     </section>
 
     <section class="reveal">
-      <h2>Вопросы, которые обычно задают</h2>
+      <h2>Гарантия</h2>
+      <div class="guarantee">
+        <p class="guarantee-title">Возврат четырнадцать дней</p>
+        <p>Не подошло или ребёнок не стал проходить — напишите в поддержку, вернём полностью. Причину спрашивать не будем.</p>
+        <p class="muted">Мы не можем обещать за вашего ребёнка, что он захочет этим заниматься. Поэтому этот риск берём на себя.</p>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>Кто за этим стоит</h2>
+      <div class="who">
+        <p>Программу делает школа «Архитектор будущего». Продавец указан в оферте полностью, со всеми реквизитами.</p>
+        <dl>
+          <dt>Продавец</dt><dd>ИП Рыжова Валентина Николаевна</dd>
+          <dt>ИНН</dt><dd>910214902670</dd>
+          <dt>Поддержка</dt><dd><a href="https://t.me/ervyedengi_support_bot">@ervyedengi_support_bot</a></dd>
+        </dl>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>Партнёрам</h2>
+      <div class="who">
+        <p>Если у вас есть аудитория родителей подростков — канал, сообщество, класс, кабинет репетитора — вы можете рекомендовать программу и получать <strong>725 ₽ с каждой оплаты</strong>. Это четверть цены.</p>
+        <p class="muted">Ссылка персональная, метка приходит вместе с платежом, считать вручную ничего не нужно. Выплата после того, как закроется срок возврата.</p>
+        <p><a class="have-access" href="/partneram/">Условия для партнёров →</a></p>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>Вопросы, которые задают на самом деле</h2>
 
       <details>
-        <summary>Не рано ли в 13&ndash;16 лет говорить о деньгах?<span class="plus">+</span></summary>
-        <p>Программа не про заработок любой ценой, а про мышление и структуру. Чем раньше начать, тем меньше ошибок во взрослой жизни.</p>
+        <summary>А он вообще будет это делать?<span class="plus">+</span></summary>
+        <p>Первый шаг занимает двадцать пять минут и заканчивается готовым списком, а не обещанием разобраться потом. Программа разбита на пять дней, по одному шагу. Если всё равно не начнёт — вернём деньги, четырнадцать дней и без объяснений.</p>
       </details>
 
       <details>
-        <summary>А если ребёнку не понравится формат?<span class="plus">+</span></summary>
-        <p>Уроки короткие и практические, не теория. Если формат не подойдёт, напишите — разберём и постараемся найти то, что подойдёт.</p>
+        <summary>Не опасно ли отпускать подростка к незнакомым заказчикам?<span class="plus">+</span></summary>
+        <p>Программа прямо запрещает четыре вещи и объясняет, как выглядит вербовка. Сделки от лица ребёнка оформляет взрослый. В каждом шаге есть раздел для родителя: что вы увидите, чем помочь и во что не вмешиваться.</p>
       </details>
 
       <details>
-        <summary>Нужно ли участие родителя?<span class="plus">+</span></summary>
-        <p>Ребёнок проходит шаги сам, но структура заданий такая, что результат видно и вам. Контроль вы не теряете.</p>
+        <summary>А если ему откажут?<span class="plus">+</span></summary>
+        <p>Откажут, и программа на это рассчитана. Третий шаг требует пяти предложений и прямо запрещает делать выводы раньше пятого. Отказы считаются наравне с согласиями — это единственный способ не бросить после первого «нет».</p>
+      </details>
+
+      <details>
+        <summary>Можно ли в тринадцать?<span class="plus">+</span></summary>
+        <p>В тринадцать доступна вся механика: найти заказчика, посчитать цену, показать образец, договориться и получить оплату. Оформление самозанятости открывается в четырнадцать, с письменного согласия родителей, и в четвёртом шаге это разобрано отдельно.</p>
       </details>
 
 <script type="application/ld+json">
@@ -426,7 +596,7 @@
   "@context": "https://schema.org",
   "@type": "Course",
   "name": "Первые деньги",
-  "description": "Пять практических шагов для подростка 13-16 лет: как найти заказчика, у которого есть деньги, и заработать свои первые — безопасно, под присмотром, без крипты и сомнительных схем.",
+  "description": "Пять шагов для подростка 13-16 лет: найти заказчика с деньгами, посчитать цену, показать образец и договориться, выполнить и получить оплату, разделить заработанное и назначить второй заказ.",
   "provider": {
     "@type": "Organization",
     "name": "Первые деньги",
@@ -435,7 +605,7 @@
   "url": "https://pervye-dengi.com/",
   "offers": {
     "@type": "Offer",
-    "price": "1490",
+    "price": "2900",
     "priceCurrency": "RUB",
     "url": "https://pervye-dengi.com/pay"
   }
@@ -447,12 +617,13 @@
   </div>
 
   <footer>
-    <a class="cta-btn" href="https://pervye-dengi.com/pay">
-      Оплатить — 1490 ₽
+    <a class="cta-btn" href="/probny-urok/">
+      Открыть первый шаг бесплатно
     </a>
-    <div class="cta-note">Первый набор · программа «Первые деньги»</div>
+    <div class="cta-note">Программа целиком — 2900 ₽, возврат 14 дней</div>
     <a class="have-access" href="/kurs/">У меня уже есть доступ →</a>
     <a class="have-access" href="/oferta/" style="margin-left:18px;">Оферта и условия</a>
+    <a class="have-access" href="/partneram/" style="margin-left:18px;">Партнёрам</a>
     <a class="have-access" href="/blog/" style="margin-left:18px;">Статьи</a>
     <a class="have-access" href="https://t.me/ervyedengi_support_bot" style="margin-left:18px;">Поддержка</a>
   </footer>
