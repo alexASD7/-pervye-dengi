@@ -95,3 +95,10 @@ footer{ padding:34px 0 52px; text-align:center; }
   .wrap{ padding:0 18px; }
   .note,.related{ padding:16px 17px; }
 }
+
+/* Блок расчёта: используется там, где показываем, как считается число */
+.calc{ background:var(--card-050); border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin:18px 0; }
+.calc-line{ display:flex; justify-content:space-between; gap:14px; padding:7px 0; flex-wrap:wrap; }
+.calc-line + .calc-line{ border-top:1px dashed var(--line); }
+.calc-line b{ font-family:'JetBrains Mono',monospace; white-space:nowrap; }
+.calc-total b{ color:var(--accent); font-size:1.15rem; }
