@@ -31,104 +31,7 @@
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/111682005" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <link rel="stylesheet" href="/assets/fonts.css">
-<style>
-  :root{
-    --teal-950:#052B2A; --teal-800:#0A4744; --teal-700:#0F6259;
-    --gold-500:#F2B705; --gold-600:#D69E00;
-    --paper-050:#FBF6EC; --card-050:#FFFFFF;
-    --ink-900:#16241F; --ink-600:#4E5D56; --line:#E4DBC8;
-    color-scheme: light;
-  }
-  @media (prefers-color-scheme: dark){
-    :root{ --paper-050:#0B1512; --card-050:#10221F; --ink-900:#EDEAE2; --ink-600:#B7C4BD; --line:#20342F; color-scheme: dark; }
-  }
-  :root[data-theme="dark"]{ --paper-050:#0B1512; --card-050:#10221F; --ink-900:#EDEAE2; --ink-600:#B7C4BD; --line:#20342F; color-scheme: dark; }
-  :root[data-theme="light"]{ --paper-050:#FBF6EC; --card-050:#FFFFFF; --ink-900:#16241F; --ink-600:#4E5D56; --line:#E4DBC8; color-scheme: light; }
-
-  *{ box-sizing:border-box; }
-  html,body{ margin:0; padding:0; }
-  body{
-    background:var(--paper-050); color:var(--ink-900);
-    font-family:'PT Sans',-apple-system,sans-serif;
-    font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  .display{ font-family:'Unbounded',sans-serif; font-weight:800; letter-spacing:-0.01em; text-wrap:balance; }
-  .label{ font-family:'JetBrains Mono',monospace; font-weight:600; font-size:0.78rem; letter-spacing:0.09em; text-transform:uppercase; }
-  a{ color:inherit; }
-  img,svg{ max-width:100%; display:block; }
-  .wrap{ max-width:680px; margin:0 auto; padding:0 24px; }
-
-  .topnav{ background:var(--card-050); border-bottom:1px solid var(--line); }
-  .topnav-inner{ max-width:680px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
-  .topnav-logo{ font-family:'Unbounded',sans-serif; font-weight:700; font-size:0.95rem; color:var(--ink-900); text-decoration:none; white-space:nowrap; }
-  .topnav-links{ display:flex; gap:16px; }
-  .topnav-links a{ font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:var(--ink-600); text-decoration:none; white-space:nowrap; }
-  .topnav-links a:hover, .topnav-links a.active{ color:var(--teal-700); }
-
-  .hero{
-    background: radial-gradient(ellipse 120% 60% at 15% 0%, rgba(242,183,5,0.16), transparent 55%),
-                linear-gradient(165deg, var(--teal-700) 0%, var(--teal-950) 78%);
-    color:#F4EFE2; padding:46px 0 40px;
-  }
-  .hero-inner{ display:flex; flex-direction:column; gap:16px; }
-  .eyebrow{ display:inline-flex; align-items:center; gap:8px; color:var(--gold-500); }
-  .eyebrow-dot{ width:6px; height:6px; border-radius:50%; background:var(--gold-500); }
-  .hero h1{ font-size:clamp(1.65rem, 4.4vw + 0.5rem, 2.3rem); line-height:1.18; margin:0; color:#FBF6EC; }
-  .hero p.sub{ font-size:1.04rem; color:#CFE3DD; margin:0; max-width:46ch; }
-
-  section{ padding:34px 0; border-bottom:1px solid var(--line); }
-  section:last-of-type{ border-bottom:none; }
-  h2{ font-family:'Unbounded',sans-serif; font-weight:800; font-size:1.3rem; margin:0 0 14px; }
-  h3{ font-family:'Unbounded',sans-serif; font-weight:700; font-size:1.05rem; margin:22px 0 10px; }
-  p{ margin:0 0 15px; }
-  p:last-child{ margin-bottom:0; }
-  .muted{ color:var(--ink-600); }
-  ul{ margin:0 0 15px; padding-left:22px; }
-  li{ margin-bottom:9px; }
-  li:last-child{ margin-bottom:0; }
-
-  .note{
-    background:var(--card-050); border:1px solid var(--line); border-radius:14px;
-    padding:18px 20px; margin:18px 0;
-  }
-  .note-title{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.78rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal-700); margin-bottom:8px; }
-  :root[data-theme="dark"] .note-title{ color:#7FBFB2; }
-  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .note-title{ color:#7FBFB2; } }
-
-  .calc{ background:var(--card-050); border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin:18px 0; }
-  .calc-line{ display:flex; justify-content:space-between; gap:14px; padding:7px 0; flex-wrap:wrap; }
-  .calc-line + .calc-line{ border-top:1px dashed var(--line); }
-  .calc-line b{ font-family:'JetBrains Mono',monospace; white-space:nowrap; }
-  .calc-total b{ color:var(--teal-700); font-size:1.15rem; }
-  :root[data-theme="dark"] .calc-total b{ color:#7FBFB2; }
-  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .calc-total b{ color:#7FBFB2; } }
-
-  .bridge-card{
-    background:linear-gradient(165deg, var(--teal-700), var(--teal-950));
-    color:#F4EFE2; border-radius:18px; padding:28px 26px; text-align:center;
-  }
-  .bridge-card h2{ color:#FBF6EC; margin-bottom:12px; }
-  .bridge-card p{ color:#CFE3DD; }
-  .cta-btn{
-    display:inline-flex; align-items:center; justify-content:center; gap:9px;
-    background:var(--gold-500); color:#22190A;
-    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1rem;
-    padding:15px 26px; border-radius:12px; text-decoration:none;
-    margin:18px auto 0;
-    box-shadow:0 10px 24px -10px rgba(242,183,5,0.55);
-  }
-  .cta-btn:hover{ background:var(--gold-600); }
-  .cta-btn:focus-visible{ outline:3px solid #F4EFE2; outline-offset:3px; }
-  .cta-note{ font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:#AFC7C0; display:inline-block; margin-top:10px; }
-
-  footer{ padding:34px 0 52px; text-align:center; }
-  .back-link{
-    font-family:'JetBrains Mono',monospace; font-size:0.84rem; color:var(--ink-600);
-    text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:2px;
-  }
-  .back-link:hover{ color:var(--teal-700); border-bottom-color:var(--teal-700); }
-</style>
+<link rel="stylesheet" href="/assets/blog.css">
 </head>
 <body>
 <header class="topnav">
@@ -248,5 +151,6 @@
   "publisher": { "@type": "Organization", "name": "Первые деньги", "url": "https://pervye-dengi.com/" }
 }
 </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"a5489bc336a2442b99d669e0195a2aa9","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
