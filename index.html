@@ -124,7 +124,7 @@
     display:inline-flex; align-items:center; gap:8px;
     color:var(--gold-500);
   }
-  .eyebrow-dot{ width:6px; height:6px; border-radius:50%; background:var(--gold-500); }
+  .eyebrow-dot{ width:6px; height:6px; border-radius:2px; background:var(--gold-500); }
   .hero h1{
     font-size:clamp(1.5rem, 4vw + 0.5rem, 2.4rem);
     line-height:1.16;
@@ -155,7 +155,7 @@
     border:1px solid rgba(251,246,236,0.22);
     color:#F4EFE2;
     padding:7px 13px 7px 11px;
-    border-radius:999px;
+    border-radius:2px;
     font-family:'JetBrains Mono',monospace;
     font-size:0.86rem;
   }
@@ -169,13 +169,13 @@
     font-weight:700;
     font-size:1rem;
     padding:15px 26px;
-    border-radius:12px;
+    border-radius:2px;
     text-decoration:none;
     width:fit-content;
-    box-shadow:0 10px 24px -10px rgba(242,183,5,0.55);
+    box-shadow:none;
     transition:transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
   }
-  .cta-btn:hover{ background:var(--gold-600); transform:translateY(-1px); box-shadow:0 14px 28px -10px rgba(242,183,5,0.6); }
+  .cta-btn:hover{ background:var(--gold-600); transform:translateY(-1px); box-shadow:none; }
   .cta-btn:focus-visible{ outline:3px solid #F4EFE2; outline-offset:3px; }
   .cta-note{ font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:#AFC7C0; }
   .cta-row{ display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
@@ -183,7 +183,7 @@
     display:inline-flex; align-items:center; justify-content:center; gap:9px;
     background:transparent; color:#F4EFE2;
     font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1rem;
-    padding:14px 24px; border-radius:12px; text-decoration:none; width:fit-content;
+    padding:14px 24px; border-radius:2px; text-decoration:none; width:fit-content;
     border:1.5px solid rgba(244,239,226,0.55);
     transition:transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
   }
@@ -206,14 +206,14 @@
   .pain-card{
     background:var(--card-050);
     border:1px solid var(--line);
-    border-radius:16px;
+    border-radius:3px;
     padding:24px 26px;
   }
 
   .list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:16px; }
   .list li{ display:flex; gap:14px; align-items:flex-start; }
   .list-icon{
-    flex:none; width:34px; height:34px; border-radius:10px;
+    flex:none; width:34px; height:34px; border-radius:2px;
     background:var(--teal-700); color:#F4EFE2;
     display:flex; align-items:center; justify-content:center;
   }
@@ -226,11 +226,11 @@
     display:flex; gap:14px; align-items:flex-start;
     background:var(--card-050);
     border:1px solid var(--line);
-    border-radius:14px;
+    border-radius:2px;
     padding:16px 18px;
   }
   .step-num{
-    flex:none; width:30px; height:30px; border-radius:9px;
+    flex:none; width:30px; height:30px; border-radius:2px;
     background:var(--teal-700); color:#F4EFE2;
     font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.92rem;
     display:flex; align-items:center; justify-content:center;
@@ -245,7 +245,7 @@
   .safety{
     background:linear-gradient(165deg, var(--teal-800), var(--teal-950));
     color:#F4EFE2;
-    border-radius:18px;
+    border-radius:3px;
     padding:28px 26px;
   }
   .safety h3{
@@ -262,7 +262,7 @@
   .guarantee{
     background:var(--card-050);
     border:2px solid var(--teal-700);
-    border-radius:16px;
+    border-radius:3px;
     padding:22px 24px;
   }
   .guarantee-title{
@@ -274,7 +274,7 @@
   .price-card{
     background:linear-gradient(165deg, var(--teal-700), var(--teal-950));
     color:#F4EFE2;
-    border-radius:18px;
+    border-radius:3px;
     padding:30px 28px;
     text-align:center;
   }
@@ -311,7 +311,7 @@
     border-radius:4px; padding:16px 18px;
     font-family:'JetBrains Mono',monospace; font-size:0.86rem;
     font-variant-numeric:tabular-nums;
-    box-shadow:0 1px 0 var(--line), 0 6px 18px -14px rgba(5,43,42,0.5);
+    box-shadow:none;
   }
   .art-row{ display:flex; justify-content:space-between; gap:14px; padding:7px 0; align-items:baseline; }
   .art-row + .art-row{ border-top:1px solid var(--line); }
@@ -343,7 +343,7 @@
   .who{
     background:var(--card-050);
     border:1px solid var(--line);
-    border-radius:16px;
+    border-radius:3px;
     padding:22px 24px;
   }
   .who dl{ margin:12px 0 0; display:grid; grid-template-columns:auto 1fr; gap:6px 16px; font-size:0.94rem; }
@@ -404,7 +404,7 @@
   /* что дальше */
   .next{ display:flex; flex-direction:column; gap:0; }
   .next-item{
-    background:var(--card-050); border:1px solid var(--line); border-radius:16px;
+    background:var(--card-050); border:1px solid var(--line); border-radius:3px;
     padding:20px 22px;
   }
   .next-item.here{ border-color:var(--teal-700); border-width:2px; padding:19px 21px; }
@@ -423,7 +423,7 @@
     display:inline-flex; align-items:center; gap:7px; margin-top:14px;
     font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.88rem;
     color:var(--teal-700); text-decoration:none;
-    border:1.5px solid var(--teal-700); border-radius:11px; padding:10px 18px;
+    border:1.5px solid var(--teal-700); border-radius:2px; padding:10px 18px;
   }
   :root[data-theme="dark"] .next-go{ color:#7FBFB2; border-color:#7FBFB2; }
   @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .next-go{ color:#7FBFB2; border-color:#7FBFB2; } }
@@ -459,7 +459,7 @@
 <main>
   <div class="hero">
     <div class="wrap hero-inner">
-      <span class="eyebrow label"><span class="eyebrow-dot"></span>«Первые деньги» — первый шаг школы «Архитектор будущего»</span>
+      <span class="eyebrow label"><span class="eyebrow-dot"></span>Ступень 1 · «Первые деньги»</span>
 
       <div class="chips">
         <span class="chip"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 4h6M6.5 4v12.5h7V4"/><path d="M8.5 8h3M8.5 11h3"/></svg>13&ndash;16 лет</span>
