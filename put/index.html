@@ -116,14 +116,14 @@
   }
   .hero-inner{ display:flex; flex-direction:column; gap:20px; }
   .eyebrow{ display:inline-flex; align-items:center; gap:8px; color:var(--gold-500); }
-  .eyebrow-dot{ width:6px; height:6px; border-radius:50%; background:var(--gold-500); }
+  .eyebrow-dot{ width:6px; height:6px; border-radius:2px; background:var(--gold-500); }
   .hero h1{ font-size:clamp(1.55rem, 4.2vw + 0.5rem, 2.4rem); line-height:1.16; margin:0; color:#FBF6EC; }
   .hero-do{ display:flex; flex-wrap:wrap; gap:12px 16px; align-items:center; }
   .facts{ display:flex; flex-wrap:wrap; gap:8px; }
   .fact{
     font-family:'JetBrains Mono',monospace; font-size:0.78rem;
     background:rgba(251,246,236,0.10); border:1px solid rgba(251,246,236,0.24);
-    color:#F4EFE2; padding:6px 12px; border-radius:999px; white-space:nowrap;
+    color:#F4EFE2; padding:6px 12px; border-radius:2px; white-space:nowrap;
   }
   @media (max-width:520px){
     .hero-do{ display:block; }
@@ -154,7 +154,7 @@
   }
   .rung:last-child::before{ display:none; }
   .rung-dot{
-    position:absolute; left:0; top:4px; width:30px; height:30px; border-radius:50%;
+    position:absolute; left:0; top:4px; width:30px; height:30px; border-radius:2px;
     background:var(--teal-700); color:#F4EFE2;
     font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.86rem;
     display:flex; align-items:center; justify-content:center;
@@ -162,7 +162,7 @@
   .rung.free .rung-dot{ background:var(--gold-500); color:#22190A; }
   .rung.soon .rung-dot{ background:var(--line); color:var(--ink-600); }
   .rung-card{
-    background:var(--card-050); border:1px solid var(--line); border-radius:16px;
+    background:var(--card-050); border:1px solid var(--line); border-radius:3px;
     padding:22px 24px;
   }
   .rung.now .rung-card{ border-color:var(--teal-700); border-width:2px; padding:21px 23px; }
@@ -193,7 +193,7 @@
 
   .rule-free{
     background:var(--card-050); border:1px solid var(--line);
-    border-left:4px solid var(--gold-500); border-radius:14px;
+    border-left:4px solid var(--gold-500); border-radius:2px;
     padding:18px 20px; margin-bottom:28px;
   }
   .rule-free .t{
@@ -206,8 +206,8 @@
     display:inline-flex; align-items:center; justify-content:center; gap:9px;
     background:var(--gold-500); color:#22190A;
     font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.95rem;
-    padding:13px 22px; border-radius:12px; text-decoration:none; width:fit-content;
-    box-shadow:0 10px 24px -10px rgba(242,183,5,0.55);
+    padding:13px 22px; border-radius:2px; text-decoration:none; width:fit-content;
+    box-shadow:none;
     transition:transform 0.15s ease, background 0.15s ease;
   }
   .cta-btn:hover{ background:var(--gold-600); transform:translateY(-1px); }
@@ -216,7 +216,7 @@
     display:inline-flex; align-items:center; gap:7px;
     font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.9rem;
     color:var(--teal-700); text-decoration:none;
-    border:1.5px solid var(--teal-700); border-radius:12px; padding:12px 20px;
+    border:1.5px solid var(--teal-700); border-radius:2px; padding:12px 20px;
   }
   :root[data-theme="dark"] .cta-ghost{ color:#7FBFB2; border-color:#7FBFB2; }
   @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .cta-ghost{ color:#7FBFB2; border-color:#7FBFB2; } }
@@ -226,7 +226,7 @@
 
   .measure{
     background:linear-gradient(165deg, var(--teal-800), var(--teal-950));
-    color:#F4EFE2; border-radius:18px; padding:28px 26px;
+    color:#F4EFE2; border-radius:3px; padding:28px 26px;
   }
   .measure h3{ font-family:'Unbounded',sans-serif; font-weight:800; font-size:1.12rem; margin:0 0 12px; color:#FBF6EC; }
   .measure p{ color:#CFE3DD; }
@@ -238,10 +238,10 @@
 
   .plain{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px; }
   .plain li{ display:flex; gap:13px; align-items:flex-start; }
-  .plain .m{ flex:none; width:26px; height:26px; border-radius:8px; background:var(--teal-700); color:#F4EFE2;
+  .plain .m{ flex:none; width:26px; height:26px; border-radius:2px; background:var(--teal-700); color:#F4EFE2;
     font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.8rem; display:flex; align-items:center; justify-content:center; }
 
-  .honest{ background:var(--card-050); border:1px solid var(--line); border-radius:16px; padding:22px 24px; }
+  .honest{ background:var(--card-050); border:1px solid var(--line); border-radius:3px; padding:22px 24px; }
   .honest .t{ font-family:'Unbounded',sans-serif; font-weight:800; font-size:1.05rem; margin:0 0 10px; }
 
   footer{ padding:40px 0 56px; text-align:center; }
