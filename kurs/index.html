@@ -378,6 +378,33 @@
   .cert-cta h2{ color:#FBF6EC; font-size:1.4rem; margin-bottom:10px; }
   .cert-cta p{ color:#CFE3DD; margin:0 0 16px; }
 
+  /* ---------- СЛЕДУЮЩАЯ СТУПЕНЬ ---------- */
+  .next-block{ margin-top:22px; }
+  .next-step{
+    background:var(--card); border:2px solid var(--teal-700);
+    border-radius:18px; padding:24px 24px;
+  }
+  .next-step .kick{
+    font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.14em;
+    text-transform:uppercase; color:var(--ink-soft); margin-bottom:8px;
+  }
+  .next-step h2{ font-size:1.3rem; margin:0 0 8px; }
+  .next-step .price{
+    font-family:'JetBrains Mono',monospace; font-size:0.84rem; font-weight:700;
+    color:var(--teal-700); margin-bottom:12px;
+  }
+  .next-step p{ margin:0 0 12px; }
+  .next-step ul{ margin:0 0 16px; padding-left:20px; color:var(--ink-soft); font-size:0.95rem; }
+  .next-step li{ margin-bottom:6px; }
+  .next-step .go{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--gold-500); color:#22190A; text-decoration:none;
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.94rem;
+    padding:13px 22px; border-radius:12px;
+  }
+  .next-step .go:hover{ filter:brightness(1.05); }
+  .next-step .after{ font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:var(--ink-soft); margin:12px 0 0; }
+
   /* ---------- РАЗВИЛКИ ---------- */
   .decision{
     background:var(--card); border:1.5px solid var(--line); border-radius:14px;
@@ -596,6 +623,8 @@
       <div class="lesson-list" id="lessonList"></div>
 
       <div class="cert-block" id="certBlock" hidden></div>
+
+      <div class="next-block" id="nextBlock" hidden></div>
     </div>
   </main>
 
@@ -1185,6 +1214,29 @@
     } else {
       certBlock.hidden = true;
       certBlock.innerHTML = "";
+    }
+
+    var nextBlock = document.getElementById("nextBlock");
+    var allFive = [1,2,3,4,5].every(function(n){ return done.indexOf(n) !== -1; });
+    if(allFive){
+      nextBlock.hidden = false;
+      nextBlock.innerHTML =
+        '<div class="next-step reveal">' +
+        '<div class="kick">Ступень 2 · открыта частично</div>' +
+        '<h2 class="display">Первый капитал</h2>' +
+        '<div class="price">Первые три модуля бесплатно · дальше семь, 12 900 ₽ · с 14 лет</div>' +
+        '<p>Первый заказ — событие. Второй, третий и четвёртый показывают то, чего с первого раза не видно.</p>' +
+        '<ul>' +
+        '<li>сколько на самом деле стоит твой час — со всей перепиской, переделками и ожиданием;</li>' +
+        '<li>на какой цене тебе говорят «нет» — граница твоего сегодняшнего рынка;</li>' +
+        '<li>сколько дней проходит, прежде чем заказчик напишет сам.</li>' +
+        '</ul>' +
+        '<a class="go" href="/pervyy-kapital/">Открыть три бесплатных модуля →</a>' +
+        '<p class="after">Начинать стоит, когда за спиной хотя бы три выполненных заказа: по одному ставку считать нельзя.</p>' +
+        '</div>';
+    } else {
+      nextBlock.hidden = true;
+      nextBlock.innerHTML = "";
     }
 
     dash.hidden = false;
