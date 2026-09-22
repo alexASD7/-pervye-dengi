@@ -100,7 +100,7 @@ h3{ font-family:'Unbounded',sans-serif; font-weight:700; font-size:1.02rem;
 .path{ margin:26px 0; }
 .path .st{ display:grid; grid-template-columns:auto 1fr; gap:0 20px; }
 .path .mark{ display:flex; flex-direction:column; align-items:center; }
-.path .dot{ width:11px; height:11px; border-radius:50%; background:var(--accent); margin-top:9px; flex:none; }
+.path .dot{ width:11px; height:11px; border-radius:2px; background:var(--accent); margin-top:9px; flex:none; }
 .path .st:last-child .dot{ background:var(--gold); }
 .path .line{ width:1px; flex:1; background:var(--rule); margin:6px 0 0; }
 .path .st:last-child .line{ display:none; }
@@ -162,7 +162,7 @@ a{ color:var(--accent); text-underline-offset:3px; }
 .cta{ display:inline-flex; align-items:center; justify-content:center; gap:9px;
   background:var(--gold); color:#22190A; font-family:'JetBrains Mono',monospace; font-weight:700;
   font-size:.98rem; padding:15px 28px; text-decoration:none; margin-top:26px;
-  box-shadow:0 10px 26px -12px rgba(242,183,5,.6); }
+  box-shadow:none; }
 .cta:hover{ background:#D69E00; }
 .cta:focus-visible{ outline:3px solid #F4EFE2; outline-offset:3px; }
 @media (max-width:440px){
