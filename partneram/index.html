@@ -43,6 +43,12 @@
   .topnav-logo{ font-family:'Unbounded',sans-serif; font-weight:700; font-size:0.95rem; color:var(--ink-900); text-decoration:none; white-space:nowrap; }
   .topnav-links{ display:flex; gap:16px; }
   .topnav-links a{ font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:var(--ink-600); text-decoration:none; white-space:nowrap; }
+  @media (max-width:440px){
+    .topnav-inner{ padding:12px 20px; gap:10px; }
+    .topnav-logo{ font-size:0.86rem; }
+    .topnav-links{ gap:13px; }
+    .topnav-links a{ font-size:0.76rem; }
+  }
   .topnav-links a:hover{ color:var(--teal-700); }
 
   .head{
@@ -111,13 +117,16 @@
 <body>
 <header class="topnav">
   <div class="topnav-inner">
-    <a class="topnav-logo" href="/">Первые деньги</a>
+    <a class="topnav-logo" href="/">Архитектор будущего</a>
     <nav class="topnav-links">
-      <a href="/probny-urok/">Пробный шаг</a>
+      <a href="/put/">Путь</a>
+      <a href="/pervyy-kapital/">Первый капитал</a>
       <a href="/blog/">Блог</a>
+      <a href="/kurs/">Вход</a>
     </nav>
   </div>
 </header>
+
 
 <main>
   <div class="head">
