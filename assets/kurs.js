@@ -50,7 +50,7 @@
   function getDone(){
     try{ return JSON.parse(read(KEY_DONE) || "[]"); }catch(e){ return []; }
   }
-  function setDone(arr){ store(KEY_DONE, JSON.stringify(arr)); }
+  function setDone(arr){ store(KEY_DONE, JSON.stringify(arr)); pushProgress(); }
 
   var gate = document.getElementById("gate");
   var app = document.getElementById("app");
@@ -70,7 +70,69 @@
       refundEl.innerHTML = '<a href="https://pervye-dengi.com/pay/refund?payment_id=' + encodeURIComponent(pid) + '" style="color:inherit">Оформить возврат</a>';
     }
     if(LESSONS.length){ renderDash(); return; }
-    loadLessons();
+    pullProgress(loadLessons);
+  }
+
+  /* ---------- Прогресс: хранится у нас, а не только в этом браузере ---------- */
+  var KEY_UPD = "pd_updated";
+  var pushTimer = null;
+
+  function collectState(){
+    var fields = {}, i, k;
+    try {
+      for(i = 0; i < localStorage.length; i++){
+        k = localStorage.key(i);
+        if(k && k.indexOf(KEY_FIELD) === 0) fields[k.slice(KEY_FIELD.length)] = localStorage.getItem(k);
+      }
+    } catch(e){}
+    return { done: getDone(), fields: fields, updated: parseInt(read(KEY_UPD) || "0", 10) };
+  }
+
+  function applyState(st){
+    if(!st) return;
+    if(st.done && st.done.length !== undefined) store(KEY_DONE, JSON.stringify(st.done));
+    if(st.fields){ for(var k in st.fields){ if(Object.prototype.hasOwnProperty.call(st.fields, k)) store(KEY_FIELD + k, st.fields[k]); } }
+    if(st.updated) store(KEY_UPD, String(st.updated));
+  }
+
+  function pushProgress(){
+    if(pushTimer) clearTimeout(pushTimer);
+    pushTimer = setTimeout(function(){
+      var st = collectState();
+      st.updated = Date.now();
+      store(KEY_UPD, String(st.updated));
+      var code = read(KEY_AUTH) || "";
+      if(!code) return;
+      try {
+        fetch("/pay/progress?code=" + encodeURIComponent(code), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(st)
+        }).catch(function(){});
+      } catch(e){}
+    }, 1500);
+  }
+
+  function pullProgress(cb){
+    var code = read(KEY_AUTH) || "";
+    if(!code){ cb(); return; }
+    var done = false;
+    var finish = function(){ if(!done){ done = true; cb(); } };
+    setTimeout(finish, 6000);
+    try {
+      fetch("/pay/progress?code=" + encodeURIComponent(code))
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          if(d && d.state){
+            var localUpd = parseInt(read(KEY_UPD) || "0", 10);
+            var serverUpd = d.state.updated || 0;
+            if(serverUpd > localUpd) applyState(d.state);
+            else if(localUpd > serverUpd) pushProgress();
+          }
+          finish();
+        })
+        .catch(finish);
+    } catch(e){ finish(); }
   }
 
   /* Содержание шагов хранится не в этой странице, а у нас на сервере
@@ -575,7 +637,7 @@ function initGame(n){ if(window.PD_initGame) window.PD_initGame(n); }
       if(!el.id) return;
       var saveTimer;
       el.addEventListener("input", function(){
-        store(KEY_FIELD + el.id, el.value);
+        store(KEY_FIELD + el.id, el.value); pushProgress();
         clearTimeout(saveTimer);
         saveTimer = setTimeout(function(){ pdToast("Сохранено ✓"); }, 500);
       });
