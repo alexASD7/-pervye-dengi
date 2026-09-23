@@ -7,78 +7,7 @@
 <title>Первый капитал — вход в модули 4–10</title>
 <link rel="stylesheet" href="/assets/fonts.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/assets/fonts.css"></noscript>
-<style>
-  :root{
-    --teal-950:#052B2A; --teal-700:#0F6259;
-    --gold-500:#F2B705; --gold-600:#D69E00;
-    --paper-050:#FBF6EC; --card-050:#FFFFFF;
-    --ink-900:#16241F; --ink-600:#4E5D56; --line:#E4DBC8;
-    --warn:#A33F1C;
-    color-scheme: light;
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --paper-050:#0B1512; --card-050:#10221F;
-      --ink-900:#EDEAE2; --ink-600:#B7C4BD; --line:#20342F;
-      --teal-700:#7FBFB2; --warn:#E0855C;
-      color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"]{
-    --paper-050:#0B1512; --card-050:#10221F;
-    --ink-900:#EDEAE2; --ink-600:#B7C4BD; --line:#20342F;
-    --teal-700:#7FBFB2; --warn:#E0855C;
-    color-scheme: dark;
-  }
-  *{ box-sizing:border-box; }
-  html,body{ margin:0; padding:0; }
-  body{
-    background:var(--paper-050); color:var(--ink-900);
-    font-family:'PT Sans',-apple-system,sans-serif; font-size:17px; line-height:1.6;
-    -webkit-font-smoothing:antialiased; overflow-x:hidden;
-    min-height:100vh; display:flex; flex-direction:column;
-  }
-  .topnav{ background:var(--card-050); border-bottom:1px solid var(--line); }
-  .topnav-inner{ max-width:680px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; }
-  .topnav-logo{ font-family:'Unbounded',sans-serif; font-weight:700; font-size:0.95rem; color:var(--ink-900); text-decoration:none; white-space:nowrap; }
-  .topnav-links{ display:flex; gap:16px; flex-wrap:wrap; }
-  .topnav-links a{ font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:var(--ink-600); text-decoration:none; white-space:nowrap; }
-  main{ flex:1; display:flex; align-items:center; justify-content:center; padding:44px 24px 64px; }
-  .box{ width:100%; max-width:460px; }
-  .kick{ font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--teal-700); margin-bottom:14px; }
-  h1{ font-family:'Unbounded',sans-serif; font-weight:800; font-size:clamp(1.5rem,5vw,2rem); line-height:1.14; letter-spacing:-0.022em; margin:0 0 14px; }
-  p{ margin:0 0 16px; color:var(--ink-600); }
-  form{ display:flex; flex-direction:column; gap:12px; margin-top:22px; }
-  input{
-    font-family:'JetBrains Mono',monospace; font-size:1rem; letter-spacing:0.1em; text-transform:uppercase;
-    padding:15px 16px; border:1.5px solid var(--line); border-radius:2px;
-    background:var(--card-050); color:var(--ink-900); width:100%;
-  }
-  input:focus{ outline:3px solid var(--teal-700); outline-offset:2px; border-color:var(--teal-700); }
-  button{
-    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1rem;
-    padding:16px 20px; border:0; border-radius:2px; cursor:pointer;
-    background:var(--gold-500); color:#22190A; width:100%;
-  }
-  button:hover{ background:var(--gold-600); }
-  button:disabled{ opacity:0.6; cursor:default; }
-  .err{ color:var(--warn); font-family:'JetBrains Mono',monospace; font-size:0.86rem; margin-top:4px; }
-  .note{ font-family:'JetBrains Mono',monospace; font-size:0.8rem; color:var(--ink-600); margin-top:22px; line-height:1.7; }
-  .note a{ color:var(--teal-700); }
-  .buy{
-    margin-top:26px; padding:20px 22px; background:var(--card-050);
-    border:1px solid var(--line); border-radius:3px;
-  }
-  .buy .t{ font-family:'Unbounded',sans-serif; font-weight:800; font-size:1.02rem; margin:0 0 8px; color:var(--ink-900); }
-  .buy p{ font-size:0.96rem; margin:0 0 14px; }
-  .buy a{
-    display:block; text-align:center; text-decoration:none;
-    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.95rem;
-    padding:14px 18px; border-radius:2px;
-    border:1.5px solid var(--teal-700); color:var(--teal-700);
-  }
-  .buy a:hover{ background:rgba(15,98,89,0.07); }
-</style>
+<link rel="stylesheet" href="/assets/p-kapvhod.css">
 </head>
 <body>
 <header class="topnav">
