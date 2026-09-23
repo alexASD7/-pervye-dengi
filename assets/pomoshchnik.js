@@ -23,7 +23,7 @@
       '.pm-badge{background:#F2B705;color:#22190A;padding:1px 7px;border-radius:2px;font-size:.78rem}' +
       '.pm-panel{position:fixed;right:16px;bottom:64px;z-index:61;width:min(380px,calc(100vw - 32px));' +
       'max-height:min(70vh,560px);overflow:auto;background:#FBF6EC;color:#16241F;border:1px solid #DCD2BC;' +
-      'border-top:3px solid #0F6259;padding:18px 18px 16px;font-family:"PT Sans",sans-serif;font-size:.95rem;line-height:1.55}' +
+      'border-top:3px solid #0F6259;padding:18px 18px 16px;font-family:'PT Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:.95rem;line-height:1.55}' +
       '.pm-title{font-family:"Unbounded",sans-serif;font-weight:800;font-size:1rem;margin:0 0 4px}' +
       '.pm-sub{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#68736D;margin-bottom:14px}' +
       '.pm-head{font-weight:700;margin:0 0 12px}' +
