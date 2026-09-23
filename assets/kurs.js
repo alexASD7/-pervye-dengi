@@ -331,7 +331,7 @@
     ctx.font = "700 18px 'JetBrains Mono', monospace";
     ctx.fillText("ЧТО СДЕЛАЛ", 90, y + 30);
     ctx.fillStyle = "#FBF6EC";
-    ctx.font = "400 30px 'PT Sans', sans-serif";
+    ctx.font = "400 30px 'PT Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif";
     var whatLines = pdWrapLines(ctx, whatRaw, W - 180).slice(0, 2);
     whatLines.forEach(function(l, i){ ctx.fillText(l, 90, y + 70 + i * 38); });
     y = y + 70 + whatLines.length * 38;
@@ -413,7 +413,7 @@
       ctx.font = "800 42px 'Unbounded', sans-serif";
       ctx.fillText("Что написать заказчику", 60, 150);
       ctx.fillStyle = "#4E5D56";
-      ctx.font = "400 24px 'PT Sans', sans-serif";
+      ctx.font = "400 24px 'PT Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif";
       ctx.fillText("Сначала покажи готовое, потом договорись письменно.", 60, 190);
 
       var blocks = [
@@ -434,7 +434,7 @@
         ctx.beginPath(); ctx.moveTo(60, y + 14); ctx.lineTo(940, y + 14); ctx.stroke();
         y += 46;
         ctx.fillStyle = "#16241F";
-        ctx.font = "italic 400 26px 'PT Sans', sans-serif";
+        ctx.font = "italic 400 26px 'PT Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif";
         var lines = pdWrapLines(ctx, b.text, 880);
         lines.forEach(function(l){ ctx.fillText(l, 60, y); y += 37; });
         y += 42;
