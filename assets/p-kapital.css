@@ -27,7 +27,7 @@
 *{ box-sizing:border-box; }
 html,body{ margin:0; padding:0; }
 body{ background:var(--paper); color:var(--ink);
-  font-family:'PT Sans',Georgia,serif; font-size:18px; line-height:1.66;
+  font-family:'PT Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; font-size:18px; line-height:1.66;
   -webkit-font-smoothing:antialiased; overflow-x:hidden; }
 .wrap{ max-width:680px; margin:0 auto; padding-inline:26px; }
 .mono{ font-family:'JetBrains Mono',ui-monospace,monospace; }
@@ -68,7 +68,7 @@ h3{ font-family:'Unbounded',sans-serif; font-weight:700; font-size:1.02rem; marg
 .hit{ margin:26px 0; padding-left:22px; border-left:3px solid var(--gold); }
 .hit p{ font-family:'Unbounded',sans-serif; font-weight:700; font-size:clamp(1.08rem,3vw,1.3rem);
   line-height:1.3; letter-spacing:-.015em; margin:0; }
-.hit .sm{ font-family:'PT Sans',serif; font-weight:400; font-size:.98rem; color:var(--ink-soft); margin-top:10px; letter-spacing:0; }
+.hit .sm{ font-family:'PT Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; font-weight:400; font-size:.98rem; color:var(--ink-soft); margin-top:10px; letter-spacing:0; }
 .module{ border-top:1px solid var(--rule); padding-block:48px; scroll-margin-top:12px; }
 .m-head{ display:flex; align-items:baseline; gap:15px; }
 .m-num{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:.8rem;
