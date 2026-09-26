@@ -104,6 +104,7 @@ a{ color:var(--accent); text-underline-offset:3px; }
 .topnav-links a:hover{ color:var(--accent); }
 .topnav-links a.active{ color:var(--accent); font-weight:700; }
 .close a{ color:var(--gold); }
+.close a.cta{ color:#22190A; }
 .foot{ text-align:center; }
 .foot a.lnk{ font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--ink-soft);
   text-decoration:none; border-bottom:1px solid var(--rule); padding-bottom:2px; display:inline-block; margin:0 9px 10px; }
