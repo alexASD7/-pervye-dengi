@@ -204,3 +204,4 @@
     text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:2px;
   }
   .have-access:hover{ color:var(--teal-700); border-bottom-color:var(--teal-700); }
+.measure a.cta,.measure a.cta-btn{ color:#22190A; }
