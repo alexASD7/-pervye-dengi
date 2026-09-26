@@ -201,3 +201,4 @@ body{ padding-bottom:0; }
   .cta{ width:100%; padding:16px 20px; }
   .top .cta{ margin-top:0; }
 }
+.top a.cta,.top a.cta-btn,.price a.cta,.price a.cta-btn,.close a.cta,.close a.cta-btn{ color:#22190A; }
