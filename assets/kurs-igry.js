@@ -68,7 +68,7 @@
             '<button class="g-btn danger" data-a="bad">Опасно, ухожу</button>' +
           '</div>' +
           '<div class="g-verdict" id="gv1" hidden></div>' +
-          '<div class="g-score"><span>Карточка ' + (i+1) + ' из ' + CARDS.length + '</span><span>Верно: ' + right + '</span></div>';
+          '<div class="g-score"><span>Карточка ' + (i+1) + ' из ' + CARDS.length + '</span></div>';
         answered = false;
         var btns = host.querySelectorAll(".g-btn");
         Array.prototype.forEach.call(btns, function(b){
@@ -216,7 +216,7 @@
         var html = '<div class="g-card">' + esc(r.s) + '</div><div class="g-btns" style="flex-direction:column">';
         r.o.forEach(function(o, k){ html += '<button class="g-btn" data-k="' + k + '" style="text-align:left">' + esc(o.t) + '</button>'; });
         html += '</div><div class="g-verdict" id="gv3" hidden></div>' +
-          '<div class="g-score"><span>Ответ ' + (i+1) + ' из ' + ROUNDS.length + '</span><span>Верно: ' + right + '</span></div>';
+          '<div class="g-score"><span>Ответ ' + (i+1) + ' из ' + ROUNDS.length + '</span></div>';
         host.innerHTML = html;
         answered = false;
         Array.prototype.forEach.call(host.querySelectorAll(".g-btn"), function(b){
