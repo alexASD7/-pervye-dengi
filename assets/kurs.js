@@ -214,6 +214,7 @@
     });
 
     document.getElementById("doneCount").textContent = done.length;
+    if(window.PD_renderStart) window.PD_renderStart(list, done.length > 0);
 
     var trackEl = document.getElementById("cycleTrack");
     trackEl.innerHTML = LESSONS.map(function(les){
@@ -585,6 +586,8 @@
 /* trenazhery vynesdeny v kurs-igry.js */
 function gameBlock(n){ return window.PD_gameBlock ? window.PD_gameBlock(n) : ""; }
 function initGame(n){ if(window.PD_initGame) window.PD_initGame(n); }
+function paraBlock(n){ return window.PD_paraBlock ? window.PD_paraBlock(n) : ""; }
+function initPara(n){ if(window.PD_initPara) window.PD_initPara(n); }
 
   function openLesson(n){
     var les = LESSONS.filter(function(l){ return l.n === n; })[0];
@@ -601,6 +604,7 @@ function initGame(n){ if(window.PD_initGame) window.PD_initGame(n); }
       '<div class="lesson-meta">' + les.meta + ' · в конце у тебя будет: ' + les.result + '</div>' +
       les.html +
       gameBlock(les.n) +
+      paraBlock(les.n) +
       '<div class="task"><span class="task-label">Задание</span>' + les.task +
       '<div class="save-hint">Всё, что ты пишешь здесь, сохраняется автоматически на этом устройстве.</div></div>' +
       '<div class="parents"><h3>Родителям</h3>' + les.parents + '</div>';
@@ -612,6 +616,7 @@ function initGame(n){ if(window.PD_initGame) window.PD_initGame(n); }
     renderRoleSwap();
     bindMemo();
     initGame(les.n);
+    initPara(les.n);
 
     var revealTargets = document.querySelectorAll("#lessonContent .callout, #lessonContent .decision, #lessonContent .task, #lessonContent .parents");
     Array.prototype.forEach.call(revealTargets, function(el){ el.classList.add("reveal"); });
