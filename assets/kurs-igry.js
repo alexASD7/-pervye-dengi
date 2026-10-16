@@ -116,7 +116,7 @@
   /* ===== Шаг 2. Две границы ===== */
   GAMES[2] = {
     title: "Две границы",
-    intro: "Подставь свои числа и увидишь обе границы сразу: ниже которой работать бессмысленно и выше которой заказчику невыгодно. Ползунок показывает, что будет при разной цене.",
+    intro: "Подставь свои числа и увидишь обе границы сразу. Нижняя: ниже неё работать бессмысленно. Верхняя: столько заказчик вернёт себе за две недели после твоей работы. Ползунок показывает, что будет при разной цене.",
     start: function(host){
       host.innerHTML =
         '<p class="g-sub" style="margin-bottom:10px"><b>Твоя сторона</b></p>' +
@@ -133,7 +133,7 @@
         '</div>' +
         '<div class="g-out" id="g2out"></div>' +
         '<label class="g-sub" for="g2s" style="display:block;margin-top:16px">Твоя цена</label>' +
-        '<input class="g-slider" type="range" id="g2s" min="0" max="100" value="30">' +
+        '<input class="g-slider" type="range" id="g2s" min="0" max="100" value="5">' +
         '<div class="g-scale"><span id="g2lo">низ</span><span id="g2hi">верх</span></div>' +
         '<div class="g-out" id="g2res"></div>';
 
@@ -148,9 +148,11 @@
 
         document.getElementById("g2out").innerHTML =
           '<div class="g-out-line"><span>Нижняя граница: во что это обходится тебе</span><b>' + low + ' ₽</b></div>' +
-          '<div class="g-out-line"><span>Заказчик получит сверху за месяц, если сделать хорошо</span><b>' + gainMonth + ' ₽</b></div>';
+          '<div class="g-out-line"><span>Заказчик получит сверху за месяц, если сделать хорошо</span><b>' + gainMonth + ' ₽</b></div>' +
+          '<div class="g-out-line"><span>Верхняя граница: столько он вернёт за две недели</span><b>' + (gainDay > 0 ? Math.round(gainDay * 14) + ' ₽' : 'не считается') + '</b></div>';
 
-        var maxPrice = Math.max(low * 4, low + 100);
+        var hi = Math.round(gainDay * 14 / 50) * 50;
+        var maxPrice = Math.max(hi, low + 100);
         var s = parseInt(document.getElementById("g2s").value, 10);
         var price = Math.round((low + (maxPrice - low) * s / 100) / 50) * 50;
         if(price < low) price = low;
@@ -162,9 +164,11 @@
         var days = gainDay > 0 ? Math.ceil(price / gainDay) : null;
 
         var note;
-        if(price < low) note = "Ниже своей себестоимости. На ошибки не останется ничего, а ошибки будут.";
+        if(gainDay > 0 && hi <= low) note = "Твоя нижняя граница выше того, что заказчик вернёт за две недели. Такую работу ему не продать: урежь объём или найди поломку, которая стоит ему дороже.";
+        else if(price < low) note = "Ниже своей себестоимости. На ошибки не останется ничего, а ошибки будут.";
         else if(perHour < val("g2r")) note = "Твоя ставка за час вышла ниже, чем за простую работу у вас. Это и есть та самая ловушка новичка.";
         else if(days !== null && days > 60) note = "Заказчику это окупится дольше чем за два месяца. Он почти наверняка откажется, и будет прав.";
+        else if(days !== null && days > 14) note = "Заказчику это окупится за " + days + " дн. — дольше двух недель. Он будет торговаться; держи наготове урезанный вариант.";
         else if(days !== null) note = "Цена честная: ты зарабатываешь больше, чем на простой работе, а он возвращает вложенное за " + days + " дн. Такую цену можно спокойно защищать.";
         else note = "Прикинь сторону заказчика: сколько продаж у него станет, если сделать хорошо.";
 
@@ -359,12 +363,12 @@
   /* ===== Шаг 5. Три конверта ===== */
   GAMES[5] = {
     title: "Три конверта",
-    intro: "Подвинь ползунки и посмотри, где ты окажешься через шесть заказов. Доля «в дело» поднимает цену следующих работ — это видно на горизонте.",
+    intro: "Подвинь ползунки и посмотри, где ты окажешься через шесть заказов по той же цене. Это расчёт по тому, что уже есть, а не обещание роста: цену поднимают скорость, отзывы и объём работы, а не сам конверт.",
     start: function(host){
       host.innerHTML =
         '<div class="g-rows">' +
           '<div class="g-row"><label for="g5sum">Сколько получил за заказ, ₽</label><input type="number" id="g5sum" value="800" min="100" max="100000" step="50"></div>' +
-          '<div class="g-row"><label for="g5goal">Цена твоей цели, ₽</label><input type="number" id="g5goal" value="6000" min="500" max="500000" step="500"></div>' +
+          '<div class="g-row"><label for="g5goal">Цена твоей цели, ₽</label><input type="number" id="g5goal" value="1200" min="500" max="500000" step="500"></div>' +
         '</div>' +
         '<label class="g-sub" for="g5a" style="display:block;margin-top:16px">Трачу свободно</label>' +
         '<input class="g-slider" type="range" id="g5a" min="0" max="100" value="50">' +
@@ -394,27 +398,25 @@
         document.getElementById("g5lb").textContent = b + "%";
         document.getElementById("g5lc").textContent = c + "%";
 
-        var price = sum, saved = 0, earned = 0, reached = 0;
-        for(var i = 1; i <= 6; i++){
-          earned += price;
-          saved += price * b / 100;
-          if(reached === 0 && saved >= goal) reached = i;
-          if(c >= 15) price = Math.round(price * 1.15 / 10) * 10;
-        }
-        saved = Math.round(saved);
-        earned = Math.round(earned);
+        var perOrder = sum * b / 100;
+        var earned = Math.round(sum * 6);
+        var saved = Math.round(perOrder * 6);
+        var tools = Math.round(sum * c / 100 * 6);
+        var reached = perOrder > 0 ? Math.ceil(goal / perOrder) : 0;
+        if(reached > 6) reached = 0;
+        var need = perOrder > 0 ? Math.ceil(goal / perOrder) : 0;
 
         var note;
-        if(c < 15 && b > 0) note = "В дело уходит меньше пятнадцати процентов — цена заказов не растёт, ты шесть раз работаешь за одни и те же деньги.";
-        else if(a === 0) note = "Ты не оставил себе ничего. Так работа теряет смысл в твоих же глазах, и всё бросается недели через две.";
+        if(a === 0) note = "Ты не оставил себе ничего. Так работа теряет смысл в твоих же глазах, и всё бросается недели через две.";
         else if(b === 0) note = "На цель не откладывается ничего. Через полгода будет десять выполненных заказов и ноль на руках.";
         else if(reached > 0) note = "Цель закрывается на " + reached + "-м заказе. Привычка складывается на маленьких деньгах, а работает потом на больших.";
-        else note = "За шесть заказов до цели не дойти. Либо подними долю «в цель», либо возьми цель поменьше — она должна быть достижима, иначе не работает.";
+        else if(c === 0) note = "В дело не уходит ничего. Работа так и останется на бесплатных инструментах — с водяными знаками и без нормального звука.";
+        else note = "За шесть заказов до цели не дойти, понадобится " + need + ". Либо подними долю «в цель», либо возьми цель поменьше — она должна быть достижима, иначе не работает.";
 
         document.getElementById("g5out").innerHTML =
           '<div class="g-out-line"><span>Заработано за шесть заказов</span><b>' + earned + ' ₽</b></div>' +
           '<div class="g-out-line"><span>Накоплено на цель</span><b class="g-big">' + saved + ' ₽</b></div>' +
-          '<div class="g-out-line"><span>Цена шестого заказа</span><b>' + price + ' ₽</b></div>' +
+          '<div class="g-out-line"><span>Отложено в дело: подписка, микрофон, шрифт</span><b>' + tools + ' ₽</b></div>' +
           '<p class="g-sub" style="margin-top:10px">' + esc(note) + '</p>';
       }
 
