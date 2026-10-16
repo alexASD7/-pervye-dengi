@@ -270,6 +270,23 @@
     font-weight:400;
   }
   td input{ padding:8px 10px; font-size:0.92rem; }
+  /* Шаг 2 на телефоне: каждая услуга — карточка с подписанными полями */
+  @media (max-width:560px){
+    .table-wrap:has(#f2a1){ overflow:visible; counter-reset:svc; }
+    .table-wrap:has(#f2a1) table, .table-wrap:has(#f2a1) tbody, .table-wrap:has(#f2a1) tr, .table-wrap:has(#f2a1) td{ display:block; width:100%; }
+    .table-wrap:has(#f2a1) thead{ display:none; }
+    .table-wrap:has(#f2a1) tr{ counter-increment:svc; border:1px solid var(--line); border-radius:3px; padding:12px 14px 6px; margin:0 0 12px; background:var(--card-050); }
+    .table-wrap:has(#f2a1) tr::before{ content:"Услуга " counter(svc); display:block; font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--teal-600); margin-bottom:6px; }
+    .table-wrap:has(#f2a1) td{ border:none; padding:0 0 10px; }
+    .table-wrap:has(#f2a1) td::before{ display:block; font-size:0.8rem; color:var(--ink-soft); margin-bottom:4px; }
+    .table-wrap:has(#f2a1) td:nth-child(1)::before{ content:"Что делаю"; }
+    .table-wrap:has(#f2a1) td:nth-child(2)::before{ content:"Время целиком, часов"; }
+    .table-wrap:has(#f2a1) td:nth-child(3)::before{ content:"Ставка за час, ₽"; }
+    .table-wrap:has(#f2a1) td:nth-child(4)::before{ content:"Расходы из своего кармана, ₽"; }
+    .table-wrap:has(#f2a1) td:nth-child(5)::before{ content:"Расчёт — нижняя граница"; font-family:'PT Sans',system-ui,sans-serif; font-weight:400; }
+    .table-wrap:has(#f2a1) td:nth-child(6)::before{ content:"Моя цена: расчёт + 30%, вверх до круглого"; }
+    .table-wrap:has(#f2a1) td input{ width:100%; }
+  }
 
   /* ---------- РОДИТЕЛЯМ ---------- */
   .parents{
