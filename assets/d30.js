@@ -29,13 +29,13 @@
       var box=document.createElement('section');
       box.innerHTML = s==='tomorrow'
         ? '<h2>Этот день откроется завтра</h2><p>Вчерашнее задание ты сделал сегодня — молодец. Одно задание в день: так оно успевает случиться в жизни, а не только на экране.</p>'
-        : '<h2>Сначала день '+(d-1)+'</h2><p>Дни открываются по очереди: сделай задание дня '+(d-1)+' и нажми «Сделано». Следующий откроется на другой день.</p><p><a class="cta-btn" href="/30-dney/den-'+(d-1)+'/">К дню '+(d-1)+'</a></p>';
+        : '<h2>Сначала день '+(d-1)+'</h2><p>Дни открываются по очереди: сделай задание дня '+(d-1)+' и нажми «Сделано». Следующий откроется на другой день.</p><p><a class="cta-btn" href="/7-dney/den-'+(d-1)+'/">К дню '+(d-1)+'</a></p>';
       w.insertBefore(box, w.firstChild);
     }
     var show=function(){ if(done[d]){ btn.textContent='Сделано ✓'; btn.classList.add('is-done'); } };
     show();
     btn.addEventListener('click', function(){
-      if(!done[d]){ done[d]=Date.now(); set(done); goal('d30-den-'+d); }
+      if(!done[d]){ done[d]=Date.now(); set(done); goal('d7-den-'+d); }
       show();
       if(d<ALL && !document.querySelector('.d30-tomorrow')){
         var t=document.createElement('p'); t.className='checkpoint d30-tomorrow';
