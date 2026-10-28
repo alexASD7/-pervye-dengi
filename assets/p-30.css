@@ -1,0 +1,19 @@
+.d30-progress{ margin:6px 0 0; }
+.d30-bar{ height:6px; background:rgba(251,246,236,0.18); border-radius:2px; overflow:hidden; max-width:320px; }
+.d30-bar i{ display:block; height:100%; width:0; background:var(--gold-500); transition:width .3s ease; }
+.d30-progress .label{ color:#CFE3DD; display:block; margin-top:8px; }
+.d30-days{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+.d30-days a{ display:flex; gap:14px; align-items:baseline; padding:16px 18px; background:var(--card-050); border:1px solid var(--line); border-radius:3px; text-decoration:none; }
+.d30-days a:hover{ border-color:var(--teal-700); }
+.d30-days .n{ font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--teal-700); min-width:4.2em; }
+.d30-days .t{ font-weight:700; }
+.d30-days .s{ display:block; font-weight:400; color:var(--ink-600); font-size:.95rem; }
+.d30-days .is-done .n::after{ content:" ✓"; color:var(--gold-600); }
+.d30-days li.soon{ padding:16px 18px; border:1px dashed var(--line); border-radius:3px; color:var(--ink-600); }
+.d30-done{ display:block; width:100%; margin:22px 0 0; padding:15px; font:700 1rem 'JetBrains Mono',monospace; background:var(--gold-500); color:#22190A; border:0; border-radius:2px; cursor:pointer; }
+.d30-done:hover{ background:var(--gold-600); }
+.d30-done.is-done{ background:transparent; color:var(--teal-700); border:2px solid var(--teal-700); cursor:default; }
+.d30-nav{ display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:28px 0 8px; }
+.d30-nav a{ font-family:'JetBrains Mono',monospace; font-size:.9rem; color:var(--teal-700); text-decoration:none; border-bottom:1px solid currentColor; }
+.d30-safe{ font-size:.95rem; color:var(--ink-600); background:var(--card-050); border-left:3px solid var(--teal-700); padding:12px 16px; margin:16px 0 0; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .d30-days .n, :root:not([data-theme="light"]) .d30-nav a, :root:not([data-theme="light"]) .d30-done.is-done{ color:#7FD1C3; border-color:#7FD1C3; } :root:not([data-theme="light"]) .task-card .q{ color:#7FD1C3; } }
