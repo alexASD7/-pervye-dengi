@@ -9,6 +9,8 @@
 .d30-days .t{ font-weight:700; }
 .d30-days .s{ display:block; font-weight:400; color:var(--ink-600); font-size:.95rem; }
 .d30-days .is-done .n::after{ content:" ✓"; color:var(--gold-600); }
+.d30-days .is-locked a, .d30-days a.is-locked{ opacity:.55; }
+.d30-days .n[data-lock]::after{ content:" · " attr(data-lock); font-weight:400; color:var(--ink-600); }
 .d30-days li.soon{ padding:16px 18px; border:1px dashed var(--line); border-radius:3px; color:var(--ink-600); }
 .d30-done{ display:block; width:100%; margin:22px 0 0; padding:15px; font:700 1rem 'JetBrains Mono',monospace; background:var(--gold-500); color:#22190A; border:0; border-radius:2px; cursor:pointer; }
 .d30-done:hover{ background:var(--gold-600); }
