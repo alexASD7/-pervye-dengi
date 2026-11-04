@@ -1,27 +1,31 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<script>
+// Старые ссылки на «Первые деньги» (кнопки бота ?src=series…, параметры оплаты) ведут на /pervye-dengi/ с теми же параметрами
+(function(){try{var s=location.search;if(!s)return;var q=new URLSearchParams(s);if(/^series/i.test(q.get('src')||'')||q.has('paid')||q.has('pid')||q.has('code')||q.has('seed')||q.has('payment')){location.replace('/pervye-dengi/'+s+location.hash);}}catch(e){}})();
+</script>
 <meta name="yandex-verification" content="84058810f4103dab" />
 <meta name="google-site-verification" content="7K6jH65dflNA8icy99hUvdVk9EPeYFG4Qkd2sS_S6ik" />
-<title>Первые деньги — программа для подростка</title>
-<meta name="description" content="Подросток 13–16 лет доходит до первых заработанных денег: находит заказчика, считает цену, договаривается, делает работу и получает оплату. Пять шагов в своём темпе. Не карманные от родителей, а деньги за труд.">
+<title>Архитектор будущего — находи задачи людей и зарабатывай на их решении</title>
+<meta name="description" content="Школа «Архитектор будущего» для подростка 13–16 лет и взрослого рядом. Бесплатные 7 дней примерно по 20 минут → сезон «Своё дело» на 10 недель → клуб. Каждый факт — с источником.">
 <link rel="canonical" href="https://pervye-dengi.com/">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Первые деньги">
-<meta property="og:title" content="Первые деньги — программа для подростка">
-<meta property="og:description" content="Пять шагов до первых заработанных денег: найти заказчика, посчитать цену, договориться, сделать работу и получить оплату.">
+<meta property="og:site_name" content="Архитектор будущего">
+<meta property="og:title" content="Архитектор будущего — находи задачи людей и зарабатывай на их решении">
+<meta property="og:description" content="Семь бесплатных дней для подростка 13–16 лет и взрослого рядом, около 20 минут в день. День 1 открыт сразу.">
 <meta property="og:url" content="https://pervye-dengi.com/">
+<meta property="og:image" content="https://pervye-dengi.com/foto/01-glavnaya-hero-b.jpg">
 <meta property="og:locale" content="ru_RU">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLG2F15F2E"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-YLG2F15F2E');
 </script>
 <!-- Yandex.Metrika counter -->
@@ -37,386 +41,382 @@
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/111682005" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
-<link rel="stylesheet" href="/assets/fonts.css" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="/assets/fonts.css"></noscript>
-<link rel="stylesheet" href="/assets/p-home.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/ab-glavnaya.css">
 </head>
 <body>
-<header class="topnav">
-  <div class="topnav-inner">
-    <a class="topnav-logo" href="/put/">Архитектор будущего</a>
-    <nav class="topnav-links">
-      <a href="/put/">Главная</a> <a href="/" class="active">Первые деньги</a>
-      <a href="/pervyy-kapital/">Первый капитал</a>
-      <a href="/blog/">Блог</a>
-      <a href="/kurs/">Вход</a>
-    </nav>
-  </div>
+
+<header class="nav">
+ <div class="nav-in">
+  <a class="logo" href="#top">Архитектор будущего</a>
+  <nav class="nav-links">
+   <a href="#put">Путь</a><a href="#den">Как проходит день</a><a href="#chestno">Безопасность</a><a href="#voprosy">Вопросы</a>
+  </nav>
+  <a class="btn" href="/7-dney/den-1/" data-day1 data-goal="gl-nav-start">Начать</a>
+ </div>
 </header>
 
-<main>
-  <a href="/put/" style="display:block;background:#F2B705;color:#22190A;text-align:center;padding:11px 16px;font:700 .9rem 'JetBrains Mono',monospace;text-decoration:none">Две картины жизни подростка: пенсия «на хлеб» или капитал на поколения? Выбрать →</a>
-  <div class="hero">
-    <div class="wrap hero-inner">
-      <span class="eyebrow label"><span class="eyebrow-dot"></span>Ступень 1 · «Первые деньги»</span>
+<!-- 1. ПЕРВЫЙ ЭКРАН · тёмный -->
+<section class="dk hero" id="top">
+ <div class="ww grid">
+  <div>
+   <h1>Находи задачи людей и зарабатывай на их решении</h1>
+   <p class="sub">Семь дней для подростка 13–16 лет и взрослого рядом.</p>
+   <p class="slogan">Построй то, что работает без тебя.</p>
 
-      <div class="chips">
-        <span class="chip"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 4h6M6.5 4v12.5h7V4"/><path d="M8.5 8h3M8.5 11h3"/></svg>13&ndash;16 лет</span>
-        <span class="chip"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4l3 2"/></svg>5 шагов в своём темпе</span>
-      </div>
+   <nav class="path" aria-label="Путь из трёх этапов">
+    <a class="on" href="#etap-1"><b>7 дней</b><span class="p">бесплатно</span><span class="x">около 20 минут в день</span></a>
+    <i aria-hidden="true">→</i>
+    <a href="#etap-2"><b>Сезон</b><span class="p">10 недель</span><span class="x">от 14&nbsp;900&nbsp;₽ · набор скоро</span></a>
+    <i aria-hidden="true">→</i>
+    <a href="#etap-3"><b>Клуб</b><span class="p">позже</span><span class="x">после первых сезонов</span></a>
+   </nav>
 
-      <h1 class="display">Первые деньги подросток зарабатывает сам</h1>
-      <p class="sub">Он делает настоящую работу для человека рядом — соседа, магазина у дома, продавца в интернете. Деньги получает за неё, а не просит у вас. Заказчика находит сам, даже если это знакомый семьи: найденный своими руками заказ учит, подаренный — нет. Первые шаги занимают пару вечеров, дальше темп задают ответы заказчиков.</p>
+   <div class="cta">
+    <a class="btn gold" href="/7-dney/den-1/" data-day1 data-goal="gl-hero-start">Начать бесплатные 7 дней</a>
+   </div>
+   <p class="note">День 1 открыт сразу, без оплаты.</p>
+  </div>
+ </div>
+ <figure class="hero-ph" data-slot="hero"><img src="/foto/01-glavnaya-hero-b.jpg" width="800" height="1200" fetchpriority="high" alt="Парень с рюкзаком сидит на гранитном парапете в городе и сосредоточенно смотрит в телефон"></figure>
+</section>
 
-      <div class="cta-row">
-        <a class="cta-btn" href="/gajd/">
-          Бесплатный гайд для родителей
-        </a>
-        <a class="cta-btn-secondary" href="https://pervye-dengi.com/pay">
-          Купить программу, 990 ₽
-        </a>
-      </div>
-      <span class="cta-note">Гайд открывается сразу, без оплаты и регистрации. Двадцать минут на двоих: вы узнаёте три правила безопасности, подросток делает первую сделку дома и получает деньги за работу</span>
+<!-- 2. ПЕРВОЕ ДЕЙСТВИЕ · белый · подростку -->
+<section class="wh try" id="poprobuy">
+ <div class="w">
+  <span class="k">Первая минута дня 1 — прямо здесь</span>
+  <div class="teen">
+   <span class="aud">Тебе</span>
+   <h2>За что твоя семья заплатила в этом месяце, чтобы не делать это самой?</h2>
+   <p class="lead">Доставка, такси, ремонт, репетитор. За каждой такой покупкой стоит чьё-то дело. Кто-то заметил, что людям долго или трудно, и взялся решать это за деньги.</p>
+   <div class="fact">
+    <span class="fk">Факт</span>
+    <p>Люди платят не за вещь, а за снятое неудобство. В эксперименте 60 работающих взрослых из Ванкувера дважды получили по 40 долларов. В одни выходные они тратили деньги на вещь, в другие — на покупку, которая экономит время. После покупки времени настроение было лучше, а ощущение вечной нехватки времени — слабее.</p>
+    <p class="src">Whillans и соавт. PNAS, 2017.</p>
+   </div>
+   <label for="z0" class="k">Запиши одну покупку и зачем она понадобилась</label>
+   <textarea id="z0" placeholder="Например: заказали продукты с доставкой, потому что некогда ехать в магазин"></textarea>
+   <div class="chips" aria-label="Подсказки">
+    <button type="button">доставка</button><button type="button">такси</button><button type="button">ремонт</button><button type="button">репетитор</button><button type="button">стрижка</button><button type="button">подписка</button>
+   </div>
+   <div class="cta"><button class="btn" type="button" id="z0-save" data-goal="gl-pervaya-zapis">Сохранить и открыть день 1</button></div>
+   <p class="saved" id="z0-ok" role="status">Запись сохранена. Это первая из десяти в твоей папке. Открываем день 1.</p>
+  </div>
+  <figure class="ph img" data-slot="pokupki"><img src="/foto/02-pervoe-deystvie-a.jpg" width="1080" height="720" loading="lazy" alt="Чёрно-белый снимок: курьер с тележкой для посылок выходит из подъезда городского дома"></figure>
+ </div>
+</section>
+
+<!-- 3. ДАННЫЕ · бумага -->
+<section class="pp" id="fakty">
+ <div class="ww">
+  <span class="k">Каждый факт — с источником</span>
+  <h2>Почему этому стоит отдать 20 минут в день</h2>
+  <div class="stats">
+   <div class="stat">
+    <div class="num">39<small>%</small></div>
+    <p class="t"><b>навыков, нужных на работе сегодня, к 2030 году изменятся или устареют.</b> Так считают сами работодатели.</p>
+    <p class="src">World Economic Forum, Future of Jobs Report 2025. Опрос более 1 000 крупных работодателей; это их ожидания.</p>
+   </div>
+   <div class="stat">
+    <div class="num">×2</div>
+    <p class="t"><b>Пример сильнее генов.</b> Шведские учёные проследили судьбы усыновлённых детей. Своё дело чаще открывали те, чей приёмный родитель был предпринимателем. Его влияние оказалось примерно вдвое сильнее, чем влияние биологического.</p>
+    <p class="src">Lindquist, Sol, van Praag. Journal of Labor Economics, 2015. Государственные реестры Швеции.</p>
+   </div>
+  </div>
+
+  <details class="more">
+   <summary>Ещё два исследования — о взрослых</summary>
+   <div class="pair">
+    <div class="mini">
+     <h3>Инициативу можно натренировать</h3>
+     <div class="bar"><span class="v">+30%</span><span class="l" style="width:100%"></span></div>
+     <div class="bar ns"><span class="v">+11%</span><span class="l" style="width:37%"></span><small>статистически неотличимо от нуля</small></div>
+     <p>Около 1 500 владельцев малых дел случайно разделили на группы. Одним тренировали инициативу: начинать самим и не сдаваться после препятствий. Их прибыль за два года выросла на 30%. Обычный деловой курс по учёту и маркетингу заметного эффекта не дал.</p>
+     <p class="src">Campos, Frese и соавт. Science, 2017. Того, рандомизированное испытание.</p>
     </div>
+    <div class="mini">
+     <h3>У ИИ есть невидимая граница</h3>
+     <div class="two">
+      <div><b>+40%</b><span>к качеству работы там, где ИИ силён</span></div>
+      <div class="neg"><b>−19&nbsp;п.&nbsp;п.</b><span>верных ответов там, где он ошибается</span></div>
+     </div>
+     <p>Внутри границы ИИ усиливает человека. За ней уверенно уводит от верного ответа. Выигрывает тот, кто понимает задачу лучше машины.</p>
+     <p class="src">Dell'Acqua и соавт. Harvard Business School, рабочая статья № 24-013, 2023. 758 консультантов BCG.</p>
+    </div>
+   </div>
+  </details>
+
+  <p class="thesis">Деньги приносят решённые задачи других людей. Видеть такие задачи и проверять их фактами — умение для любой профессии.</p>
+ </div>
+</section>
+
+<!-- 4. ПУТЬ · тёмно-синий -->
+<section class="ink" id="put">
+ <div class="ww">
+  <h2>Путь из трёх этапов</h2>
+  <p class="intro">Каждый этап заканчивается результатом на руках. Идти ли дальше, решает семья.</p>
+
+  <svg class="stair" viewBox="0 0 1080 90" role="img" aria-label="Три ступени, каждая выше предыдущей: мышление, своё дело, дело без тебя">
+   <path d="M0 86H340V58H700V30H1080" fill="none" stroke="#c9a46a" stroke-width="1.5"/>
+   <g font-family="JetBrains Mono" font-size="12" fill="#aeb8c4" letter-spacing="1">
+    <text x="0" y="76">МЫШЛЕНИЕ</text><text x="360" y="48">СВОЁ ДЕЛО</text><text x="720" y="20">ДЕЛО БЕЗ ТЕБЯ</text>
+   </g>
+   <circle cx="340" cy="86" r="3.5" fill="#c9a46a"/><circle cx="700" cy="58" r="3.5" fill="#c9a46a"/><circle cx="1076" cy="30" r="3.5" fill="#c9a46a"/>
+  </svg>
+
+  <div class="steps">
+   <article class="st s1" id="etap-1">
+    <span class="tag">Этап 1 · открыт</span>
+    <h3>7 дней</h3>
+    <div class="pr">Бесплатно · около 20 минут в день</div>
+    <p><b>На руках в конце:</b> папка из семи документов и проект своего дела с письменным ответом взрослого.</p>
+    <p>Нашёлся покупатель раньше — заказ можно взять сразу, через взрослого.</p>
+    <div class="go"><a class="btn gold" href="/7-dney/den-1/" data-day1 data-goal="gl-etap1-start">Начать бесплатные 7 дней</a></div>
+   </article>
+
+   <article class="st s2" id="etap-2">
+    <span class="tag">Этап 2 · набор скоро</span>
+    <h3>Сезон «Своё дело»</h3>
+    <div class="pr">10 недель · 29&nbsp;900&nbsp;₽ или 14&nbsp;900&nbsp;₽</div>
+    <p><b>Цель сезона:</b> первые клиенты из знакомого круга и первые оплаты. Ведём к ним каждую неделю; результат зависит от проекта.</p>
+    <p><b>На руках в конце:</b> отчёт о деле, письменные отзывы трёх предпринимателей со стороны и описание дела, по которому его может вести другой человек.</p>
+    <div class="go"><span class="status">Приглашение — в день 7</span></div>
+   </article>
+
+   <article class="st" id="etap-3">
+    <span class="tag">Этап 3 · позже</span>
+    <h3>Клуб</h3>
+    <div class="pr">После первых сезонов</div>
+    <p>Раз в месяц — разбор дела с действующими предпринимателями. Пока оно не начнёт работать без тебя.</p>
+    <div class="go"><span class="status">Откроется после первых сезонов</span></div>
+   </article>
   </div>
 
-  <div class="wrap">
-
-    <section class="reveal">
-      <h2>«Ничего не хочет» и вечное «потом»</h2>
-      <div class="pain-card">
-        <p>Уроки сделаны наспех, а дальше телефон до самого вечера. Кружки не увлекают, ограничения по времени не работают.</p>
-        <p class="muted">Деньги он просит — другого способа получить их у него просто нет. Отсюда и «ничего не хочет»: просьба не требует ни расчёта, ни договорённости, ни результата. Появится второй способ — появится и повод шевелиться.</p>
-      </div>
-    </section>
-
-    <section class="reveal" id="gajd">
-      <h2>Бесплатный гайд для родителей</h2>
-      <div class="guarantee">
-        <p class="guarantee-title">Первые деньги подростка: как начать безопасно за один вечер</p>
-        <p>Десять минут читаете вы: чем «дай денег» отличается от «я сделаю за деньги» и три правила безопасности, без которых подростку нельзя начинать зарабатывать. Десять минут делает он: находит дома работу, называет цену и сегодня же получает за неё деньги.</p>
-        <a class="cta-btn" href="/gajd/" style="margin-top:12px">Открыть гайд бесплатно</a>
-        <p class="muted" style="margin:10px 0 0;font-size:0.94rem">Без оплаты и регистрации, открывается сразу.</p>
-      </div>
-    </section>
-
-    <section class="reveal">
-      <h2>Что ребёнок приобретёт</h2>
-      <p class="sec-lead">Не знания, а пять вещей, которые можно взять в руки и показать.</p>
-      <ul class="list">
-        <li>
-          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h12M4 10h12M4 15h8"/></svg></span>
-          <span class="list-text">Список из пяти заказчиков. У каждого есть деньги и есть работа, которую стоит сделать лучше</span>
-        </li>
-        <li>
-          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="3" width="12" height="14" rx="2"/><path d="M7 7h6M7 10.5h6M7 14h3"/></svg></span>
-          <span class="list-text">Посчитанная цена на три свои услуги. Он умеет объяснить, откуда она взялась, когда просят скидку</span>
-        </li>
-        <li>
-          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 6.5 10 11l7-4.5"/><rect x="3" y="4" width="14" height="12" rx="2"/></svg></span>
-          <span class="list-text">Отправленное заказчику предложение с готовым образцом. Не просьба дать шанс, а работа, которую уже видно</span>
-        </li>
-        <li>
-          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 3h10v14H5z"/><path d="M8 7h4M8 10h4M8 13h2"/></svg></span>
-          <span class="list-text">Письменная договорённость до начала работы: что делает, к какому сроку, за сколько, когда платят</span>
-        </li>
-        <li>
-          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 15V8m4 7V5m4 10v-4m4 4V3"/></svg></span>
-          <span class="list-text">Папка «было — стало» и назначенный день второго предложения</span>
-        </li>
-      </ul>
-    </section>
-
-    <section class="reveal">
-      <h2>Как устроена программа</h2>
-      <p class="sec-lead">Пять шагов. У каждого свой результат. Первые два — за пару вечеров, на третьем и четвёртом ждать ответа заказчика: это недели, а не дни.</p>
-      <ol class="steps">
-        <li class="step">
-          <span class="step-num">1</span>
-          <span class="step-body">
-            <span class="step-title">Найди: кто платит за такую работу</span>
-            <span class="step-out">Результат: пять заказчиков с продажами и названное слабое место у каждого</span>
-          </span>
-        </li>
-        <li class="step">
-          <span class="step-num">2</span>
-          <span class="step-body">
-            <span class="step-title">Посчитай: сколько стоит твоя работа</span>
-            <span class="step-out">Результат: цена, посчитанная снизу от своего времени и сверху от выгоды заказчика, а не названная наугад</span>
-          </span>
-        </li>
-        <li class="step">
-          <span class="step-num">3</span>
-          <span class="step-body">
-            <span class="step-title">Предложи: покажи и договорись</span>
-            <span class="step-out">Результат: показанный образец и письменная договорённость</span>
-          </span>
-        </li>
-        <li class="step">
-          <span class="step-num">4</span>
-          <span class="step-body">
-            <span class="step-title">Сделай: выполни работу и получи оплату</span>
-            <span class="step-out">Результат: первые заработанные деньги</span>
-          </span>
-        </li>
-        <li class="step">
-          <span class="step-num">5</span>
-          <span class="step-body">
-            <span class="step-title">Раздели деньги и назначь следующий заказ</span>
-            <span class="step-out">Результат: деньги разложены на три части, работа сохранена в папку, назначен день второго предложения</span>
-          </span>
-        </li>
-      </ol>
-    </section>
-
-    <section class="reveal" id="arts">
-      <h2>Что остаётся на руках</h2>
-      <p class="sec-lead">Не сертификат. Три документа, которые подросток заполняет сам и уносит с собой.</p>
-
-      <div class="arts">
-
-        <figure class="art">
-          <figcaption class="art-cap">Договорённость до начала работы</figcaption>
-          <div class="art-doc">
-            <div class="art-row"><span>что делаю</span><b>пересниму 8 фото товара на белом фоне</b></div>
-            <div class="art-row"><span>за сколько</span><b>800 ₽, после сдачи</b></div>
-            <div class="art-row"><span>к какому сроку</span><b>до 14 октября</b></div>
-            <div class="art-row art-key"><span>правок входит</span><b>две</b></div>
-          </div>
-          <p class="art-note">Последняя строка защищает лучше трёх остальных вместе. Без неё работа не заканчивается никогда.</p>
-        </figure>
-
-        <figure class="art">
-          <figcaption class="art-cap">Журнал времени: сколько стоит час на самом деле</figcaption>
-          <div class="art-doc">
-            <div class="art-row"><span>переписка до заказа</span><b>40 мин</b></div>
-            <div class="art-row"><span>сама работа</span><b>2 ч 00 мин</b></div>
-            <div class="art-row"><span>переделка</span><b>50 мин</b></div>
-            <div class="art-row"><span>разговор про оплату</span><b>20 мин</b></div>
-            <div class="art-row art-sum"><span>получено за</span><b>800 ₽ / 3 ч 50 мин</b></div>
-            <div class="art-row art-key"><span>настоящая ставка</span><b>209 ₽ в час</b></div>
-          </div>
-          <p class="art-note">Казалось, что час стоит 400 ₽: так выходит, если считать только саму работу. На деле вдвое меньше, потому что в счёт идёт всё потраченное время. Числа в примере показательные, у каждого выходят свои.</p>
-        </figure>
-
-        <figure class="art">
-          <figcaption class="art-cap">Папка «было — стало»</figcaption>
-          <div class="art-doc">
-            <div class="art-row"><span>карточка товара</span><b>снято на кухне → на белом фоне</b></div>
-            <div class="art-row"><span>меню кофейни</span><b>фото с телефона → читаемое, с ценами</b></div>
-            <div class="art-row"><span>обложка канала</span><b>размытая → чёткая</b></div>
-            <div class="art-row art-key"><span>работ в папке</span><b>5</b></div>
-          </div>
-          <p class="art-note">Одна работа — доказательство. Папка работ — репутация: следующего заказчика убеждает она, а не уговоры.</p>
-        </figure>
-
-      </div>
-      <p class="muted" style="margin-top:20px;font-size:0.94rem">Это образцы заполненных документов, а не работы учеников.</p>
-    </section>
-
-    <section class="reveal">
-      <h2>Что получает родитель</h2>
-      <ul class="list">
-        <li>
-          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="14" height="10" rx="2"/><path d="M3 6.5 10 11l7-4.5"/></svg></span>
-          <span class="list-text">Разбор для родителя в каждом шаге: чем помочь и во что лучше не вмешиваться</span>
-        </li>
-        <li>
-          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M10 2.5 4 5v4.5c0 4 2.6 6.9 6 8 3.4-1.1 6-4 6-8V5l-6-2.5Z"/></svg></span>
-          <span class="list-text">Предупреждение об опасных схемах, в которые втягивают подростков: дропперство, ставки вещами из игр, криптовалюта, продажа аккаунтов. Прямым текстом, без смягчений</span>
-        </li>
-        <li>
-          <span class="list-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 10c2-4 5-6 7-6s5 2 7 6c-2 4-5 6-7 6s-5-2-7-6Z"/><circle cx="10" cy="10" r="2"/></svg></span>
-          <span class="list-text">Видимый результат вместо слов «прошёл курс»: списки, расчёты и папка работ остаются у ребёнка на руках</span>
-        </li>
-      </ul>
-    </section>
-
-    <section class="reveal">
-      <h2>Безопасность</h2>
-      <div class="safety">
-        <h3>Раздел, который просим прочитать дважды</h3>
-        <p>Первый шаг заканчивается прямым запретом. Не смягчённым и не спрятанным в примечание.</p>
-        <ul>
-          <li><span class="hard">Никогда</span> не принимать на свою карту чужие деньги, чтобы перевести их дальше, как бы это ни называлось. Это дропперство, и это участие в отмывании чужих денег. Оплата за свою сделанную работу — другое дело, и в программе отдельно показано, как её получать.</li>
-          <li><span class="hard">Никогда</span> не отдавать карту, документы и коды из сообщений. Никому и ни за какие деньги.</li>
-          <li><span class="hard">Не заходить</span> в ставки, криптовалюту и «инвестиции». Заработок — это когда ты что-то сделал и тебе за это заплатили.</li>
-          <li><span class="hard">Не торговать</span> аккаунтами. Такая сделка ничем не защищена, а уголовная ответственность за мошенничество наступает с шестнадцати лет.</li>
-        </ul>
-        <p style="margin-top:14px">Отдельно показываем, как выглядит вербовка подростков через мессенджеры и игровые чаты — по каким словам её узнать. И почему ставки предметами из игр устроены так же, как азартные игры.</p>
-      </div>
-    </section>
-
-    <section id="price" class="reveal">
-      <h2>Сколько стоит</h2>
-      <div class="price-card">
-        <div class="price-row">
-          <span class="price-now" id="priceNow">990 ₽</span>
-        </div>
-        <p class="price-cond">Оплата разовая, доступ к программе не ограничен по времени.</p>
-        <p class="payback">Во втором шаге подросток сам считает цену своей работы: во что она обходится ему и во что заказчику обходится не сделать. Сколько он заработает, зависит от того, о чём договорится. Умение считать цену остаётся с ним и после программы.</p>
-        <a class="cta-btn" href="https://pervye-dengi.com/pay">
-          Купить программу — 990 ₽
-        </a>
-      </div>
-    </section>
-
-    <section class="reveal">
-      <h2>Что мы гарантируем</h2>
-      <div class="guarantee">
-        <p class="guarantee-title">Вы увидите результат раньше, чем заплатите</p>
-        <p><a href="/gajd/">Гайд для родителей</a> бесплатный, на него уходит двадцать минут. Задание в нём заканчивается тем же, чем вся программа: подросток делает работу и получает за неё деньги. Понравилось — идёте дальше, нет — вы ничего не потеряли.</p>
-        <p>Дальше каждый шаг заканчивается не прочитанной страницей, а событием: нашёл заказчика, назвал цену, получил оплату. Помощник в кабинете видит, где подросток встал, и подсказывает, что мешает именно ему.</p>
-        <p class="muted">Сумму заработка мы не обещаем — она зависит от того, за что удастся договориться. Если что-то не сработало, напишите, что именно: разберёмся и поправим программу. Условия оплаты и возврата — в <a href="/oferta/">оферте</a>.</p>
-      </div>
-    </section>
-
-    <section class="reveal">
-      <h2>Что будет после пяти шагов</h2>
-      <p class="sec-lead">Первый заказ — событие. Дальше возникает другой вопрос, и на него отвечает вторая программа.</p>
-      <div class="next">
-        <div class="next-item here">
-          <div class="next-kick">Ступень 1 · вы сейчас здесь</div>
-          <h3 class="next-name">Первые деньги</h3>
-          <div class="next-price">990 ₽ · пять шагов</div>
-          <p class="next-text">Заказчик заплатил ему за работу. До этого события не работает ничего, после него работает почти всё.</p>
-        </div>
-        <div class="next-link" aria-hidden="true">
-          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 3v14M5 12l5 5 5-5"/></svg>
-        </div>
-        <div class="next-item">
-          <div class="next-kick">Ступень 2 · три модуля открыты</div>
-          <h3 class="next-name">Первый капитал</h3>
-          <div class="next-price">Три модуля бесплатно · дальше семь, 2900 ₽ · с 14 лет</div>
-          <p class="next-text">После нескольких заказов видно то, чего не видно с первого: сколько стоит его час и где начинается предел. Дальше подросток собирает дело так, чтобы уроки и тренировки его не останавливали. И считает, сколько дней оно держится само.</p>
-          <a class="next-go" href="/pervyy-kapital/">Открыть три модуля бесплатно →</a>
-          <p class="next-after">Три модуля целиком, с заданиями. Дальше — 2900 ₽ за оставшиеся семь, и они открываются только после третьего.</p>
-        </div>
-      </div>
-      <p class="muted" style="margin-top:18px;font-size:0.94rem">Обе программы и их порядок целиком — на странице <a href="/put/">«Программы»</a>. Зачем школа устроена именно так — в <a href="/manifest/">манифесте</a>.</p>
-    </section>
-
-    <section class="reveal">
-      <h2>Кто отвечает за программу</h2>
-      <div class="who">
-        <p>Программа «Первые деньги» — первый шаг школы «Архитектор будущего». Полные сведения о продавце и условия договора опубликованы в оферте.</p>
-        <dl>
-          <dt>Договор</dt><dd><a href="/oferta/">Оферта и условия</a></dd>
-          <dt>Поддержка</dt><dd><a href="https://t.me/ervyedengi_support_bot">@ervyedengi_support_bot</a></dd>
-        </dl>
-      </div>
-    </section>
-
-    <section class="reveal">
-      <h2>Партнёрам</h2>
-      <div class="who">
-        <p>Есть аудитория родителей подростков — канал, сообщество, класс, кабинет репетитора? Рекомендуйте программу и получайте <strong>247,50 ₽ с каждой оплаты</strong>. Это четверть цены.</p>
-        <p class="muted">Ссылка персональная, метка приходит вместе с платежом, считать вручную ничего не нужно. Выплата раз в месяц, одним переводом.</p>
-        <p><a class="have-access" href="/partneram/">Условия для партнёров →</a></p>
-      </div>
-    </section>
-
-    <section class="reveal">
-      <h2>Вопросы, которые задают чаще всего</h2>
-
-      <details>
-        <summary>А он вообще будет это делать?<span class="plus">+</span></summary>
-        <p>Проверить можно бесплатно и сегодня. В <a href="/gajd/">гайде для родителей</a> есть задание на вечер: десять минут, и у подростка в руках деньги за работу, сделанную дома. Взялся — дальше пять шагов в своём темпе: первые два за пару вечеров, потом дело за заказчиками.</p>
-      </details>
-
-      <details>
-        <summary>Не опасно ли отпускать подростка к незнакомым заказчикам?<span class="plus">+</span></summary>
-        <p>Программа прямо запрещает четыре действия и объясняет, как выглядит вербовка. Сделки от лица ребёнка оформляет взрослый. В каждом шаге есть раздел для родителя: что вы увидите, чем помочь и во что не вмешиваться.</p>
-      </details>
-
-      <details>
-        <summary>А если ему откажут?<span class="plus">+</span></summary>
-        <p>Откажут, и программа на это рассчитана. Третий шаг требует пяти предложений и прямо запрещает делать выводы раньше пятого. Отказы считаются наравне с согласиями — это единственный способ не бросить после первого «нет».</p>
-      </details>
-
-      <details>
-        <summary>Можно ли в тринадцать?<span class="plus">+</span></summary>
-        <p>В тринадцать доступен весь порядок действий: найти заказчика, посчитать цену, показать образец, договориться и получить оплату. Оформление самозанятости открывается в четырнадцать, с письменного согласия родителей, и в четвёртом шаге это разобрано отдельно.</p>
-      </details>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Course",
-  "name": "Первые деньги",
-  "description": "Пять шагов для подростка 13-16 лет: найти заказчика с деньгами, посчитать цену, показать образец и договориться, выполнить и получить оплату, разделить заработанное и назначить второй заказ.",
-  "provider": {
-    "@type": "Organization",
-    "name": "Первые деньги",
-    "url": "https://pervye-dengi.com/"
-  },
-  "url": "https://pervye-dengi.com/",
-  "offers": {
-    "@type": "Offer",
-    "price": "990",
-    "priceCurrency": "RUB",
-    "url": "https://pervye-dengi.com/pay"
-  }
-}
-</script>
-
-    </section>
-
+  <div class="fact">
+   <span class="fk">Почему цель — дело, которое работает без тебя</span>
+   <p>В восьми больницах мира ввели чек-лист ВОЗ из 19 пунктов. Смертность после операций снизилась с 1,5% до 0,8%. Хирурги остались прежними — изменились правила вокруг них. Крепкое дело держится так же: на порядке, а не на памяти одного человека.</p>
+   <p class="src">Haynes и соавт. New England Journal of Medicine, 2009.</p>
   </div>
 
-  <footer>
-    <a class="cta-btn" href="/gajd/">
-      Бесплатный гайд для родителей
-    </a>
-    <div class="cta-note">Вся программа — 990 ₽, пять шагов</div>
-    <a class="have-access" href="/kurs/">У меня уже есть доступ →</a>
-    <a class="have-access" href="/put/" style="margin-left:18px;">Программы</a>
-    <a class="have-access" href="/pervyy-kapital/" style="margin-left:18px;">Первый капитал</a>
-    <a class="have-access" href="/manifest/" style="margin-left:18px;">Манифест</a>
-    <a class="have-access" href="/oferta/" style="margin-left:18px;">Оферта и условия</a>
-    <a class="have-access" href="/partneram/" style="margin-left:18px;">Партнёрам</a>
-    <a class="have-access" href="/blog/" style="margin-left:18px;">Статьи</a>
-    <a class="have-access" href="https://t.me/ervyedengi_support_bot" style="margin-left:18px;">Поддержка</a>
-  </footer>
-</main>
+  <details class="more">
+   <summary>Взрослому рядом: почему неделя бесплатна, а сезон платный</summary>
+   <div class="adult">
+    <span class="aud">Взрослому рядом</span>
+    <p>Неделя — наше доказательство делом. Она полная, без урезанных частей. Если она ничего не изменит в вашей семье, сезон покупать не нужно. В сезоне работают люди: ведущий группы из 8–10 семей и предприниматели, которые читают проекты. Две цены отличаются только числом живых встреч с ведущим. Цена одна для всех, без торга. Куда идёт каждый рубль, мы показываем открыто.</p>
+   </div>
+  </details>
+ </div>
+</section>
+
+<!-- 5. ЗАЧЕМ · белый · «Тебе» и «Взрослому рядом» -->
+<section class="wh" id="zachem">
+ <div class="ww">
+  <span class="k">Кому и зачем</span>
+  <h2>Одна неделя — два разных смысла</h2>
+  <div class="g2 who" style="margin-top:30px;align-items:start">
+   <div class="teen">
+    <span class="aud">Тебе</span>
+    <h3>Свои деньги — за то, что ты оказался полезен</h3>
+    <ul>
+     <li>Деньги, о которых не нужно просить.</li>
+     <li>Разговор со взрослыми на равных: ты решаешь их задачу.</li>
+     <li>Выбор профессии с открытыми глазами: ты видишь, за что в мире платят.</li>
+     <li>Без оценок, очков и игр. Настоящие задачи настоящих людей.</li>
+    </ul>
+    <div class="fact">
+     <span class="fk">Факт</span>
+     <p>Мечты об успехе мешают его добиться. Чем ярче человек представлял хороший исход — новую работу, сданный экзамен, — тем хуже оказывался результат: усилий становилось меньше. Поэтому каждый наш день устроен иначе: не мечтать о результате, а назвать препятствие и заранее записать, что ты сделаешь, когда оно появится.</p>
+     <p class="src">Oettingen, Mayer. Journal of Personality and Social Psychology, 2002.</p>
+    </div>
+    <figure class="ph img" data-slot="tebe" style="aspect-ratio:4/3"><img src="/foto/03-tebe-a.jpg" width="900" height="1350" loading="lazy" style="object-position:50% 52%" alt="Парень в полутёмной комнате с ноутбуком на коленях, задумался, подперев голову рукой"></figure>
+   </div>
+   <div class="adult">
+    <span class="aud">Взрослому рядом</span>
+    <h3>Самостоятельность, подкреплённая делом</h3>
+    <ul>
+     <li><b>Понимание денег:</b> они берутся из решённых задач других людей, а не из семейного бюджета.</li>
+     <li><b>Самостоятельность:</b> подросток сам находит задачу, проверяет её и отвечает за своё слово.</li>
+     <li><b>Направление</b> — до выбора профессии и вуза.</li>
+     <li><b>От учёбы не уводит.</b> Ваша часть — около 5 минут в день. Это разговор, а не проверка.</li>
+    </ul>
+    <div class="fact">
+     <span class="fk">Факт</span>
+     <p>Разговор сильнее контроля. Сводный анализ 50 исследований о родителях учеников средней школы: с успеваемостью сильнее всего связаны разговоры о том, зачем нужна учёба и куда она ведёт. Помощь с домашними заданиями — единственный вид участия без ясной связи с успехами: в одних исследованиях она помогала, в других мешала.</p>
+     <p class="src">Hill, Tyson. Developmental Psychology, 2009.</p>
+    </div>
+    <figure class="ph img" data-slot="vzroslomu" style="aspect-ratio:4/3"><img src="/foto/04-vzroslomu-ryadom-b.jpg" width="1200" height="829" loading="lazy" style="object-position:35% 50%" alt="Взрослый и подросток идут рядом по тропинке на холме, вид со спины"></figure>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 6. КАК ПРОХОДИТ ДЕНЬ · бумага -->
+<section class="pp" id="den">
+ <div class="ww">
+  <span class="k">Как проходит день</span>
+  <h2>20 минут по расписанию. Вместе со взрослым</h2>
+  <div class="g2" style="align-items:start">
+   <ol class="day">
+    <li class="hl"><span class="m">утро</span><b>День открывается в объявленный час</b><span>Один день — одна задача. Ритм — часть дела: обещание клиенту исполняют в срок.</span></li>
+    <li><span class="m">2′</span><b>Первое действие</b><span>Один вопрос и одна запись — с первой минуты.</span></li>
+    <li><span class="m">3′</span><b>История настоящего дела</b><span>Реальный человек, реальные цифры и то, что случилось потом.</span></li>
+    <li><span class="m">3′</span><b>Что показывают исследования</b><span>Коротко, у каждого факта — источник.</span></li>
+    <li><span class="m">6′</span><b>Работа на странице</b><span>Первые записи — сразу, рядом с примером заполнения.</span></li>
+    <li><span class="m">1′ + днём</span><b>Короткие записи в течение дня</b><span>Дома, по дороге, в школе. По минуте, с телефона.</span></li>
+    <li><span class="m">5′</span><b>Вечер: выбрать, сохранить, сделать прогноз</b><span>Прогноз проверяется на следующий день.</span></li>
+    <li class="hl"><span class="m">5′</span><b>Часть взрослого</b><span>Один вопрос из его собственной жизни и работы. Разговор на равных.</span></li>
+   </ol>
+   <div>
+    <figure class="ph img" data-slot="den" style="margin-top:30px"><img src="/foto/05-kak-prohodit-den-a.jpg" width="900" height="1350" loading="lazy" style="object-position:50% 72%" alt="Открытый блокнот с ручкой и чашка кофе на столе в утреннем свете"></figure>
+    <p class="rhythm"><b>Следующий день открывается утром в объявленный час</b> и не раньше. Пропущенный день остаётся открытым: его можно сделать позже, сделанное не сгорает.</p>
+   </div>
+  </div>
+
+  <div class="fact">
+   <span class="fk">Почему без игр</span>
+   <p>Известная во всём мире программа учебных мини-компаний Junior Achievement в одном из колледжей Нидерландов не прибавила студентам навыков (по их собственной оценке), а желание открыть своё дело даже снизила. Игра в бизнес и настоящая задача — разные вещи. Поэтому каждый день — задача реальных людей вокруг.</p>
+   <p class="src">Oosterbeek, van Praag, IJsselstein. European Economic Review, 2010.</p>
+  </div>
+
+  <h3 style="margin-top:50px">Что остаётся в папке через семь дней</h3>
+  <p style="margin:0;color:var(--mu)">Документы, которые подросток заполнил сам.</p>
+  <div class="folder">
+   <div class="doc"><span class="d">день 1</span>10 проблем людей вокруг, за решение которых платят</div>
+   <div class="doc"><span class="d">день 2</span>Три проверены фактами — осталась одна настоящая</div>
+   <div class="doc"><span class="d">день 3</span>Решение под одного конкретного человека</div>
+   <div class="doc"><span class="d">день 4</span>Первая просьба к человеку и её итог</div>
+   <div class="doc"><span class="d">день 5</span>Обещание, исполненное раньше срока</div>
+   <div class="doc"><span class="d">день 6</span>Расчёт: сколько можно заработать своими руками и где предел</div>
+   <div class="doc fin"><span class="d">день 7</span><b>Проект своего дела</b> и письменный ответ взрослого</div>
+  </div>
+
+  <div class="adult" style="margin-top:34px;max-width:820px">
+   <span class="aud">Взрослому рядом</span>
+   <p style="margin:0">Ваши пять минут работают в обе стороны. В старших классах школ Бразилии подростки проходили курс о деньгах с домашними заданиями вместе с родителями — например, составляли семейный бюджет. Финансовые знания и привычки улучшились и у самих родителей.</p>
+   <p class="src">Bruhn и соавт. American Economic Journal: Applied Economics, 2016.</p>
+  </div>
+ </div>
+</section>
+
+<!-- 7. БЕЗОПАСНОСТЬ И ЧЕСТНОСТЬ · тёмный · взрослому -->
+<section class="dk" id="chestno">
+ <div class="ww">
+  <div class="adult">
+   <span class="aud">Взрослому рядом · безопасность и честность</span>
+   <h2>Как мы работаем с вашей семьёй</h2>
+   <div class="rules">
+    <div class="rule"><h3>Не берём денег у подростка</h3><p>Неделя бесплатна. За сезон платит только взрослый, по договору.</p></div>
+    <div class="rule"><h3>Без давления</h3><p>Ни таймеров, ни «осталось два места». Внутри недели оплаты нет. Приглашение в сезон — в день 7, затем одно напоминание вам через 2–3 дня. Больше ничего. Решаете вместе с подростком.</p></div>
+    <div class="rule"><h3>Открытая экономика</h3><p>Страница «Куда идут деньги»: из чего складывается цена сезона на одну семью. План и факт рядом, слабые цифры тоже.</p></div>
+    <div class="rule"><h3>Безопасность в каждом дне</h3><p>Разговоры — только с теми, кого вы знаете. Первый заработок — в знакомом кругу и через вас. Ничего личного не публикуем.</p></div>
+   </div>
+   <div class="never">
+    <h3 style="font-size:18.5px">Четыре прямых запрета — в первый же день, где речь идёт о деньгах</h3>
+    <ul>
+     <li><span class="h">Никогда</span> не принимать на свою карту чужие деньги, чтобы перевести их дальше. Это дропперство — участие в отмывании денег.</li>
+     <li><span class="h">Никогда</span> не отдавать карту, документы и коды из сообщений.</li>
+     <li><span class="h">Не заходить</span> в ставки, криптовалюту и «инвестиции». Заработок — это оплата за сделанную работу.</li>
+     <li><span class="h">Не торговать</span> аккаунтами: такая сделка ничем не защищена.</li>
+    </ul>
+   </div>
+   <div class="fact">
+    <span class="fk">Почему мы объясняем, а не запрещаем</span>
+    <p>Подростки отвергают нотации, но принимают разбор того, как ими пытаются управлять. В эксперименте восьмиклассники, которым показали, как ими манипулирует реклама пищевых компаний, на следующий день чаще отказывались от вредных перекусов вроде чипсов и печенья. У тех, кто прочитал обычный текст о здоровом питании, такого сдвига не было. Схемы мошенников мы разбираем так же — по устройству.</p>
+    <p class="src">Bryan и соавт. PNAS, 2016.</p>
+   </div>
+   <figure class="ph img" data-slot="bezopasnost" style="aspect-ratio:21/9"><img src="/foto/06-bezopasnost-a.jpg" width="900" height="1350" loading="lazy" style="object-position:50% 46%" alt="Тихая комната вечером: настольная лампа между креслами, на стене полосы света из окна"></figure>
+   <div class="border">
+    <span class="k">Наша граница</span>
+    <h3>Мы не обещаем доход и сроки первых денег</h3>
+    <p style="margin:0">Мы обещаем ритм, честные задачи и проверку каждого шага. Мы не заменяем школу и не уводим от учёбы. Мы не выдаём бумаг об окончании: у подростка остаются папка, проект своего дела и опыт настоящих разговоров с людьми.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 8. ВОПРОСЫ · белый · взрослому -->
+<section class="wh faq" id="voprosy">
+ <div class="w">
+  <div class="adult">
+   <span class="aud">Взрослому рядом · частые вопросы</span>
+   <h2>Прежде чем начать</h2>
+   <details data-q="vremya"><summary>Сколько времени это займёт?</summary><p>Подростку — около 20 минут на странице и несколько коротких записей в течение дня. Вам — около 5 минут: один вопрос и разговор. Семь дней подряд.</p></details>
+   <details data-q="propusk"><summary>А если пропустим день?</summary><p>Каждый день открывается утром в объявленный час. Пропущенный день остаётся открытым, его можно сделать позже; сделанное не сгорает. Следующий день раньше своего часа не откроется. Наказаний за пропуск нет.</p></details>
+   <details data-q="bezopasno"><summary>Это безопасно?</summary><p>Подросток говорит только с теми, кого вы знаете, и ничего личного не публикует. Деньги появляются только через взрослого и только за сделанную работу. Четыре прямых запрета — дропперство, передача карт и кодов, ставки и криптовалюта, торговля аккаунтами — разобраны без смягчений.</p></details>
+   <details data-q="platit"><summary>Нужно ли платить? Что будет после семи дней?</summary><p>Неделя бесплатна целиком. В день 7 вы с подростком увидите приглашение в сезон «Своё дело»: 29&nbsp;900&nbsp;₽ или 14&nbsp;900&nbsp;₽. Через 2–3 дня придёт одно напоминание, и больше писем о сезоне не будет. Покупать не обязательно: папка и проект остаются у подростка в любом случае.</p></details>
+   <details data-q="uchyoba"><summary>Не помешает ли учёбе?</summary><p>Нет. Это около 20 минут в день, они не заменяют ни школьных занятий, ни секций. Кто понимает, за что в мире платят, осознаннее выбирает предметы, вуз и профессию.</p></details>
+   <details data-q="kto"><summary>Я не родитель — бабушка или старший брат. Подойдёт?</summary><p>Да. Взрослый рядом — любой человек старше 18, которому подросток доверяет: родитель, бабушка, дедушка, старший брат или сестра, опекун.</p></details>
+   <details data-q="zarabotaet"><summary>Сколько он заработает?</summary><p>Сумм мы не обещаем: они зависят от того, о чём подросток договорится. Неделя прежде всего про мышление. Но если он найдёт человека, готового заплатить, первый заказ можно взять сразу. Мы покажем, как сделать это правильно и вместе с вами. Дело с постоянными клиентами — цель сезона.</p></details>
+  </div>
+ </div>
+</section>
+
+<!-- 9. ФИНАЛЬНЫЙ ПРИЗЫВ · тёмно-синий · подростку -->
+<section class="ink final" id="nachat">
+ <div class="w">
+  <div class="teen">
+   <span class="aud">Тебе</span>
+   <h2>Через минуту у тебя будет первая запись в папке. Через семь дней — проект своего дела.</h2>
+   <p class="lead" style="opacity:.85">Бесплатно. Вместе со взрослым рядом.</p>
+   <div class="cta">
+    <a class="btn light" href="/7-dney/den-1/" data-day1 data-goal="gl-final-start">Начать бесплатные 7 дней</a>
+   </div>
+   <p style="font:500 19px Raleway,sans-serif;margin:30px 0 0;color:var(--ac2)">Построй то, что работает без тебя.</p>
+  </div>
+ </div>
+</section>
+
+<footer>
+ <div class="ww">
+  <div>
+   <div class="t">Архитектор будущего</div>
+   <p style="margin:0 0 10px">Для подростка 13–16 лет и взрослого рядом. Онлайн.</p>
+   <p style="margin:0;font-size:13px;color:#7d786f">Услуги не являются образовательной деятельностью по реализации образовательных программ; аттестация не проводится.</p>
+  </div>
+  <div>
+   <div class="t">Путь</div>
+   <a href="/7-dney/">7 дней · бесплатно</a>
+   <a href="#etap-2">Сезон «Своё дело»</a>
+   <a href="#etap-3">Клуб</a>
+   <a href="/manifest/">Манифест</a>
+   <a href="/blog/">Статьи</a>
+  </div>
+  <div>
+   <div class="t">Программы, которые работают сейчас</div>
+   <a href="/pervye-dengi/">Первые деньги</a>
+   <a href="/pervyy-kapital/">Первый капитал</a>
+   <a href="/gajd/">Гайд для родителей</a>
+   <a href="/kurs/">Вход в кабинет</a>
+   <a href="/partneram/">Партнёрам</a>
+   <a href="/oferta/">Оферта и условия</a>
+   <a href="https://t.me/ervyedengi_support_bot">Поддержка</a>
+  </div>
+ </div>
+</footer>
 
 <script>
-  (function(){
-    var target = document.getElementById('priceNow');
-    if(!target) return;
-    var done = false;
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(reduce){ target.classList.add('stamped'); return; }
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting && !done){
-          done = true;
-          target.classList.add('stamped');
-          io.disconnect();
-        }
-      });
-    }, { threshold: 0.6 });
-    io.observe(target);
-  })();
-</script>
-
-<script>
-  (function(){
-    var els = document.querySelectorAll(".reveal");
-    if(!("IntersectionObserver" in window) || (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)){
-      Array.prototype.forEach.call(els, function(el){ el.classList.add("in"); });
-      return;
-    }
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          entry.target.classList.add("in");
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: "0px 0px -30px 0px" });
-    Array.prototype.forEach.call(els, function(el){ io.observe(el); });
-  })();
+(function(){
+ var DAY1 = '/7-dney/den-1/';
+ document.querySelectorAll('[data-day1]').forEach(function(a){a.setAttribute('href',DAY1);});
+ function goal(n){try{if(window.ym)ym(111682005,'reachGoal',n);}catch(e){}}
+ document.querySelectorAll('a[data-goal]').forEach(function(el){el.addEventListener('click',function(){goal(el.getAttribute('data-goal'));});});
+ document.querySelectorAll('details[data-q]').forEach(function(d){d.addEventListener('toggle',function(){if(d.open)goal('gl-faq-'+d.getAttribute('data-q'));});});
+ var ta=document.getElementById('z0'),ok=document.getElementById('z0-ok'),sv=document.getElementById('z0-save');
+ try{var old=localStorage.getItem('ab-zapis-0');if(old)ta.value=old;}catch(e){}
+ document.querySelectorAll('.try .chips button').forEach(function(b){b.addEventListener('click',function(){
+  var t=b.textContent; ta.value = ta.value.trim() ? ta.value.trim()+', '+t : t+' — '; ta.focus();});});
+ sv.addEventListener('click',function(){
+  if(!ta.value.trim()){ta.focus();ta.placeholder='Одна строка — например: такси до секции, потому что вечером неудобно ехать';return;}
+  try{localStorage.setItem('ab-zapis-0',ta.value.trim());}catch(e){}
+  goal('gl-pervaya-zapis');
+  sv.disabled=true; ok.classList.add('on');
+  setTimeout(function(){location.href=DAY1;},900);
+ });
+ var fin=document.getElementById('nachat'),seen=false;
+ if('IntersectionObserver' in window){new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!seen){seen=true;goal('gl-dochital');}});},{threshold:.4}).observe(fin);}
+})();
 </script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"a5489bc336a2442b99d669e0195a2aa9","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
