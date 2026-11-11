@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="/brend/favicon.svg" type="image/svg+xml">
 <script>
 // Старые ссылки на «Первые деньги» (кнопки бота ?src=series…, параметры оплаты) ведут на /pervye-dengi/ с теми же параметрами
 (function(){try{var s=location.search;if(!s)return;var q=new URLSearchParams(s);if(/^series/i.test(q.get('src')||'')||q.has('paid')||q.has('pid')||q.has('code')||q.has('seed')||q.has('payment')){location.replace('/pervye-dengi/'+s+location.hash);}}catch(e){}})();
@@ -109,7 +110,7 @@ footer .lg{font-size:13px;color:#7d786f}
 footer .ww{grid-template-columns:1fr}
 }
 @media(max-width:620px){.cards{grid-template-columns:1fr}}
-</style>
+.ph.znak{display:flex;align-items:center;justify-content:center}.ph.znak img{width:min(74%,500px);height:auto;object-fit:contain;filter:none}.ph.znak:after{display:none}@media(max-width:800px){.ph.znak{height:auto;padding:8px 0 40px}.ph.znak img{width:min(70%,280px)}}</style>
 </head>
 <body>
 
@@ -123,7 +124,7 @@ footer .ww{grid-template-columns:1fr}
    <a class="btn" href="#p13">Старт</a>
   </div>
  </div>
- <figure class="ph"><img src="/foto/01-glavnaya-hero-b.jpg" width="800" height="1200" fetchpriority="high" alt="Парень с рюкзаком сидит на гранитном парапете в городе и сосредоточенно смотрит в телефон"></figure>
+ <figure class="ph znak"><img src="/brend/znak.svg" width="600" height="600" fetchpriority="high" alt="Знак школы «Архитектор будущего»: очки, в одном стекле которых виден город будущего"></figure>
 </section>
 
 <section class="sec" id="fakty">
