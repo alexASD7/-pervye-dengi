@@ -27,4 +27,5 @@ function fail(){var d=document.createElement("div");d.className="ldr";d.innerHTM
 function next(){if(i>=N){var l=document.getElementById("ldr");if(l)l.remove();done();return}
 fetch("part-"+(i+1)+".html",{cache:"no-cache"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(h){var w=document.createElement("div");w.innerHTML=h;while(w.firstChild)box.appendChild(w.firstChild);i++;next()}).catch(fail)}
 next()})();</script>
+<script src="/assets/otzyv.js?v=1" defer></script>
 </body></html>
